@@ -1,0 +1,15 @@
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\bin\Debug\net9.0\Digimon_Textadventure.exe
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\bin\Debug\net9.0\Digimon_Textadventure.deps.json
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\bin\Debug\net9.0\Digimon_Textadventure.runtimeconfig.json
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\bin\Debug\net9.0\Digimon_Textadventure.dll
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\bin\Debug\net9.0\Digimon_Textadventure.pdb
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.AssemblyInfoInputs.cache
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.AssemblyInfo.cs
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.csproj.CoreCompileInputs.cache
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.sourcelink.json
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.dll
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\refint\Digimon_Textadventure.dll
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.pdb
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\Digimon_Textadventure.genruntimeconfig.cache
+C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure\obj\Debug\net9.0\ref\Digimon_Textadventure.dll

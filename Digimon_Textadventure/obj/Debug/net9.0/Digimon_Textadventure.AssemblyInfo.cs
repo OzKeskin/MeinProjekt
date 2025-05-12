@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("MeinProjekt")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Digimon_Textadventure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("MeinProjekt")]
-[assembly: System.Reflection.AssemblyTitleAttribute("MeinProjekt")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2da02aa4bc939593bb00a62836b58f64f8d80b4a")]
+[assembly: System.Reflection.AssemblyProductAttribute("Digimon_Textadventure")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Digimon_Textadventure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Von der MSBuild WriteCodeFragment-Klasse generiert.

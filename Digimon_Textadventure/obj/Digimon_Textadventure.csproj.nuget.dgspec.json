@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\MeinProjekt\\MeinProjekt.csproj": {}
+    "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Digimon_Textadventure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\MeinProjekt\\MeinProjekt.csproj": {
+    "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Digimon_Textadventure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\MeinProjekt\\MeinProjekt.csproj",
-        "projectName": "MeinProjekt",
-        "projectPath": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\MeinProjekt\\MeinProjekt.csproj",
+        "projectUniqueName": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Digimon_Textadventure.csproj",
+        "projectName": "Digimon_Textadventure",
+        "projectPath": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Digimon_Textadventure.csproj",
         "packagesPath": "C:\\Users\\KeskinOguz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\MeinProjekt\\obj\\",
+        "outputPath": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

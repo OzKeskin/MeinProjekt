@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeinProjekt", "MeinProjekt\MeinProjekt.csproj", "{0D1BD207-6589-4F26-9647-8D26D1063193}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digimon_Textadventure", "Digimon_Textadventure\Digimon_Textadventure.csproj", "{5E7BA713-998E-4816-9B30-3AE3F2A95D63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0D1BD207-6589-4F26-9647-8D26D1063193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D1BD207-6589-4F26-9647-8D26D1063193}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D1BD207-6589-4F26-9647-8D26D1063193}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D1BD207-6589-4F26-9647-8D26D1063193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E7BA713-998E-4816-9B30-3AE3F2A95D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E7BA713-998E-4816-9B30-3AE3F2A95D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E7BA713-998E-4816-9B30-3AE3F2A95D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E7BA713-998E-4816-9B30-3AE3F2A95D63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
