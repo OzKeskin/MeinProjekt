@@ -93,10 +93,20 @@ namespace Digimon_Textadventure
             Console.WriteLine($"Verteidigung: {Verteidigung}");
             Console.WriteLine($"Level: {Level}");
             Console.WriteLine($"Erfahrung: {Erfahrung}/{ErfahrungFürNaechstesLevel}");
+
+            int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
+            string balken = new string('#', fortschritt).PadRight(20, '-');
+            Console.WriteLine($"Level-Fortschritt: [{balken}]");
+
             if (!string.IsNullOrEmpty(Spezialattacke))
                 Console.WriteLine($"Spezialfähigkeit: {Spezialattacke}");
+
+            if (SpezialVerwendet)
+                Console.WriteLine("Spezialfähigkeit wurde in diesem Kampf eingesetzt!");
+
             Console.WriteLine("=======================");
             Console.ResetColor();
         }
+
     }
 }

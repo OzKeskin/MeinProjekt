@@ -15,38 +15,18 @@ public class Kampf
     public void StarteKampf()
     {
         Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"\nEin feindliches Digimon erscheint: {gegner.Digimon.Name}!\n");
-        Console.ResetColor();
-
-        Console.WriteLine("Drücke [ENTER], um den Kampf zu beginnen...");
-        Console.ReadLine();
-        Console.Clear();
-
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("========== KAMPF BEGINNT ==========\n");
-        Console.ResetColor();
+        ZeigeBegruessung();
 
         int runde = 1;
-
         while (spieler.Lebenspunkte > 0 && gegner.Digimon.Lebenspunkte > 0)
         {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine($"----- Runde {runde} -----");
-            Console.ResetColor();
-
+            ZeigeRundenStart(runde);
             ZeigeLPStatus();
-
             SpielerAktion();
 
             if (gegner.Digimon.Lebenspunkte <= 0)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\nDu hast {gegner.Digimon.Name} besiegt!");
-                Console.ResetColor();
-
-                HeileDigimon(spieler);        // 🆕 Spieler wird nach dem Sieg geheilt
-                LevelUp(spieler);             // 🆕 Danach gibt es ein Level-Up
+                BeendeKampfMitSieg();
                 break;
             }
 
@@ -67,8 +47,31 @@ public class Kampf
             runde++;
         }
 
-        ZeigeKampfErgebnis();   // ✅ Wurde heute ergänzt: zeigt, ob man gewonnen oder verloren hat
+        ZeigeKampfErgebnis();
+        VergibErfahrung(spieler);
         NachKampfMenue();
+    }
+
+    private void ZeigeBegruessung()
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"\nEin feindliches Digimon erscheint: {gegner.Digimon.Name}!\n");
+        Console.ResetColor();
+
+        Console.WriteLine("Drücke [ENTER], um den Kampf zu beginnen...");
+        Console.ReadLine();
+        Console.Clear();
+
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("========== KAMPF BEGINNT ==========\n");
+        Console.ResetColor();
+    }
+
+    private void ZeigeRundenStart(int runde)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        Console.WriteLine($"----- Runde {runde} -----");
+        Console.ResetColor();
     }
 
     private void ZeigeLPStatus()
@@ -81,6 +84,7 @@ public class Kampf
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine("Wähle deine Aktion:");
         Console.ResetColor();
+
         Console.WriteLine("[1] Angreifen");
         Console.WriteLine("[2] Heilen" + (heilungVerwendet ? " (bereits verwendet)" : ""));
         Console.WriteLine("[3] Verteidigen");
@@ -121,7 +125,6 @@ public class Kampf
 
         if (schaden < 0) schaden = 0;
         gegner.Digimon.Lebenspunkte -= schaden;
-
         Console.WriteLine($"{gegner.Digimon.Name} erleidet {schaden} Schaden!");
     }
 
@@ -131,7 +134,7 @@ public class Kampf
 
         if (nutzeSpezial)
         {
-            GegnerSpezialangriff();  //  Gegner setzt Spezialfähigkeit ein (neu)
+            GegnerSpezialangriff();
             gegner.Digimon.SpezialVerwendet = true;
             return;
         }
@@ -153,7 +156,6 @@ public class Kampf
 
         if (schaden < 0) schaden = 0;
         spieler.Lebenspunkte -= schaden;
-
         Console.WriteLine($"{spieler.Name} erleidet {schaden} Schaden!");
     }
 
@@ -224,63 +226,95 @@ public class Kampf
         Console.WriteLine($"\n{gegner.Digimon.Name} setzt {gegner.Digimon.Spezialattacke} ein!");
         Console.ResetColor();
 
-        switch (gegner.Digimon.Spezialattacke)
+        int schaden = gegner.Digimon.Spezialattacke switch
         {
-            case "Blitzschlag":
-                int blitzSchaden = gegner.Digimon.Angriff * 2 - spieler.Verteidigung;
-                if (blitzSchaden < 0) blitzSchaden = 0;
-                spieler.Lebenspunkte -= blitzSchaden;
-                Console.WriteLine($"{spieler.Name} erleidet {blitzSchaden} Schaden durch Blitzschlag!");
-                break;
+            "Blitzschlag" => gegner.Digimon.Angriff * 2 - spieler.Verteidigung,
+            "Power-Schlag" => gegner.Digimon.Angriff + 5 - spieler.Verteidigung,
+            "Wasserblase" => (gegner.Digimon.Angriff * 3 / 2) - spieler.Verteidigung,
+            _ => 0
+        };
 
-            case "Power-Schlag":
-                int powerSchaden = gegner.Digimon.Angriff + 5 - spieler.Verteidigung;
-                if (powerSchaden < 0) powerSchaden = 0;
-                spieler.Lebenspunkte -= powerSchaden;
-                Console.WriteLine($"{spieler.Name} erleidet {powerSchaden} Schaden durch Power-Schlag!");
-                break;
-
-            case "Wasserblase":
-                int wasserSchaden = (gegner.Digimon.Angriff * 3 / 2) - spieler.Verteidigung;
-                if (wasserSchaden < 0) wasserSchaden = 0;
-                spieler.Lebenspunkte -= wasserSchaden;
-                Console.WriteLine($"{spieler.Name} erleidet {wasserSchaden} Schaden durch Wasserblase!");
-                break;
-        }
+        if (schaden < 0) schaden = 0;
+        spieler.Lebenspunkte -= schaden;
+        Console.WriteLine($"{spieler.Name} erleidet {schaden} Schaden durch {gegner.Digimon.Spezialattacke}!");
     }
 
     private void HeileDigimon(Digimon digimon)
     {
-        //  Wird nach dem Sieg verwendet
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\n{digimon.Name} wird vollständig geheilt!");
         Console.ResetColor();
 
         digimon.Lebenspunkte = digimon.MaximaleLebenspunkte;
+        Console.WriteLine($"{digimon.Name} hat nun wieder {digimon.Lebenspunkte} Lebenspunkte.");
+    }
 
-        Console.WriteLine($"➤ {digimon.Name} hat nun wieder {digimon.Lebenspunkte} Lebenspunkte.");
+    private void BeendeKampfMitSieg()
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"\nDu hast {gegner.Digimon.Name} besiegt!");
+        Console.ResetColor();
+
+        HeileDigimon(spieler);
+        LevelUp(spieler);
     }
 
     private void LevelUp(Digimon digimon)
     {
-        //  Nach Sieg: Spieler-Digimon bekommt bessere Werte
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"\n{digimon.Name} erreicht ein neues Level!");
+        int erfahrung = 100;
+        digimon.Erfahrung += erfahrung;
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"\n{digimon.Name} erhält {erfahrung} Erfahrungspunkte!");
         Console.ResetColor();
 
-        digimon.MaximaleLebenspunkte += 10;
-        digimon.Lebenspunkte = digimon.MaximaleLebenspunkte;
-        digimon.Angriff += 2;
-        digimon.Verteidigung += 1;
+        while (digimon.Erfahrung >= digimon.ErfahrungFürNaechstesLevel)
+        {
+            digimon.Erfahrung -= digimon.ErfahrungFürNaechstesLevel;
+            digimon.Level++;
 
-        Console.WriteLine($" => Lebenspunkte: {digimon.Lebenspunkte}");
-        Console.WriteLine($" => Angriff: {digimon.Angriff}");
-        Console.WriteLine($" => Verteidigung: {digimon.Verteidigung}");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"\n{digimon.Name} steigt auf Level {digimon.Level} auf!");
+            Console.ResetColor();
+
+            digimon.MaximaleLebenspunkte += 10;
+            digimon.Lebenspunkte = digimon.MaximaleLebenspunkte;
+            digimon.Angriff += 2;
+            digimon.Verteidigung += 1;
+
+            Console.WriteLine($" => Lebenspunkte: {digimon.Lebenspunkte}");
+            Console.WriteLine($" => Angriff: {digimon.Angriff}");
+            Console.WriteLine($" => Verteidigung: {digimon.Verteidigung}");
+        }
+
+        Console.WriteLine($"Aktuelle Erfahrung: {digimon.Erfahrung}/{digimon.ErfahrungFürNaechstesLevel}");
+    }
+
+    private void VergibErfahrung(Digimon digimon)
+    {
+        int basisXP = gegner.Digimon.Angriff + gegner.Digimon.Verteidigung + (gegner.Digimon.Level * 50);
+        int bonusXP = digimon.SpezialVerwendet ? 20 : 0;
+        int gesamtXP = basisXP + bonusXP;
+
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine($"\n{digimon.Name} erhält {gesamtXP} Erfahrungspunkte!");
+        Console.ResetColor();
+
+        digimon.Erfahrung += gesamtXP;
+
+        while (digimon.Erfahrung >= digimon.ErfahrungFürNaechstesLevel)
+        {
+            digimon.Erfahrung -= digimon.ErfahrungFürNaechstesLevel;
+            digimon.Level++;
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"{digimon.Name} steigt auf Level {digimon.Level}!");
+            Console.ResetColor();
+        }
     }
 
     private void ZeigeKampfErgebnis()
     {
-        // Zeigt am Ende des Kampfes den Ausgang
         Console.WriteLine("\n=== Kampf beendet ===");
         if (spieler.Lebenspunkte <= 0)
         {
