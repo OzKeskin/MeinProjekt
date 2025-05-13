@@ -9,31 +9,84 @@ namespace Digimon_Textadventure
     public class Digimon
     {
         public string Name { get; set; }
-
         public int Lebenspunkte { get; set; }
-
         public int Angriff { get; set; }
-
         public int Verteidigung { get; set; }
+        public string Stufe { get; set; }
 
-        public string Stufe { get; set; }                           // zb. Rookie, Champion
+        public string Spezialattacke { get; set; }
+        public bool SpezialVerwendet { get; set; } = false;
 
-        public Digimon(string name, int lebenspunkte, int angriff, int verteidigung, string stufe)
+
+        // Starter Digimon
+        public static Digimon ErstelleAgumon() => new Digimon
         {
-            Name = name;
-            Lebenspunkte = lebenspunkte;
-            Angriff = angriff;
-            Verteidigung = verteidigung;
-            Stufe = stufe;
-        }
+            Name = "Agumon",
+            Lebenspunkte = 100,
+            Angriff = 20,
+            Verteidigung = 10,
+            Stufe = "Rookie"
+        };
 
-        public void Anzeigen() 
+        public static Digimon ErstelleGabumon() => new Digimon
         {
+            Name = "Gabumon",
+            Lebenspunkte = 95,
+            Angriff = 18,
+            Verteidigung = 12,
+            Stufe = "Rookie"
+        };
+
+        public static Digimon ErstellePatamon() => new Digimon
+        {
+            Name = "Patamon",
+            Lebenspunkte = 90,
+            Angriff = 16,
+            Verteidigung = 11,
+            Stufe = "Rookie"
+        };
+
+        // Gegner Digimon
+        public static Digimon ErstelleBetamon() => new Digimon
+        {
+            Name = "Betamon",
+            Lebenspunkte = 90,
+            Angriff = 17,
+            Verteidigung = 9,
+            Stufe = "Rookie"
+        };
+        public static Digimon ErstelleVeemon() => new Digimon
+        {
+            Name = "Veemon",
+            Lebenspunkte = 105,
+            Angriff = 21,
+            Verteidigung = 9,
+            Stufe = "Rookie"
+        };
+        public static Digimon ErstelleGomamon() => new Digimon
+        {
+            Name = "Gomamon",
+            Lebenspunkte = 100,
+            Angriff = 17,
+            Verteidigung = 13,
+            Stufe = "Rookie"
+        };
+
+        public void ZeigeProfil()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("=== DIGIMON PROFIL ===");
             Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Stufe: Stufe");
-            Console.WriteLine($"LP: {Lebenspunkte} | ATK: {Angriff} | DEF: {Verteidigung}");
-            Console.WriteLine("----------------------------------");
+            Console.WriteLine($"Stufe: {Stufe}");
+            Console.WriteLine($"Lebenspunkte: {Lebenspunkte}");
+            Console.WriteLine($"Angriff: {Angriff}");
+            Console.WriteLine($"Verteidigung: {Verteidigung}");
+            Console.WriteLine("=======================");
+            Console.ResetColor();
         }
 
     }
+
+
+
 }
