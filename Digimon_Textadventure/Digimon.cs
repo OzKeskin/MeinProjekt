@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Digimon_Textadventure
 {
@@ -10,6 +6,8 @@ namespace Digimon_Textadventure
     {
         public string Name { get; set; }
         public int Lebenspunkte { get; set; }
+        public int MaximaleLebenspunkte { get; set; }
+
         public int Angriff { get; set; }
         public int Verteidigung { get; set; }
         public string Stufe { get; set; }
@@ -17,59 +15,71 @@ namespace Digimon_Textadventure
         public string Spezialattacke { get; set; }
         public bool SpezialVerwendet { get; set; } = false;
 
+        public int Level { get; set; } = 1;
+        public int Erfahrung { get; set; } = 0;
+        public int ErfahrungFürNaechstesLevel => Level * 100;
 
-        // Starter Digimon
         public static Digimon ErstelleAgumon() => new Digimon
         {
             Name = "Agumon",
             Lebenspunkte = 100,
+            MaximaleLebenspunkte = 100,
             Angriff = 20,
             Verteidigung = 10,
-            Stufe = "Rookie"
+            Stufe = "Rookie",
+            Spezialattacke = "Feuerstoß"
         };
 
         public static Digimon ErstelleGabumon() => new Digimon
         {
             Name = "Gabumon",
             Lebenspunkte = 95,
+            MaximaleLebenspunkte = 95,
             Angriff = 18,
             Verteidigung = 12,
-            Stufe = "Rookie"
+            Stufe = "Rookie",
+            Spezialattacke = "Eisblock"
         };
 
         public static Digimon ErstellePatamon() => new Digimon
         {
             Name = "Patamon",
             Lebenspunkte = 90,
+            MaximaleLebenspunkte = 90,
             Angriff = 16,
             Verteidigung = 11,
-            Stufe = "Rookie"
+            Stufe = "Rookie",
+            Spezialattacke = "Heilwelle"
         };
 
-        // Gegner Digimon
         public static Digimon ErstelleBetamon() => new Digimon
         {
             Name = "Betamon",
             Lebenspunkte = 90,
             Angriff = 17,
             Verteidigung = 9,
-            Stufe = "Rookie"
+            Stufe = "Rookie",
+            Spezialattacke = "Blitzschlag"
         };
+
         public static Digimon ErstelleVeemon() => new Digimon
         {
             Name = "Veemon",
             Lebenspunkte = 105,
             Angriff = 21,
             Verteidigung = 9,
-            Stufe = "Rookie"
+            Stufe = "Rookie",
+            Spezialattacke = "Power-Schlag"
         };
+
         public static Digimon ErstelleGomamon() => new Digimon
         {
             Name = "Gomamon",
             Lebenspunkte = 100,
             Angriff = 17,
             Verteidigung = 13,
-            Stufe = "Rookie"
+            Stufe = "Rookie",
+            Spezialattacke = "Wasserblase"
         };
 
         public void ZeigeProfil()
@@ -78,15 +88,15 @@ namespace Digimon_Textadventure
             Console.WriteLine("=== DIGIMON PROFIL ===");
             Console.WriteLine($"Name: {Name}");
             Console.WriteLine($"Stufe: {Stufe}");
-            Console.WriteLine($"Lebenspunkte: {Lebenspunkte}");
+            Console.WriteLine($"Lebenspunkte: {Lebenspunkte}/{MaximaleLebenspunkte}");
             Console.WriteLine($"Angriff: {Angriff}");
             Console.WriteLine($"Verteidigung: {Verteidigung}");
+            Console.WriteLine($"Level: {Level}");
+            Console.WriteLine($"Erfahrung: {Erfahrung}/{ErfahrungFürNaechstesLevel}");
+            if (!string.IsNullOrEmpty(Spezialattacke))
+                Console.WriteLine($"Spezialfähigkeit: {Spezialattacke}");
             Console.WriteLine("=======================");
             Console.ResetColor();
         }
-
     }
-
-
-
 }

@@ -9,8 +9,9 @@ namespace Digimon_Textadventure
     public class Gegner
     {
         public Digimon Digimon { get; set; }
-
+        
         public Gegner(Digimon digimon)
+
         {
             Digimon = digimon;
         }

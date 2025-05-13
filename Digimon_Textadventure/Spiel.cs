@@ -51,6 +51,9 @@ namespace Digimon_Textadventure
             digimonliste.Add(Digimon.ErstelleAgumon());
             digimonliste.Add(Digimon.ErstelleGabumon());
             digimonliste.Add(Digimon.ErstellePatamon());
+
+            
+
         }
 
         private void ZeigeDigimonListe()
