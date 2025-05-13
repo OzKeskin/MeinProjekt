@@ -53,40 +53,6 @@ namespace Digimon_Textadventure
 
 
     }
-    //public class Gegner
-    //{
-    //    public Digimon Digimon { get; set; }
-
-    //    public Gegner(Digimon digimon)
-    //    {
-    //        Digimon = digimon;
-    //    }
-
-    //    public static Gegner ErstelleZufaelligenGegner()
-    //    {
-    //        Random rnd = new Random();
-    //        List<Digimon> gegnerListe = new List<Digimon>
-    //    {
-    //        Digimon.ErstelleBetamon(),
-    //        Digimon.ErstelleVeemon(),
-    //        Digimon.ErstelleGomamon()
-    //    };
-
-    //        int index = rnd.Next(gegnerListe.Count);
-    //        return new Gegner(gegnerListe[index]);
-    //    }
-
-    //    public void ZeigeProfil()
-    //    {
-    //        Console.ForegroundColor = ConsoleColor.Red;
-    //        Console.WriteLine($"\nEin feindliches Digimon ist erschienen: {Digimon.Name}");
-    //        Console.ResetColor();
-    //        Console.WriteLine($"Stufe: {Digimon.Stufe}");
-    //        Console.WriteLine($"LP: {Digimon.Lebenspunkte}");
-    //        Console.WriteLine($"ATK: {Digimon.Angriff}");
-    //        Console.WriteLine($"DEF: {Digimon.Verteidigung}");
-    //        Console.WriteLine("----------------------------");
-    //    }
-    //}
+    
 
 }
