@@ -49,7 +49,7 @@ namespace Digimon_Textadventure
             Angriff = 16,
             Verteidigung = 11,
             Stufe = "Rookie",
-            Spezialattacke = "Heilwelle"
+            Spezialattacke = "Windstoß"
         };
 
         public static Digimon ErstelleBetamon() => new Digimon
@@ -81,6 +81,50 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Wasserblase"
         };
+
+        public void FuehreSpezialAttackeAus(Digimon gegner)
+        {
+            int schaden = 0;
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"{Name} setzt {Spezialattacke} ein!");
+            Console.ResetColor();
+
+            switch (Name.ToLower())
+            {
+                case "agumon":
+                    // Feuerstoß: Immer mindestens 1 Schaden
+                    schaden = Angriff - gegner.Verteidigung;
+                    if (schaden < 1) schaden = 1;
+                    break;
+
+                case "gabumon":
+                    // Eisblock: Verteidigung des Gegners halbieren
+                    int reduzierteVerteidigung = gegner.Verteidigung / 2;
+                    schaden = Angriff - reduzierteVerteidigung;
+                    if (schaden < 1) schaden = 1;
+                    break;
+
+                case "patamon":
+                    // Windstoß: 20 % der aktuellen LP
+                    schaden = (int)(gegner.Lebenspunkte * 0.2);
+                    if (schaden < 1) schaden = 1;
+                    break;
+
+                default:
+                    // Standard-Spezialschaden
+                    schaden = Angriff - gegner.Verteidigung;
+                    if (schaden < 1) schaden = 1;
+                    break;
+            }
+
+            gegner.Lebenspunkte -= schaden;
+            if (gegner.Lebenspunkte < 0) gegner.Lebenspunkte = 0;
+
+            Console.WriteLine($"{gegner.Name} erleidet {schaden} Schaden durch {Spezialattacke}.");
+            Console.WriteLine($"{gegner.Name} hat noch {gegner.Lebenspunkte} LP.\n");
+        }
+
 
         public void ZeigeProfil()
         {

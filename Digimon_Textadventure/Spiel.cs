@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Digimon_Textadventure;
+
 
 namespace Digimon_Textadventure
 {
@@ -15,6 +12,32 @@ namespace Digimon_Textadventure
             Console.Title = "DIGIMON TEXTADVENTURE";
             Begrueßung();
 
+            Console.WriteLine("\nWähle einen Spielmodus:");
+            Console.WriteLine("[1] Hauptabenteuer starten");
+            Console.WriteLine("[2] Digiwelt erkunden");
+            Console.Write("\nDeine Wahl: ");
+
+            string eingabe = Console.ReadLine() ?? "";
+
+            Console.Clear();
+
+            switch (eingabe)
+            {
+                case "1":
+                    StarteAbenteuer();
+                    break;
+                case "2":
+                    StarteDigiwelt();
+                    break;
+                default:
+                    Console.WriteLine("Ungültige Eingabe. Das Spiel wird beendet.");
+                    break;
+            }
+        }
+
+        private void StarteAbenteuer()
+        {
+            Begrueßung();
             ErstelleStartDigimon();
 
             Console.WriteLine("\nDein Abenteuer beginnt gleich...");
@@ -29,12 +52,16 @@ namespace Digimon_Textadventure
 
             Digimon spielerDigimon = WaehleStartDigimon();
 
-            // Erstelle zufälligen Gegner
             Gegner gegner = Gegner.ErstelleZufaelligenGegner();
 
-            // Starte den Kampf, übergibt das Digimon des Gegners
             Kampf kampf = new Kampf(spielerDigimon, gegner.Digimon);
-            kampf.StarteKampf(); // Methode heißt StarteKampf, nicht Starte
+            kampf.StarteKampf();
+        }
+
+        private void StarteDigiwelt()
+        {
+            Digiwelt digiwelt = new Digiwelt();
+            digiwelt.Starte();
         }
 
         private void Begrueßung()
@@ -51,9 +78,6 @@ namespace Digimon_Textadventure
             digimonliste.Add(Digimon.ErstelleAgumon());
             digimonliste.Add(Digimon.ErstelleGabumon());
             digimonliste.Add(Digimon.ErstellePatamon());
-
-            
-
         }
 
         private void ZeigeDigimonListe()
@@ -82,11 +106,9 @@ namespace Digimon_Textadventure
             while (auswahl < 1 || auswahl > digimonliste.Count)
             {
                 Console.Write("=====Deine Wahl=====\n[1] [2] [3] => ");
-                int.TryParse(Console.ReadLine(), out auswahl);
+                int.TryParse(Console.ReadLine() ?? "", out auswahl);
             }
 
-
-            // Bildschirm leeren (außer Überschrift)
             Console.Clear();
             Begrueßung();
 
@@ -97,11 +119,6 @@ namespace Digimon_Textadventure
 
             gewaehltesDigimon.ZeigeProfil();
             return gewaehltesDigimon;
-
-            
         }
-
     }
 }
-
-

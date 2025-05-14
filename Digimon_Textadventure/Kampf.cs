@@ -34,10 +34,8 @@ namespace Digimon_Textadventure
                 runde++;
                 Thread.Sleep(1500);
             }
-
             ZeigeKampfErgebnis();
         }
-
         private void ZeigeStatus()
         {
             Console.WriteLine($"\n--- Runde {runde} ---");
@@ -47,31 +45,27 @@ namespace Digimon_Textadventure
 
         private void SpielerAktion()
         {
-            Console.WriteLine("\nWähle deine Aktion:");
-            Console.WriteLine("1. Normaler Angriff");
-            Console.WriteLine("2. Spezialfähigkeit");
+            Console.WriteLine("Wähle eine Aktion:");
+            Console.WriteLine("[1] Angriff");
+            if (!spielerDigimon.SpezialVerwendet)
+                Console.WriteLine("[2] Spezialfähigkeit einsetzen");
 
-            string eingabe = Console.ReadLine();
-            int schaden;
+            Console.Write("Deine Wahl: ");
+            string eingabe = Console.ReadLine() ?? "";
 
-            switch (eingabe)
+            if (eingabe == "2" && !spielerDigimon.SpezialVerwendet)
             {
-                case "1":
-                    bool kritisch = new Random().Next(1, 101) <= 10;
-                    schaden = SchadensBerechnung.BerechneNormalenSchaden(spielerDigimon.Angriff, gegnerDigimon.Verteidigung, kritisch);
-                    gegnerDigimon.Lebenspunkte -= schaden;
-                    Console.WriteLine($"{spielerDigimon.Name} greift an und verursacht {schaden} Schaden{(kritisch ? " (Kritisch!)" : "")}.");
-                    break;
-
-                case "2":
-                    schaden = SchadensBerechnung.BerechneSpezialschaden(spielerDigimon.Spezialattacke, spielerDigimon.Angriff, gegnerDigimon.Verteidigung);
-                    gegnerDigimon.Lebenspunkte -= schaden;
-                    Console.WriteLine($"{spielerDigimon.Name} setzt {spielerDigimon.Spezialattacke} ein und verursacht {schaden} Schaden!");
-                    break;
-
-                default:
-                    Console.WriteLine("Ungültige Eingabe! Du verlierst deine Runde.");
-                    break;
+                spielerDigimon.FuehreSpezialAttackeAus(gegnerDigimon);
+                spielerDigimon.SpezialVerwendet = true;
+            }
+            else if (eingabe == "1")
+            {
+                FuehreAngriffAus(spielerDigimon, gegnerDigimon);
+            }
+            else
+            {
+                Console.WriteLine("Ungültige Eingabe oder Spezialfähigkeit wurde bereits verwendet.");
+                SpielerAktion(); // Wiederhole Eingabe
             }
         }
 
@@ -93,6 +87,17 @@ namespace Digimon_Textadventure
                 spielerDigimon.Lebenspunkte -= schaden;
                 Console.WriteLine($"{gegnerDigimon.Name} setzt {gegnerDigimon.Spezialattacke} ein und verursacht {schaden} Schaden!");
             }
+        }
+        private void FuehreAngriffAus(Digimon angreifer, Digimon verteidiger)
+        {
+            int schaden = angreifer.Angriff - verteidiger.Verteidigung;
+            if (schaden < 1) schaden = 1;
+
+            verteidiger.Lebenspunkte -= schaden;
+            if (verteidiger.Lebenspunkte < 0) verteidiger.Lebenspunkte = 0;
+
+            Console.WriteLine($"{angreifer.Name} greift an und verursacht {schaden} Schaden!");
+            Console.WriteLine($"{verteidiger.Name} hat noch {verteidiger.Lebenspunkte} LP.\n");
         }
 
         private void ZeigeKampfErgebnis()
