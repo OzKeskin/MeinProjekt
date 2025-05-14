@@ -20,7 +20,10 @@ namespace Digimon_Textadventure
         {
             Name = name;
             Avatar = avatar;
-            Inventar.Add(avatar.StartItem); // Start-Item aus dem gewählten Avatar
+            if (!string.IsNullOrEmpty(avatar.StartItem))
+            {
+                Inventar.Add(avatar.StartItem); // Start-Item vom Avatar ins Inventar legen
+            }
         }
 
         public void ZeigeProfil()
@@ -30,7 +33,7 @@ namespace Digimon_Textadventure
             Console.ResetColor();
 
             Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Avatar: {Avatar.Name}");
+            Console.WriteLine($"Avatar: {Avatar?.Name ?? "Kein Avatar gewählt"}");
             Console.WriteLine($"Aktueller Ort: {AktuellerOrt?.Name ?? "Unbekannt"}");
 
             Console.WriteLine("\nInventar:");
@@ -45,13 +48,17 @@ namespace Digimon_Textadventure
                     Console.WriteLine($" - {item}");
                 }
             }
+
             Console.WriteLine("==========================\n");
         }
 
         public void ItemHinzufuegen(string item)
         {
-            Inventar.Add(item);
-            Console.WriteLine($"\n>> {item} wurde dem Inventar hinzugefügt.");
+            if (!string.IsNullOrWhiteSpace(item))
+            {
+                Inventar.Add(item);
+                Console.WriteLine($"\n>> {item} wurde dem Inventar hinzugefügt.");
+            }
         }
 
         public void ItemEntfernen(string item)
@@ -67,6 +74,7 @@ namespace Digimon_Textadventure
             }
         }
     }
+
 
 
 }

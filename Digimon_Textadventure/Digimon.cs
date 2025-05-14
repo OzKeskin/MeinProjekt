@@ -13,6 +13,33 @@ namespace Digimon_Textadventure
         public string Spezialattacke { get; set; }
         public bool SpezialVerwendet { get; set; } = false;
 
+        // Level- und Erfahrungssystem
+        public int Level { get; set; } = 1;
+        public int Erfahrung { get; set; } = 0;
+        public int ErfahrungFürNaechstesLevel => Level * 100;
+
+        // Level-Up & Erfahrungsmethode
+        public void VergibErfahrung(int erfahrung)
+        {
+            Erfahrung += erfahrung;
+
+            while (Erfahrung >= ErfahrungFürNaechstesLevel)
+            {
+                Erfahrung -= ErfahrungFürNaechstesLevel;
+                Level++;
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"\n>> {Name} erreicht Level {Level}!");
+                Console.ResetColor();
+
+                // Werteverbesserung
+                MaximaleLebenspunkte += 10;
+                Lebenspunkte = MaximaleLebenspunkte;
+                Angriff += 2;
+                Verteidigung += 1;
+            }
+        }
+
 
         public static List<Digimon> VerfügbareStartDigimon()
         {
@@ -121,21 +148,54 @@ namespace Digimon_Textadventure
             Spezialattacke = "Wasserblase"
         };
 
-
         public void ZeigeProfil()
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("=== DIGIMON PROFIL ===");
-            Console.ResetColor();
-
             Console.WriteLine($"Name: {Name}");
             Console.WriteLine($"Stufe: {Stufe}");
             Console.WriteLine($"Lebenspunkte: {Lebenspunkte}/{MaximaleLebenspunkte}");
             Console.WriteLine($"Angriff: {Angriff}");
             Console.WriteLine($"Verteidigung: {Verteidigung}");
-            Console.WriteLine($"Spezialattacke: {Spezialattacke}");
-            Console.WriteLine("=======================\n");
+            Console.WriteLine($"Level: {Level}");
+            Console.WriteLine($"Erfahrung: {Erfahrung}/{ErfahrungFürNaechstesLevel}");
+
+            // Fortschritt berechnen
+            int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
+            
+            // Animierter Fortschrittsbalken
+            Console.Write("Level-Fortschritt: [");
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (i < fortschritt)
+                {
+                    // Farbe je nach Fortschritt setzen
+                    if (i < 6)
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    else if (i < 14)
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    else
+                        Console.ForegroundColor = ConsoleColor.Green;
+
+                    Console.Write("#");
+                }
+                else
+                {
+                    Console.ResetColor();
+                    Console.Write("-");
+                }
+
+                Thread.Sleep(50); // Animations-Geschwindigkeit (kann angepasst werden)
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("]");
+
+
         }
+
+
         public void FuehreSpezialAttackeAus(Digimon gegner)
         {
             int schaden = 0;
@@ -149,28 +209,30 @@ namespace Digimon_Textadventure
                 case "Feuerstoß":
                     schaden = (int)(Angriff * 1.5) - gegner.Verteidigung;
                     break;
+
                 case "Eisblock":
-                    schaden = (int)(Angriff * 1.2) - gegner.Verteidigung;
+                    schaden = (int)(Angriff * 1.5) - gegner.Verteidigung;
                     break;
-                case "Heilwelle":
-                    int heilung = 30;
-                    Lebenspunkte += heilung;
-                    if (Lebenspunkte > MaximaleLebenspunkte)
-                        Lebenspunkte = MaximaleLebenspunkte;
-                    Console.WriteLine($"{Name} heilt sich um {heilung} LP!");
-                    return;
+
+                case "Windstoß":
+                    // Windstoß: Immer 20% der aktuellen LP des Gegners als Schaden
+                    schaden = (int)(gegner.Lebenspunkte * 0.2);
+                    if (schaden < 1) schaden = 1; // Mindestens 1 Schaden
+                    break;
+
                 default:
                     schaden = Angriff - gegner.Verteidigung;
                     break;
             }
 
-            if (schaden < 1) schaden = 1;
+            if (schaden < 1) schaden = 1; // Mindestens 1 Schaden zufügen
             gegner.Lebenspunkte -= schaden;
             if (gegner.Lebenspunkte < 0) gegner.Lebenspunkte = 0;
 
             Console.WriteLine($"{gegner.Name} erleidet {schaden} Schaden durch {Spezialattacke}.");
             Console.WriteLine($"{gegner.Name} hat noch {gegner.Lebenspunkte} LP.\n");
         }
+
 
     }
 

@@ -69,7 +69,7 @@ namespace Digimon_Textadventure
         private void StarteDigiwelt()
         {
             Digiwelt welt = new Digiwelt(spieler);
-            welt.Erkunden();
+            welt.Starte();
         }
     }
 

@@ -9,7 +9,7 @@ namespace Digimon_Textadventure
     public class Gegner
     {
         public Digimon Digimon { get; private set; }
-        public string Schwierigkeit { get; private set; } // Optional: "Leicht", "Normal", "Schwer"
+        public string Schwierigkeit { get; private set; } // Optional: "Leicht", "Normal"
 
         private static Random random = new Random();
 
@@ -22,7 +22,7 @@ namespace Digimon_Textadventure
 
         private void PasseAttributeAn()
         {
-            switch (Schwierigkeit.ToLower())
+            switch (Schwierigkeit.ToLower()??"")
             {
                 case "leicht":
                     Digimon.Lebenspunkte -= 10;
