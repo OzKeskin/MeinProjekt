@@ -7,6 +7,26 @@
       "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\kampf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\digimon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\digimon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\schadensberechnung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\schadensberechnung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\levelsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\levelsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\kampfmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\kampfmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\ort.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\ort.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\spiel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\spiel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,14 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\gegner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\gegner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\digimon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\digimon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\ort.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|solutionrelative:digimon_textadventure\\ort.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5E7BA713-998E-4816-9B30-3AE3F2A95D63}|Digimon_Textadventure\\Digimon_Textadventure.csproj|c:\\users\\keskinoguz\\desktop\\meinprojekt\\digimon_textadventure\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,11 +50,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Program.cs",
               "RelativeDocumentMoniker": "Digimon_Textadventure\\Program.cs",
@@ -54,7 +66,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "Spiel.cs",
               "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Spiel.cs",
               "RelativeDocumentMoniker": "Digimon_Textadventure\\Spiel.cs",
@@ -62,12 +74,11 @@
               "RelativeToolTip": "Digimon_Textadventure\\Spiel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-11T23:17:08.773Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-11T23:17:08.773Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "Spieler.cs",
               "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Spieler.cs",
               "RelativeDocumentMoniker": "Digimon_Textadventure\\Spieler.cs",
@@ -75,25 +86,24 @@
               "RelativeToolTip": "Digimon_Textadventure\\Spieler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-11T23:17:10.375Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-11T23:17:10.375Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Digimon.cs",
               "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Digimon.cs",
               "RelativeDocumentMoniker": "Digimon_Textadventure\\Digimon.cs",
               "ToolTip": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Digimon.cs",
               "RelativeToolTip": "Digimon_Textadventure\\Digimon.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwHAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwAsAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-11T23:17:00.404Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "Gegner.cs",
               "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Gegner.cs",
               "RelativeDocumentMoniker": "Digimon_Textadventure\\Gegner.cs",
@@ -101,21 +111,7 @@
               "RelativeToolTip": "Digimon_Textadventure\\Gegner.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T13:18:45.647Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Kampf.cs",
-              "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Kampf.cs",
-              "RelativeDocumentMoniker": "Digimon_Textadventure\\Kampf.cs",
-              "ToolTip": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Kampf.cs",
-              "RelativeToolTip": "Digimon_Textadventure\\Kampf.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQBAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-11T23:17:02.32Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-12T13:18:45.647Z"
             },
             {
               "$type": "Document",
@@ -128,6 +124,58 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-11T23:17:03.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Kampf.cs",
+              "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Kampf.cs",
+              "RelativeDocumentMoniker": "Digimon_Textadventure\\Kampf.cs",
+              "ToolTip": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\Kampf.cs",
+              "RelativeToolTip": "Digimon_Textadventure\\Kampf.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAcwC8AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T23:17:02.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "KampfManager.cs",
+              "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\KampfManager.cs",
+              "RelativeDocumentMoniker": "Digimon_Textadventure\\KampfManager.cs",
+              "ToolTip": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\KampfManager.cs",
+              "RelativeToolTip": "Digimon_Textadventure\\KampfManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T05:59:27.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SchadensBerechnung.cs",
+              "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\SchadensBerechnung.cs",
+              "RelativeDocumentMoniker": "Digimon_Textadventure\\SchadensBerechnung.cs",
+              "ToolTip": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\SchadensBerechnung.cs",
+              "RelativeToolTip": "Digimon_Textadventure\\SchadensBerechnung.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T06:00:38.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LevelSystem.cs",
+              "DocumentMoniker": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\LevelSystem.cs",
+              "RelativeDocumentMoniker": "Digimon_Textadventure\\LevelSystem.cs",
+              "ToolTip": "C:\\Users\\KeskinOguz\\Desktop\\MeinProjekt\\Digimon_Textadventure\\LevelSystem.cs",
+              "RelativeToolTip": "Digimon_Textadventure\\LevelSystem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T06:01:15.002Z",
               "EditorCaption": ""
             }
           ]
