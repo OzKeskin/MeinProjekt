@@ -11,13 +11,16 @@ namespace Digimon_Textadventure
     public class Spieler
     {
         public string Name { get; set; }
+        public Avatar Avatar { get; set; }
         public Ort AktuellerOrt { get; set; }
-        public List<string> Inventar { get; set; }
+        public List<string> Inventar { get; set; } = new List<string>();
+        public Digimon DigimonPartner { get; set; }
 
-        public Spieler(string name)
+        public Spieler(string name, Avatar avatar)
         {
             Name = name;
-            Inventar = new List<string>();
+            Avatar = avatar;
+            Inventar.Add(avatar.StartItem); // Start-Item aus dem gewählten Avatar
         }
 
         public void ZeigeProfil()
@@ -27,6 +30,7 @@ namespace Digimon_Textadventure
             Console.ResetColor();
 
             Console.WriteLine($"Name: {Name}");
+            Console.WriteLine($"Avatar: {Avatar.Name}");
             Console.WriteLine($"Aktueller Ort: {AktuellerOrt?.Name ?? "Unbekannt"}");
 
             Console.WriteLine("\nInventar:");
@@ -63,5 +67,7 @@ namespace Digimon_Textadventure
             }
         }
     }
+
+
 }
 

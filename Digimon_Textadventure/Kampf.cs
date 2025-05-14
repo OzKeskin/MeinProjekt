@@ -69,6 +69,7 @@ namespace Digimon_Textadventure
             }
         }
 
+
         private void GegnerAktion()
         {
             int aktion = new Random().Next(1, 3);

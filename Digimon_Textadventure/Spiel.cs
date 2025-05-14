@@ -5,120 +5,73 @@ namespace Digimon_Textadventure
 {
     public class Spiel
     {
-        private List<Digimon> digimonliste = new List<Digimon>();
+        private Spieler spieler;
 
         public void Starte()
         {
             Console.Title = "DIGIMON TEXTADVENTURE";
-            Begrueßung();
+            Hauptmenue();
+        }
 
-            Console.WriteLine("\nWähle einen Spielmodus:");
-            Console.WriteLine("[1] Hauptabenteuer starten");
-            Console.WriteLine("[2] Digiwelt erkunden");
-            Console.Write("\nDeine Wahl: ");
-
-            string eingabe = Console.ReadLine() ?? "";
-
-            Console.Clear();
-
-            switch (eingabe)
+        private void Hauptmenue()
+        {
+            while (true)
             {
-                case "1":
-                    StarteAbenteuer();
-                    break;
-                case "2":
-                    StarteDigiwelt();
-                    break;
-                default:
-                    Console.WriteLine("Ungültige Eingabe. Das Spiel wird beendet.");
-                    break;
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("=== DIGIMON TEXTADVENTURE ===");
+                Console.ResetColor();
+
+                Console.WriteLine("\n[1] Neues Abenteuer starten");
+                Console.WriteLine("[2] Digiwelt erkunden");
+                Console.WriteLine("[0] Spiel beenden");
+                Console.Write("\nDeine Wahl: ");
+
+                string eingabe = Console.ReadLine() ?? "";
+
+                switch (eingabe)
+                {
+                    case "1":
+                        NeuesAbenteuer();
+                        break;
+                    case "2":
+                        StarteDigiwelt();
+                        break;
+                    case "0":
+                        Console.WriteLine("Danke fürs Spielen! Bis bald.");
+                        return;
+                    default:
+                        Console.WriteLine("Ungültige Eingabe. Drücke [ENTER]...");
+                        Console.ReadLine();
+                        break;
+                }
             }
         }
 
-        private void StarteAbenteuer()
+        private void NeuesAbenteuer()
         {
-            Begrueßung();
-            ErstelleStartDigimon();
-
-            Console.WriteLine("\nDein Abenteuer beginnt gleich...");
-            Console.WriteLine("Drücke [ENTER], um fortzufahren...");
-            Console.ReadLine();
             Console.Clear();
+            StoryManager.ErzaehleEinleitung();
 
-            Begrueßung();
+            Avatar avatar = Avatar.WaehleAvatar();
+            spieler = new Spieler("Oguz", avatar);
 
-            Console.WriteLine("Du hast folgende Digimon zur Auswahl:");
-            ZeigeDigimonListe();
+            Digimon startDigimon = Digimon.WaehleStartDigimon();
+            spieler.DigimonPartner = startDigimon;
 
-            Digimon spielerDigimon = WaehleStartDigimon();
+            Console.WriteLine("\nDein Abenteuer beginnt jetzt...");
+            Console.WriteLine("Drücke [ENTER], um in die Digiwelt zu reisen.");
+            Console.ReadLine();
 
-            Gegner gegner = Gegner.ErstelleZufaelligenGegner();
-
-            Kampf kampf = new Kampf(spielerDigimon, gegner.Digimon);
-            kampf.StarteKampf();
+            StarteDigiwelt();
         }
 
         private void StarteDigiwelt()
         {
-            Digiwelt digiwelt = new Digiwelt();
-            digiwelt.Starte();
-        }
-
-        private void Begrueßung()
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("===========================================");
-            Console.WriteLine(">>>> WILLKOMMEN IM DIGIMON TEXTADVENTURE <<<<");
-            Console.WriteLine("===========================================");
-            Console.ResetColor();
-        }
-
-        private void ErstelleStartDigimon()
-        {
-            digimonliste.Add(Digimon.ErstelleAgumon());
-            digimonliste.Add(Digimon.ErstelleGabumon());
-            digimonliste.Add(Digimon.ErstellePatamon());
-        }
-
-        private void ZeigeDigimonListe()
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nDeine verfügbaren Digimon:");
-            Console.WriteLine("----------------------------");
-            Console.ResetColor();
-
-            foreach (var digi in digimonliste)
-            {
-                Console.WriteLine($"Name: {digi.Name}");
-                Console.WriteLine($"Stufe: {digi.Stufe}");
-                Console.WriteLine($"LP: {digi.Lebenspunkte}");
-                Console.WriteLine($"ATK: {digi.Angriff}");
-                Console.WriteLine($"DEF: {digi.Verteidigung}");
-                Console.WriteLine("----------------------------");
-            }
-        }
-
-        private Digimon WaehleStartDigimon()
-        {
-            Console.WriteLine("\nWähle dein Start-Digimon:");
-            int auswahl = 0;
-
-            while (auswahl < 1 || auswahl > digimonliste.Count)
-            {
-                Console.Write("=====Deine Wahl=====\n[1] [2] [3] => ");
-                int.TryParse(Console.ReadLine() ?? "", out auswahl);
-            }
-
-            Console.Clear();
-            Begrueßung();
-
-            Digimon gewaehltesDigimon = digimonliste[auswahl - 1];
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"\nDu hast {gewaehltesDigimon.Name} gewählt!\n");
-            Console.ResetColor();
-
-            gewaehltesDigimon.ZeigeProfil();
-            return gewaehltesDigimon;
+            Digiwelt welt = new Digiwelt(spieler);
+            welt.Erkunden();
         }
     }
+
+
 }

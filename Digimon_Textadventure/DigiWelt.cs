@@ -8,17 +8,25 @@ namespace Digimon_Textadventure
 {
     public class Digiwelt
     {
+        private Ort aktuellerOrt;
+        private Spieler spieler;
+
         public void Starte()
         {
-            Ort startOrt = Ort.ErstelleWelt();
-            Spieler spieler = new Spieler("Oguz");
-            spieler.AktuellerOrt = startOrt;
+            // Digiwelt mit festen Orten aufbauen
+            aktuellerOrt = Ort.ErstelleWelt();
 
-            spieler.AktuellerOrt.Betreten();
+            // Spieler-Objekt erstellen (ggf. Namen später dynamisch setzen)
+            spieler = new Spieler("Oguz", Avatar.WaehleAvatar())
+            {
+                AktuellerOrt = aktuellerOrt
+            };
 
-            BewegungsManager bewegung = new BewegungsManager();
-            bewegung.BewegeSpieler(spieler);
+            BewegungsManager.BewegeSpieler(spieler);
         }
+
+        
     }
+
 }
 
