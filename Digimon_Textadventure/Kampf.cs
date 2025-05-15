@@ -225,24 +225,36 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"\n>> {spielerDigimon.Name} hat den Kampf gewonnen! <<");
                 Console.ResetColor();
 
-                int erfahrungspunkte = 20 + new Random().Next(10);
+                int erfahrungspunkte = 100;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
-                spielerDigimon.VergibErfahrung(erfahrungspunkte);
+                Console.ResetColor();
 
-                Console.WriteLine("\nDrücke [ENTER], um den Fortschritt zu sehen...");
-                Console.ReadLine();
-                spielerDigimon.ZeigeProfil();
+                spielerDigimon.VergibErfahrung(erfahrungspunkte);
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"\n>> {spielerDigimon.Name} wurde besiegt...");
+                Console.WriteLine($">> {spielerDigimon.Name} wurde besiegt...");
                 Console.ResetColor();
+
+                int erfahrungspunkte = 50; // Niederlage gibt 50 XP
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte trotz Niederlage.");
+                Console.ResetColor();
+
+                spielerDigimon.VergibErfahrung(erfahrungspunkte);
             }
 
-            Console.WriteLine("\nDrücke [ENTER], um in die Digiwelt zurückzukehren...");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nKampf beendet! Drücke [ENTER], um in die Digiwelt zurückzukehren...");
+            Console.ResetColor();
             Console.ReadLine();
 
+            // Digimon-Profil anzeigen, um den Fortschritt direkt zu sehen
+            spielerDigimon.ZeigeProfil();
+
+            // Zurück in die Digiwelt
             BewegungsManager.BewegeSpieler(spieler);
         }
     }

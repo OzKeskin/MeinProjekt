@@ -17,8 +17,23 @@ namespace Digimon_Textadventure
         // Level- und Erfahrungssystem
         public int Level { get; set; } = 1;
         public int Erfahrung { get; set; } = 0;
-        public int ErfahrungFürNaechstesLevel => Level * 100;
-
+        public int ErfahrungFürNaechstesLevel 
+        {
+            get
+            {
+                return Level switch
+                {
+                    1 => 100,
+                    2 => 125,
+                    3 => 150,
+                    4 => 175,
+                    _ => 0                                          // L5 ist max level
+                };
+            }
+        
+        
+        
+        }
         // Level-Up & Erfahrungsmethode
         public void VergibErfahrung(int erfahrung)
         {
