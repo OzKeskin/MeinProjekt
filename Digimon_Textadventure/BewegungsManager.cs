@@ -17,41 +17,53 @@ namespace Digimon_Textadventure
             while (eingabe != "exit")
             {
                 Console.Clear();
-                spieler.AktuellerOrt.Betreten(spieler);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\nAktueller Ort: {spieler.AktuellerOrt.Name}");
+                Console.ResetColor();
+                Console.WriteLine(spieler.AktuellerOrt.Beschreibung);
 
+                Console.WriteLine("\nMögliche Richtungen:");
+                foreach (var richtung in spieler.AktuellerOrt.Verbindungen.Keys)
+                {
+                    Ort zielOrt = spieler.AktuellerOrt.Verbindungen[richtung];
+                    bool zugangErlaubt = !(zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5);
+
+                    if (zugangErlaubt)
+                        Console.WriteLine($"- {richtung} nach {zielOrt.Name}");
+                    else
+                        Console.WriteLine($"- {richtung} nach ??? (ab Level 5)");
+                }
 
                 Console.WriteLine("\nWohin möchtest du gehen? (oder 'exit' zum Verlassen)");
                 Console.Write("Eingabe: ");
-                eingabe = Console.ReadLine()??"".ToLower() ?? "";
+                eingabe = Console.ReadLine()?.ToLower() ?? "";
 
                 if (spieler.AktuellerOrt.Verbindungen.ContainsKey(eingabe))
                 {
-                    var zielOrt = spieler.AktuellerOrt.Verbindungen[eingabe];
+                    Ort zielOrt = spieler.AktuellerOrt.Verbindungen[eingabe];
 
-                    // Prüfen, ob der Spieler den Endboss-Ort betreten darf
-                    if (zielOrt.Name == "Berg der Unendlichkeit" &&
-                        (spieler.DigimonPartner == null || spieler.DigimonPartner.Level < 5))
+                    // Zugang prüfen
+                    if (zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\n>> Der Zugang zum Berg der Unendlichkeit ist erst ab Level 5 möglich!");
+                        Console.WriteLine("\n>> Du benötigst mindestens Level 5, um den Endboss zu betreten!");
                         Console.ResetColor();
                         Console.WriteLine("Drücke [ENTER], um fortzufahren...");
                         Console.ReadLine();
                         continue;
                     }
 
-                    // Zugang freigeben
                     spieler.AktuellerOrt = zielOrt;
                     LoeseZufallsEreignisAus(spieler);
                 }
                 else if (eingabe != "exit")
                 {
-                    Console.WriteLine("Ungültige Richtung. Drücke [ENTER]...");
+                    Console.WriteLine("\nUngültige Richtung. Drücke [ENTER], um es erneut zu versuchen...");
                     Console.ReadLine();
                 }
             }
 
-            Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER]...");
+            Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER], um das Spiel zu beenden...");
             Console.ReadLine();
         }
 
@@ -61,35 +73,30 @@ namespace Digimon_Textadventure
 
             if (ereignis <= 30)
             {
-                // Kampf 30%
-                //Console.WriteLine("\nEin wildes Digimon erscheint!");
+                // Kampf
+                Console.WriteLine("\nEin wildes Digimon erscheint!");
                 Gegner gegner = Gegner.ErstelleZufaelligenGegner();
-
-                Kampf kampf = new Kampf(spieler.DigimonPartner, gegner.Digimon);
+                Kampf kampf = new Kampf(spieler, gegner.Digimon);
                 kampf.StarteKampf();
             }
             else if (ereignis <= 60)
             {
-                // Item-Fund 30%
-                string item = "Heiltrank";
-                Console.WriteLine($"\nDu hast ein {item} gefunden!");
-                spieler.ItemHinzufuegen(item);
+                // Item-Fund
+                string gefundenesItem = "Heiltrank";
+                Console.WriteLine($"\nDu hast ein {gefundenesItem} gefunden!");
+                spieler.ItemHinzufuegen(gefundenesItem);
                 Console.WriteLine("Drücke [ENTER], um weiterzugehen...");
                 Console.ReadLine();
             }
             else
             {
-                // Nichts passiert 40%
-                Console.WriteLine("\nDer Ort ist ruhig. Es passiert nichts Besonderes.");
+                // Nichts passiert
+                Console.WriteLine("\nEs passiert nichts Besonderes.");
                 Console.WriteLine("Drücke [ENTER], um weiterzugehen...");
                 Console.ReadLine();
             }
         }
     }
-
-
-
-
 
 }
 

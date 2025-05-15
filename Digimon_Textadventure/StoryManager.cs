@@ -11,22 +11,24 @@ namespace Digimon_Textadventure
         public static void ErzaehleEinleitung()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("===========================================");
-            Console.WriteLine(">>> WILLKOMMEN IM DIGIMON TEXTADVENTURE <<<");
-            Console.WriteLine("===========================================");
+            Console.WriteLine("=================================================================================");
+            Console.WriteLine("\t\t >>>   WILLKOMMEN IM DIGIMON TEXTADVENTURE   <<<");
+            Console.WriteLine("=================================================================================");
             Console.ResetColor();
 
-            Console.WriteLine("\nEine alte Legende erzählt von einer verborgenen Welt...");
-            Console.WriteLine("Einer Welt, in der digitale Kreaturen - die Digimon - leben.");
-            Console.WriteLine("Doch dunkle Mächte ziehen auf, und nur ein wahrer Digiritter kann das Gleichgewicht bewahren.");
-            Console.WriteLine("Bist du bereit, dein Schicksal anzunehmen und Seite an Seite mit deinem Digimon zu kämpfen?");
+            Console.WriteLine("\n\tEine alte Legende berichtet von einer verborgenen Welt...");
+            Console.WriteLine("\tEiner Welt voller digitaler Kreaturen – den Digimon.");
+            Console.WriteLine("\tDoch dunkle Mächte erheben sich, um das Gleichgewicht zu stören.");
+            Console.WriteLine("\tNur ein wahrer Digiritter kann das Licht wiederherstellen!");
 
+            Console.WriteLine("\nBist du bereit, dein Schicksal zu erfüllen und mit deinem Digimon zu kämpfen?");
             Console.WriteLine("\nDrücke [ENTER], um deine Reise zu beginnen...");
             Console.ReadLine();
             Console.Clear();
+
         }
 
-        public static void ErzaehleZwischensequenz(string ort)
+        public static void Zwischensequenz(string ort)
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine($"\nEine neue Geschichte entfaltet sich am Ort: {ort}...");

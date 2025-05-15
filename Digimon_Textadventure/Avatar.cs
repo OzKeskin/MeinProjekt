@@ -18,7 +18,7 @@ namespace Digimon_Textadventure
         new Avatar
         {
             Name = "Taichi",
-            Beschreibung = "Anführer der Gruppe, mutig und entschlossen.",
+            Beschreibung = "Ein junger, mutiger und entschlossener Abenteurer.",
             StartItem = "Amulett des Mutes"
         },
         new Avatar

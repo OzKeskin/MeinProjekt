@@ -55,20 +55,6 @@ namespace Digimon_Textadventure
             return gegnerListe[index]();
         }
 
-        public void ZeigeProfil()
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n=== GEGNER PROFIL ===");
-            Console.WriteLine($"Name: {Digimon.Name}");
-            Console.WriteLine($"Schwierigkeit: {Schwierigkeit}");
-            Console.WriteLine($"Stufe: {Digimon.Stufe}");
-            Console.WriteLine($"LP: {Digimon.Lebenspunkte}");
-            Console.WriteLine($"ATK: {Digimon.Angriff}");
-            Console.WriteLine($"DEF: {Digimon.Verteidigung}");
-            Console.WriteLine($"Spezial: {Digimon.Spezialattacke}");
-            Console.WriteLine("=======================");
-            Console.ResetColor();
-        }
     }
 
 

@@ -130,32 +130,33 @@ namespace Digimon_Textadventure
         public void ZeigeProfil()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("=== DIGIMON PROFIL ===");
+            Console.WriteLine("===== DIGIMON PROFIL =====");
             Console.ResetColor();
-
-            Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Stufe: {Stufe}");
-            Console.WriteLine($"Lebenspunkte: {Lebenspunkte}/{MaximaleLebenspunkte}");
-            Console.WriteLine($"Angriff: {Angriff}");
-            Console.WriteLine($"Verteidigung: {Verteidigung}");
-            Console.WriteLine($"Level: {Level}");
-            Console.WriteLine($"Erfahrung: {Erfahrung}/{ErfahrungFürNaechstesLevel}");
+            Console.WriteLine($"Name:\t\t{Name}");
+            Console.WriteLine($"Stufe:\t\t{Stufe}");
+            Console.WriteLine($"Lebenspunkte:\t{Lebenspunkte}/{MaximaleLebenspunkte}");
+            Console.WriteLine($"Angriff:\t{Angriff}");
+            Console.WriteLine($"Verteidigung:\t{Verteidigung}");
+            Console.WriteLine($"Level:\t\t{Level}");
+            Console.WriteLine($"Erfahrung:\t{Erfahrung}/{ErfahrungFürNaechstesLevel}");
 
             ZeigeLevelFortschritt(animiert: false);
 
             if (!string.IsNullOrEmpty(Spezialattacke))
-                Console.WriteLine($"Spezialfähigkeit: {Spezialattacke}");
+                Console.WriteLine($"Spezialfähigkeit\n-> {Spezialattacke} <-");
 
             if (SpezialVerwendet)
                 Console.WriteLine("Spezialfähigkeit wurde in diesem Kampf eingesetzt!");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("==========================");
+            Console.ResetColor();
 
-            Console.WriteLine("=======================");
         }
         public void ZeigeLevelFortschritt(bool animiert)
         {
             int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
 
-            Console.Write("Level-Fortschritt: [");
+            Console.Write("Level-Fortschritt\n[");
 
             for (int i = 0; i < 20; i++)
             {
