@@ -53,46 +53,47 @@ namespace Digimon_Textadventure
             Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER]...");
             Console.ReadLine();
         }
-        private static void ZeigeSpielerMenue(Spieler spieler)
-        {
-            string eingabe = "";
 
-            while (eingabe != "5")
+        //  Korrigiertes Spieler-Menü
+        public static void ZeigeSpielerMenue(Spieler spieler)
+        {
+            bool imMenue = true;
+
+            while (imMenue)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("\n=== SPIELER MENÜ ===");
+                Console.WriteLine("\n==== SPIELER-MENÜ ====");
                 Console.ResetColor();
                 Console.WriteLine("[1] Inventar anzeigen");
-                Console.WriteLine("[2] Profil anzeigen");
-                Console.WriteLine("[3] Spiel speichern");
-                Console.WriteLine("[4] Spiel laden");
-                Console.WriteLine("[5] Zurück zur Digiwelt");
-
+                Console.WriteLine("[2] Digimon-Profil anzeigen");
+                Console.WriteLine("[3] Spielstand speichern");
+                Console.WriteLine("[4] Zurück zur Digiwelt");
                 Console.Write("\nDeine Wahl: ");
-                eingabe = Console.ReadLine() ?? "";
+
+                string eingabe = Console.ReadLine() ?? "";
 
                 switch (eingabe)
                 {
                     case "1":
-                        ZeigeInventar(spieler);
+                        spieler.ZeigeInventar(); //  Diese Methode muss in Spieler vorhanden sein
                         break;
                     case "2":
-                        spieler.ZeigeProfil();
+                        if (spieler.DigimonPartner != null)
+                        {
+                            spieler.DigimonPartner.ZeigeProfil();
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nDu hast aktuell keinen Digimon-Partner.");
+                        }
                         Pause();
                         break;
                     case "3":
-                        // Platzhalter für Speicherfunktion
-                        Console.WriteLine(">> Spiel speichern... (Funktion noch nicht implementiert)");
-                        Pause();
+                        SpeicherManager.Speichern(spieler);
                         break;
                     case "4":
-                        // Platzhalter für Ladefunktion
-                        Console.WriteLine(">> Spiel laden... (Funktion noch nicht implementiert)");
-                        Pause();
-                        break;
-                    case "5":
-                        Console.WriteLine(">> Zurück zur Digiwelt...");
+                        imMenue = false;
                         break;
                     default:
                         Console.WriteLine("Ungültige Eingabe.");
@@ -102,33 +103,11 @@ namespace Digimon_Textadventure
             }
         }
 
-        private static void ZeigeInventar(Spieler spieler)
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n=== INVENTAR ===");
-            Console.ResetColor();
-
-            if (spieler.Inventar.Count == 0)
-            {
-                Console.WriteLine("Dein Inventar ist leer.");
-            }
-            else
-            {
-                foreach (var item in spieler.Inventar)
-                {
-                    Console.WriteLine($"- {item}");
-                }
-            }
-            Pause();
-        }
-
         private static void Pause()
         {
             Console.WriteLine("\nDrücke [ENTER], um fortzufahren...");
             Console.ReadLine();
         }
-
 
         private static void LoeseZufallsEreignisAus(Spieler spieler)
         {
@@ -136,30 +115,26 @@ namespace Digimon_Textadventure
 
             if (ereignis <= 30)
             {
-                // Kampf
                 Console.WriteLine("\nEin wildes Digimon erscheint!");
                 Gegner gegner = Gegner.ErstelleZufaelligenGegner();
-                Kampf kampf = new Kampf(spieler, gegner.Digimon);
+                Kampf kampf = new Kampf(spieler, gegner.Digimon, spieler.DigimonPartner);
                 kampf.StarteKampf();
             }
             else if (ereignis <= 60)
             {
-                // Item-Fund
                 string gefundenesItem = "Heiltrank";
                 Console.WriteLine($"\nDu hast ein {gefundenesItem} gefunden!");
                 spieler.ItemHinzufuegen(gefundenesItem);
-                Console.WriteLine("Drücke [ENTER], um weiterzugehen...");
-                Console.ReadLine();
+                Pause();
             }
             else
             {
-                // Nichts passiert
                 Console.WriteLine("\nEs passiert nichts Besonderes.");
-                Console.WriteLine("Drücke [ENTER], um weiterzugehen...");
-                Console.ReadLine();
+                Pause();
             }
         }
     }
+
 
 }
 

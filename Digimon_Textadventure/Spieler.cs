@@ -51,6 +51,27 @@ namespace Digimon_Textadventure
 
             Console.WriteLine("==========================\n");
         }
+        public void ZeigeInventar()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n=== INVENTAR ===");
+            Console.ResetColor();
+
+            if (Inventar.Count == 0)
+            {
+                Console.WriteLine(" - (Leer)");
+            }
+            else
+            {
+                foreach (var item in Inventar)
+                {
+                    Console.WriteLine($" - {item}");
+                }
+            }
+
+            Console.WriteLine("\nDrücke [ENTER], um fortzufahren...");
+            Console.ReadLine();
+        }
 
         public void ItemHinzufuegen(string item)
         {

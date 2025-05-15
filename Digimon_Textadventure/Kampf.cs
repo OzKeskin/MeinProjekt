@@ -8,24 +8,24 @@ namespace Digimon_Textadventure
         private Spieler spieler;
         private Digimon spielerDigimon;
         private Digimon gegnerDigimon;
-        private int runde = 1;
-
-        private bool heilungVerwendet = false;
+        private int runde;
         private int spezialCooldown = 0;
         private int gegnerSpezialCooldown = 0;
+        private bool heilungVerwendet = false;
 
-        public Kampf(Spieler spieler, Digimon gegner)
+        public Kampf(Spieler spieler, Digimon gegnerDigimon, Digimon spielerDigimon)
         {
             this.spieler = spieler;
-            this.spielerDigimon = spieler.DigimonPartner;
-            this.gegnerDigimon = gegner;
+            this.spielerDigimon = spielerDigimon;
+            this.gegnerDigimon = gegnerDigimon;
+            this.runde = 1;
         }
 
         public void StarteKampf()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine($"\nEin wildes {gegnerDigimon.Name} erscheint!");
+            Console.WriteLine($"\nEin wildes {gegnerDigimon.Name} erscheint!\n");
             Console.ResetColor();
 
             Console.WriteLine("Drücke [ENTER], um den Kampf zu beginnen...");
@@ -41,18 +41,12 @@ namespace Digimon_Textadventure
 
                 GegnerAktion();
 
-                // Verteidigungsbonus zurücksetzen
-                spielerDigimon.Verteidigung = Math.Max(spielerDigimon.Verteidigung - 5, 0);
-                gegnerDigimon.Verteidigung = Math.Max(gegnerDigimon.Verteidigung - 5, 0);
-
                 Console.WriteLine("\nDrücke [ENTER], um die nächste Runde zu starten...");
                 Console.ReadLine();
                 Console.Clear();
 
                 runde++;
             }
-            spielerDigimon.Verteidigung = spielerDigimon.BasisVerteidigung;
-            gegnerDigimon.Verteidigung = gegnerDigimon.BasisVerteidigung;
 
             ZeigeKampfErgebnis();
         }
@@ -60,37 +54,30 @@ namespace Digimon_Textadventure
         private void ZeigeStatus()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n=========== Kampfstatus ===========");
+            Console.WriteLine("\n================= Status =================");
             Console.ResetColor();
             Console.WriteLine($"[Runde: {runde}]");
 
+            // Spieler-Digimon in Blau
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(string.Format("{0,-10} | LP: {1,3}/{2,-3} | ATK: {3,2} | DEF: {4,2}",
-                spielerDigimon.Name, spielerDigimon.Lebenspunkte, spielerDigimon.MaximaleLebenspunkte,
-                spielerDigimon.Angriff, spielerDigimon.Verteidigung));
+            Console.WriteLine($"{spielerDigimon.Name,-10} | LP: {spielerDigimon.Lebenspunkte,3}/{spielerDigimon.MaximaleLebenspunkte,-3} | ATK: {spielerDigimon.Angriff,2} | DEF: {spielerDigimon.Verteidigung,2}");
             Console.ResetColor();
 
+            // Gegner-Digimon in Dunkelrot
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine(string.Format("{0,-10} | LP: {1,3}/{2,-3} | ATK: {3,2} | DEF: {4,2}",
-                gegnerDigimon.Name, gegnerDigimon.Lebenspunkte, gegnerDigimon.MaximaleLebenspunkte,
-                gegnerDigimon.Angriff, gegnerDigimon.Verteidigung));
+            Console.WriteLine($"{gegnerDigimon.Name,-10} | LP: {gegnerDigimon.Lebenspunkte,3}/{gegnerDigimon.MaximaleLebenspunkte,-3} | ATK: {gegnerDigimon.Angriff,2} | DEF: {gegnerDigimon.Verteidigung,2}");
             Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("====================================");
+            Console.WriteLine("==========================================");
             Console.ResetColor();
         }
 
         private void SpielerAktion()
         {
-            Console.WriteLine("\nWähle eine Aktion:");
+            Console.WriteLine("Wähle eine Aktion:");
             Console.WriteLine("[1] Angriff");
-
-            if (spezialCooldown == 0)
-                Console.WriteLine("[2] Spezialfähigkeit (bereit)");
-            else
-                Console.WriteLine($"[2] Spezialfähigkeit (Cooldown: {spezialCooldown})");
-
+            Console.WriteLine(spezialCooldown == 0 ? "[2] Spezialfähigkeit (bereit)" : $"[2] Spezialfähigkeit (Cooldown: {spezialCooldown})");
             Console.WriteLine("[3] Heilen (+30 LP, 1x pro Kampf)");
             Console.WriteLine("[4] Verteidigen (+5 DEF für 1 Runde)");
             Console.WriteLine("[5] Kampf verlassen");
@@ -103,27 +90,31 @@ namespace Digimon_Textadventure
                 case "1":
                     FuehreAngriffAus(spielerDigimon, gegnerDigimon);
                     break;
-                case "2" when spezialCooldown == 0:
-                    SpezialAngriffAnimation();
-                    spielerDigimon.FuehreSpezialAttackeAus(gegnerDigimon);
-                    spezialCooldown = 3;
+                case "2":
+                    if (spezialCooldown == 0)
+                    {
+                        SpezialAngriffAnimation();
+                        spielerDigimon.FuehreSpezialAttackeAus(gegnerDigimon);
+                        spezialCooldown = 3;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nSpezialfähigkeit noch im Cooldown!");
+                    }
                     break;
                 case "3":
                     Heilen();
                     break;
                 case "4":
-                    Verteidigen(spielerDigimon);
+                    Verteidigen();
                     break;
                 case "5":
-                    Console.WriteLine("\nDu fliehst aus dem Kampf. Drücke [ENTER]...");
+                    Console.WriteLine("\nDu flüchtest aus dem Kampf!");
                     Console.ReadLine();
-                    BewegungsManager.BewegeSpieler(spieler);
                     return;
                 default:
-                    Console.WriteLine("Ungültige Eingabe. Drücke [ENTER], um erneut zu wählen...");
-                    Console.ReadLine();
-                    SpielerAktion();
-                    return;
+                    Console.WriteLine("\nUngültige Eingabe.");
+                    break;
             }
 
             if (spezialCooldown > 0)
@@ -135,7 +126,7 @@ namespace Digimon_Textadventure
             Console.Write("\nSpezialfähigkeit wird vorbereitet");
             for (int i = 0; i < 3; i++)
             {
-                Thread.Sleep(400);
+                Thread.Sleep(500);
                 Console.Write(".");
             }
             Console.WriteLine("\n");
@@ -145,38 +136,45 @@ namespace Digimon_Textadventure
         {
             if (heilungVerwendet)
             {
-                Console.WriteLine("\nHeilung bereits verwendet.");
+                Console.WriteLine("\nDu hast die Heilung bereits verwendet.");
             }
             else
             {
-                spielerDigimon.Lebenspunkte += 30;
-                if (spielerDigimon.Lebenspunkte > spielerDigimon.MaximaleLebenspunkte)
-                    spielerDigimon.Lebenspunkte = spielerDigimon.MaximaleLebenspunkte;
-
+                spielerDigimon.Lebenspunkte = Math.Min(spielerDigimon.Lebenspunkte + 30, spielerDigimon.MaximaleLebenspunkte);
                 heilungVerwendet = true;
-                Console.WriteLine($"{spielerDigimon.Name} heilt sich um 30 LP!");
+                Console.WriteLine($"\n{spielerDigimon.Name} wurde um 30 LP geheilt!");
             }
         }
 
-        private void Verteidigen(Digimon digimon)
+        private void Verteidigen()
         {
-            digimon.Verteidigung += 5;
-            Console.WriteLine($"{digimon.Name} verteidigt sich und erhöht die Verteidigung um 5 für diese Runde!");
+            Console.WriteLine($"\n{spielerDigimon.Name} verteidigt sich! Verteidigung +5 für diese Runde.");
+            spielerDigimon.Verteidigung += 5;
         }
 
         private void GegnerAktion()
         {
-            int aktion = new Random().Next(1, 101);
+            Random rnd = new Random();
+            int aktion = rnd.Next(1, 101);
+            int schaden;
 
-            if (aktion <= 60)
+            if (aktion <= 60) // 60% Angriff
             {
-                FuehreAngriffAus(gegnerDigimon, spielerDigimon);
+                bool kritisch = rnd.Next(1, 101) <= 10;
+                schaden = BerechneNormalenSchaden(gegnerDigimon.Angriff, spielerDigimon.Verteidigung, kritisch);
+
+                Console.ForegroundColor = kritisch ? ConsoleColor.Red : ConsoleColor.DarkRed;
+                Console.WriteLine($"{gegnerDigimon.Name} greift an und verursacht {schaden} Schaden{(kritisch ? " (Kritisch!)" : "")}.");
+                Console.ResetColor();
+
+                spielerDigimon.Lebenspunkte -= schaden;
             }
-            else if (aktion <= 70)
+            else if (aktion <= 70) // 10% Verteidigen
             {
-                Verteidigen(gegnerDigimon);
+                Console.WriteLine($"{gegnerDigimon.Name} verteidigt sich!");
+                gegnerDigimon.Verteidigung += 5;
             }
-            else
+            else // 30% Spezialangriff
             {
                 if (gegnerSpezialCooldown == 0)
                 {
@@ -185,6 +183,7 @@ namespace Digimon_Textadventure
                 }
                 else
                 {
+                    Console.WriteLine($"{gegnerDigimon.Name} kann die Spezialfähigkeit noch nicht einsetzen! (Cooldown: {gegnerSpezialCooldown})");
                     FuehreAngriffAus(gegnerDigimon, spielerDigimon);
                 }
             }
@@ -195,22 +194,23 @@ namespace Digimon_Textadventure
 
         private void FuehreAngriffAus(Digimon angreifer, Digimon verteidiger)
         {
-            bool kritisch = new Random().Next(1, 101) <= 20;
+            Random rnd = new Random();
+            bool kritisch = rnd.Next(1, 101) <= 20;
             int schaden = BerechneNormalenSchaden(angreifer.Angriff, verteidiger.Verteidigung, kritisch);
+
+            Console.ForegroundColor = angreifer == spielerDigimon ? ConsoleColor.Cyan : ConsoleColor.DarkRed;
+            Console.WriteLine($"{angreifer.Name} greift an und verursacht {schaden} Schaden{(kritisch ? " (Kritisch!)" : "")}.");
+            Console.ResetColor();
 
             verteidiger.Lebenspunkte -= schaden;
             verteidiger.Lebenspunkte = Math.Max(verteidiger.Lebenspunkte, 0);
-
-            Console.ForegroundColor = angreifer == spielerDigimon ? ConsoleColor.Blue : ConsoleColor.DarkRed;
-            Console.WriteLine($"{angreifer.Name} greift an und verursacht {schaden} Schaden{(kritisch ? " (Kritisch!)" : "")}.");
-            Console.ResetColor();
         }
 
         private int BerechneNormalenSchaden(int angriff, int verteidigung, bool kritisch)
         {
             int schaden = angriff - verteidigung;
             if (kritisch) schaden *= 2;
-            return Math.Max(schaden, 0);
+            return schaden < 1 ? 1 : schaden;
         }
 
         private void ZeigeKampfErgebnis()
@@ -221,43 +221,32 @@ namespace Digimon_Textadventure
 
             if (spielerDigimon.Lebenspunkte > 0)
             {
-                
-                int erfahrungspunkte = 20 + new Random().Next(10);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
+                Console.WriteLine($"\n>> {spielerDigimon.Name} hat den Kampf gewonnen! <<");
                 Console.ResetColor();
 
+                int erfahrungspunkte = 20 + new Random().Next(10);
+                Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
                 spielerDigimon.VergibErfahrung(erfahrungspunkte);
 
-                // Digimon-Profil anzeigen
-                Console.WriteLine("\nDein Digimon-Profil nach dem Kampf:");
+                Console.WriteLine("\nDrücke [ENTER], um den Fortschritt zu sehen...");
+                Console.ReadLine();
                 spielerDigimon.ZeigeProfil();
-
-                // Avatar-Info anzeigen
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("\nDein Avatar:");
-                Console.ResetColor();
-                Console.WriteLine($"Name: {spieler.Avatar.Name}");
-                Console.WriteLine($"Beschreibung: {spieler.Avatar.Beschreibung}");
-                Console.WriteLine($"Start-Item: {spieler.Avatar.StartItem}");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($">> {spielerDigimon.Name} wurde besiegt...");
+                Console.WriteLine($"\n>> {spielerDigimon.Name} wurde besiegt...");
                 Console.ResetColor();
             }
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\nDrücke [ENTER], um in die Digiwelt zurückzukehren...");
-            Console.ResetColor();
             Console.ReadLine();
 
-            // Zurück in die Digiwelt
             BewegungsManager.BewegeSpieler(spieler);
         }
-
     }
+
 
 
 }
