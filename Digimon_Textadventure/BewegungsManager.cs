@@ -62,7 +62,7 @@ namespace Digimon_Textadventure
             if (ereignis <= 30)
             {
                 // Kampf 30%
-                Console.WriteLine("\nEin wildes Digimon erscheint!");
+                //Console.WriteLine("\nEin wildes Digimon erscheint!");
                 Gegner gegner = Gegner.ErstelleZufaelligenGegner();
 
                 Kampf kampf = new Kampf(spieler.DigimonPartner, gegner.Digimon);

@@ -188,9 +188,9 @@ namespace Digimon_Textadventure
 
                 Thread.Sleep(50); // Animations-Geschwindigkeit (kann angepasst werden)
             }
-
-            Console.ResetColor();
             Console.WriteLine("]");
+            Console.ResetColor();
+            
 
 
         }

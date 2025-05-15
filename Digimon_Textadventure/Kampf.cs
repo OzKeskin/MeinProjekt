@@ -23,11 +23,9 @@ namespace Digimon_Textadventure
 
         public void StarteKampf()
         {
-            Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine($"\nEin wildes {gegnerDigimon.Name} erscheint!\n");
             Console.ResetColor();
-
             Console.WriteLine("Drücke [ENTER], um den Kampf zu beginnen...");
             Console.ReadLine();
 
@@ -48,10 +46,10 @@ namespace Digimon_Textadventure
 
         private void ZeigeStatus()
         {
+            
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n=== Status ===");
             Console.ResetColor();
-
             Console.WriteLine($"[Runde: {runde}]");
 
             // Format: Name (10 Zeichen, linksbündig), LP (10 Zeichen, rechtsbündig), ATK (5 Zeichen, rechtsbündig), DEF (5 Zeichen, rechtsbündig)
@@ -75,6 +73,7 @@ namespace Digimon_Textadventure
         }
         private void SpielerAktion()
         {
+            
             Console.WriteLine("Wähle eine Aktion:");
             Console.WriteLine("[1] Normaler Angriff");
 
@@ -112,6 +111,8 @@ namespace Digimon_Textadventure
                     SpielerAktion();
                     break;
             }
+            if (spezialCooldown > 0)
+                spezialCooldown--;
         }
 
         private void SpezialAngriffAnimation()
@@ -165,7 +166,7 @@ namespace Digimon_Textadventure
                     break;
 
                 case 2: // Verteidigen
-                    gegnerDigimon.Verteidigung += 5;
+                    gegnerDigimon.Verteidigung += 0;
                     Console.WriteLine($"{gegnerDigimon.Name} verteidigt sich und erhöht seine Verteidigung um 5!");
                     break;
 
