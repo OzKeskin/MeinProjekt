@@ -13,6 +13,8 @@ namespace Digimon_Textadventure
         public string Stufe { get; set; }
         public string Spezialattacke { get; set; }
         public bool SpezialVerwendet { get; set; } = false;
+        public bool WurdeWeiterentwickelt { get; set; } = false;
+
 
         // Level- und Erfahrungssystem
         public int Level { get; set; } = 1;
@@ -27,7 +29,7 @@ namespace Digimon_Textadventure
                     2 => 125,
                     3 => 150,
                     4 => 175,
-                    _ => 0                                          // L5 ist max level
+                    _ => 0                                          // max level erreicht
                 };
             }
         
@@ -35,11 +37,145 @@ namespace Digimon_Textadventure
         
         }
         // Level-Up & Erfahrungsmethode
-        public void VergibErfahrung(int erfahrung)
+        public void VergibErfahrung(int erfahrung,Spieler spieler)
         {
             Erfahrung += erfahrung;
-            LevelUp();  // → Hier wird automatisch geprüft, ob ein Level-Up erfolgt
+            ZeigeLevelFortschritt(animiert: true);                              // fortschrittsbalken direkt nach XP-Gewinn
+            LevelUp(spieler);                                                   // hier wird automatisch geprüft ob ein Level-Up erfolgt
         }
+        public void LevelUp(Spieler spieler)
+        {
+            while (Erfahrung >= ErfahrungFürNaechstesLevel)
+            {
+                Erfahrung -= ErfahrungFürNaechstesLevel;
+                Level++;
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"\n>> {Name} erreicht Level{Level}!");
+                Console.ResetColor();
+
+                // Werte verbessern
+                MaximaleLebenspunkte += 40;
+                Lebenspunkte = MaximaleLebenspunkte;
+                Angriff += 25;
+                Verteidigung += 20;
+
+                Console.WriteLine($"- Neue Lebenspunkte: {MaximaleLebenspunkte}");
+                Console.WriteLine($"- Neuer Angriff: {Angriff}");
+                Console.WriteLine($"- Neue Verteidigung: {Verteidigung}");
+
+                // Animierter Fortschrittsbalken nach Level-Up
+                ZeigeLevelFortschritt(animiert: true);
+
+                // Prüfen auf Weiterentwicklung ab Level 3
+                if (Level >= 3 && !WurdeWeiterentwickelt && spieler.Inventar.Contains("Amulett"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"\n>> {Name} kann sich weiterentwickeln! Möchtest du die Entwicklung durchführen? (j/n)");
+                    Console.ResetColor();
+
+                    string eingabe = Console.ReadLine() ?? "".ToLower() ?? "";
+                    if (eingabe == "j")
+                    {
+                        FühreWeiterentwicklungDurch(spieler);
+                    }
+                }
+            }
+        }
+        private void FühreWeiterentwicklungDurch(Spieler spieler)
+        {
+            switch (Name)
+            {
+                case "Agumon":
+                    Name = "Greymon";
+                    Spezialattacke = "Mega-Feuerstoß";
+                    break;
+                case "Gabumon":
+                    Name = "Garurumon";
+                    Spezialattacke = "Mega-Eisblock";
+                    break;
+                case "Patamon":
+                    Name = "Angemon";
+                    Spezialattacke = "Heiliges Licht";
+                    break;
+                default:
+                    Console.WriteLine("Keine bekannte Weiterentwicklung.");
+                    return;
+            }
+
+            Stufe = "Champion";
+            MaximaleLebenspunkte *= 3;
+            Lebenspunkte = MaximaleLebenspunkte;
+            Angriff *= 3;
+            Verteidigung *= 3;
+            BasisVerteidigung = Verteidigung;
+            WurdeWeiterentwickelt = true;
+
+            // Amulett entfernen
+            spieler.ItemEntfernen("Amulett");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\n>> {Name} hat sich erfolgreich weiterentwickelt!");
+            Console.ResetColor();
+        }
+        public void ZeigeProfil()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("===== DIGIMON PROFIL =====");
+            Console.ResetColor();
+            Console.WriteLine($"Name:\t\t{Name}");
+            Console.WriteLine($"Stufe:\t\t{Stufe}");
+            Console.WriteLine($"Lebenspunkte:\t{Lebenspunkte}/{MaximaleLebenspunkte}");
+            Console.WriteLine($"Angriff:\t{Angriff}");
+            Console.WriteLine($"Verteidigung:\t{Verteidigung}");
+            Console.WriteLine($"Level:\t\t{Level}");
+            Console.WriteLine($"Erfahrung:\t{Erfahrung}/{ErfahrungFürNaechstesLevel}");
+
+            ZeigeLevelFortschritt(animiert: false);
+
+            if (!string.IsNullOrEmpty(Spezialattacke))
+                Console.WriteLine($"Spezialfähigkeit\n-> {Spezialattacke} <-");
+
+            if (SpezialVerwendet)
+                Console.WriteLine("Spezialfähigkeit wurde in diesem Kampf eingesetzt!");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("==========================");
+            Console.ResetColor();
+
+        }
+        public void ZeigeLevelFortschritt(bool animiert)
+        {
+            int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
+
+            Console.Write("Level-Fortschritt\n[");
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (i < fortschritt)
+                {
+                    if (i < 6)
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    else if (i < 14)
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    else
+                        Console.ForegroundColor = ConsoleColor.Green;
+
+                    Console.Write("#");
+                }
+                else
+                {
+                    Console.ResetColor();
+                    Console.Write("-");
+                }
+
+                if (animiert) Thread.Sleep(50);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine($"] {fortschritt * 5}%");
+        }
+
+
         public static List<Digimon> VerfügbareStartDigimon()
         {
             return new List<Digimon>
@@ -147,87 +283,6 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Wasserblase"
         };
-        public void ZeigeProfil()
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("===== DIGIMON PROFIL =====");
-            Console.ResetColor();
-            Console.WriteLine($"Name:\t\t{Name}");
-            Console.WriteLine($"Stufe:\t\t{Stufe}");
-            Console.WriteLine($"Lebenspunkte:\t{Lebenspunkte}/{MaximaleLebenspunkte}");
-            Console.WriteLine($"Angriff:\t{Angriff}");
-            Console.WriteLine($"Verteidigung:\t{Verteidigung}");
-            Console.WriteLine($"Level:\t\t{Level}");
-            Console.WriteLine($"Erfahrung:\t{Erfahrung}/{ErfahrungFürNaechstesLevel}");
-
-            ZeigeLevelFortschritt(animiert: false);
-
-            if (!string.IsNullOrEmpty(Spezialattacke))
-                Console.WriteLine($"Spezialfähigkeit\n-> {Spezialattacke} <-");
-
-            if (SpezialVerwendet)
-                Console.WriteLine("Spezialfähigkeit wurde in diesem Kampf eingesetzt!");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("==========================");
-            Console.ResetColor();
-
-        }
-        public void ZeigeLevelFortschritt(bool animiert)
-        {
-            int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
-
-            Console.Write("Level-Fortschritt\n[");
-
-            for (int i = 0; i < 20; i++)
-            {
-                if (i < fortschritt)
-                {
-                    if (i < 6)
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    else if (i < 14)
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                    else
-                        Console.ForegroundColor = ConsoleColor.Green;
-
-                    Console.Write("#");
-                }
-                else
-                {
-                    Console.ResetColor();
-                    Console.Write("-");
-                }
-
-                if (animiert) Thread.Sleep(50);
-            }
-
-            Console.ResetColor();
-            Console.WriteLine($"] {fortschritt * 5}%");
-        }
-        public void LevelUp()
-        {
-            while (Erfahrung >= ErfahrungFürNaechstesLevel)
-            {
-                Erfahrung -= ErfahrungFürNaechstesLevel;
-                Level++;
-
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine($"\n>> {Name} hat ein neues Level erreicht! Jetzt Level {Level}!");
-                Console.ResetColor();
-
-                // Werte verbessern
-                MaximaleLebenspunkte += 10;
-                Lebenspunkte = MaximaleLebenspunkte;
-                Angriff += 5;
-                Verteidigung += 2;
-
-                Console.WriteLine($"- Neue Lebenspunkte: {MaximaleLebenspunkte}");
-                Console.WriteLine($"- Neuer Angriff: {Angriff}");
-                Console.WriteLine($"- Neue Verteidigung: {Verteidigung}");
-
-                // Animierter Fortschrittsbalken nach Level-Up
-                ZeigeLevelFortschritt(animiert: true);
-            }
-        }
         public void FuehreSpezialAttackeAus(Digimon gegner)
         {
             int schaden = 0;

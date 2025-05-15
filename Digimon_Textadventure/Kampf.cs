@@ -40,12 +40,12 @@ namespace Digimon_Textadventure
                 if (gegnerDigimon.Lebenspunkte <= 0) break;
 
                 GegnerAktion();
-
+                runde++;
                 Console.WriteLine("\nDrücke [ENTER], um die nächste Runde zu starten...");
                 Console.ReadLine();
                 Console.Clear();
 
-                runde++;
+                
             }
 
             ZeigeKampfErgebnis();
@@ -229,8 +229,8 @@ namespace Digimon_Textadventure
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
                 Console.ResetColor();
-
-                spielerDigimon.VergibErfahrung(erfahrungspunkte);
+                // erfahrung für sieg 100 Punkte
+                spielerDigimon.VergibErfahrung(100, spieler);
             }
             else
             {
@@ -242,8 +242,8 @@ namespace Digimon_Textadventure
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte trotz Niederlage.");
                 Console.ResetColor();
-
-                spielerDigimon.VergibErfahrung(erfahrungspunkte);
+                // erfahrung für niederlage 50 Punkte
+                spielerDigimon.VergibErfahrung(50, spieler);
             }
 
             Console.ForegroundColor = ConsoleColor.Cyan;
