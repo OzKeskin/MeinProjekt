@@ -9,6 +9,7 @@ namespace Digimon_Textadventure
         public int MaximaleLebenspunkte { get; set; }
         public int Angriff { get; set; }
         public int Verteidigung { get; set; }
+        public int BasisVerteidigung { get; set; }
         public string Stufe { get; set; }
         public string Spezialattacke { get; set; }
         public bool SpezialVerwendet { get; set; } = false;
@@ -22,11 +23,8 @@ namespace Digimon_Textadventure
         public void VergibErfahrung(int erfahrung)
         {
             Erfahrung += erfahrung;
-            Console.WriteLine($"\n{Name} erhält {erfahrung} Erfahrungspunkte!");
             LevelUp();  // → Hier wird automatisch geprüft, ob ein Level-Up erfolgt
         }
-
-
         public static List<Digimon> VerfügbareStartDigimon()
         {
             return new List<Digimon>
@@ -74,6 +72,7 @@ namespace Digimon_Textadventure
             MaximaleLebenspunkte = 100,
             Angriff = 20,
             Verteidigung = 10,
+            BasisVerteidigung = 10, // Neu hinzugefügt
             Stufe = "Rookie",
             Spezialattacke = "Feuerstoß"
         };
@@ -84,6 +83,7 @@ namespace Digimon_Textadventure
             MaximaleLebenspunkte = 95,
             Angriff = 18,
             Verteidigung = 12,
+            BasisVerteidigung = 12, // Neu hinzugefügt
             Stufe = "Rookie",
             Spezialattacke = "Eisblock"
         };
@@ -94,6 +94,7 @@ namespace Digimon_Textadventure
             MaximaleLebenspunkte = 90,
             Angriff = 16,
             Verteidigung = 11,
+            BasisVerteidigung = 11, // Neu hinzugefügt
             Stufe = "Rookie",
             Spezialattacke = "Windstoß"
         };
@@ -104,6 +105,7 @@ namespace Digimon_Textadventure
             MaximaleLebenspunkte = 90,
             Angriff = 17,
             Verteidigung = 9,
+            BasisVerteidigung = 9, // Neu hinzugefügt
             Stufe = "Rookie",
             Spezialattacke = "Blitzschlag"
         };
@@ -114,6 +116,8 @@ namespace Digimon_Textadventure
             MaximaleLebenspunkte = 105,
             Angriff = 21,
             Verteidigung = 9,
+            BasisVerteidigung = 9, // Neu hinzugefügt
+
             Stufe = "Rookie",
             Spezialattacke = "Power-Schlag"
         };
@@ -124,6 +128,7 @@ namespace Digimon_Textadventure
             MaximaleLebenspunkte = 100,
             Angriff = 17,
             Verteidigung = 13,
+            BasisVerteidigung = 13, // Neu hinzugefügt
             Stufe = "Rookie",
             Spezialattacke = "Wasserblase"
         };

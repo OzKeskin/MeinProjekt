@@ -51,6 +51,8 @@ namespace Digimon_Textadventure
 
                 runde++;
             }
+            spielerDigimon.Verteidigung = spielerDigimon.BasisVerteidigung;
+            gegnerDigimon.Verteidigung = gegnerDigimon.BasisVerteidigung;
 
             ZeigeKampfErgebnis();
         }
@@ -219,36 +221,42 @@ namespace Digimon_Textadventure
 
             if (spielerDigimon.Lebenspunkte > 0)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\r>> {spielerDigimon.Name} HAT GEWONNEN! <<   ");
-                    Thread.Sleep(300);
-                    Console.Write("\r                            ");
-                    Thread.Sleep(300);
-                }
-
+                
                 int erfahrungspunkte = 20 + new Random().Next(10);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
                 Console.ResetColor();
 
                 spielerDigimon.VergibErfahrung(erfahrungspunkte);
+
+                // Digimon-Profil anzeigen
+                Console.WriteLine("\nDein Digimon-Profil nach dem Kampf:");
+                spielerDigimon.ZeigeProfil();
+
+                // Avatar-Info anzeigen
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("\nDein Avatar:");
+                Console.ResetColor();
+                Console.WriteLine($"Name: {spieler.Avatar.Name}");
+                Console.WriteLine($"Beschreibung: {spieler.Avatar.Beschreibung}");
+                Console.WriteLine($"Start-Item: {spieler.Avatar.StartItem}");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{spielerDigimon.Name} wurde besiegt...");
+                Console.WriteLine($">> {spielerDigimon.Name} wurde besiegt...");
                 Console.ResetColor();
             }
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\nKampf beendet! Drücke [ENTER], um in die Digiwelt zurückzukehren...");
+            Console.WriteLine("\nDrücke [ENTER], um in die Digiwelt zurückzukehren...");
             Console.ResetColor();
             Console.ReadLine();
 
+            // Zurück in die Digiwelt
             BewegungsManager.BewegeSpieler(spieler);
         }
+
     }
 
 

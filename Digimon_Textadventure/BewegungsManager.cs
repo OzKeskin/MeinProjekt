@@ -18,54 +18,117 @@ namespace Digimon_Textadventure
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\nAktueller Ort: {spieler.AktuellerOrt.Name}");
+                Console.WriteLine($"Aktueller Ort: {spieler.AktuellerOrt.Name}");
                 Console.ResetColor();
                 Console.WriteLine(spieler.AktuellerOrt.Beschreibung);
 
                 Console.WriteLine("\nMögliche Richtungen:");
                 foreach (var richtung in spieler.AktuellerOrt.Verbindungen.Keys)
                 {
-                    Ort zielOrt = spieler.AktuellerOrt.Verbindungen[richtung];
-                    bool zugangErlaubt = !(zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5);
-
-                    if (zugangErlaubt)
-                        Console.WriteLine($"- {richtung} nach {zielOrt.Name}");
-                    else
-                        Console.WriteLine($"- {richtung} nach ??? (ab Level 5)");
+                    Console.WriteLine($"- {richtung}");
                 }
 
-                Console.WriteLine("\nWohin möchtest du gehen? (oder 'exit' zum Verlassen)");
+                Console.WriteLine("\n[Tippe eine Richtung ein, 'm' für Menü oder 'exit' zum Verlassen]");
                 Console.Write("Eingabe: ");
                 eingabe = Console.ReadLine()?.ToLower() ?? "";
 
+                if (eingabe == "m")
+                {
+                    ZeigeSpielerMenue(spieler);
+                    continue;
+                }
+
                 if (spieler.AktuellerOrt.Verbindungen.ContainsKey(eingabe))
                 {
-                    Ort zielOrt = spieler.AktuellerOrt.Verbindungen[eingabe];
-
-                    // Zugang prüfen
-                    if (zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\n>> Du benötigst mindestens Level 5, um den Endboss zu betreten!");
-                        Console.ResetColor();
-                        Console.WriteLine("Drücke [ENTER], um fortzufahren...");
-                        Console.ReadLine();
-                        continue;
-                    }
-
-                    spieler.AktuellerOrt = zielOrt;
+                    spieler.AktuellerOrt = spieler.AktuellerOrt.Verbindungen[eingabe];
                     LoeseZufallsEreignisAus(spieler);
                 }
                 else if (eingabe != "exit")
                 {
-                    Console.WriteLine("\nUngültige Richtung. Drücke [ENTER], um es erneut zu versuchen...");
+                    Console.WriteLine("Ungültige Richtung. Drücke [ENTER]...");
                     Console.ReadLine();
                 }
             }
 
-            Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER], um das Spiel zu beenden...");
+            Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER]...");
             Console.ReadLine();
         }
+        private static void ZeigeSpielerMenue(Spieler spieler)
+        {
+            string eingabe = "";
+
+            while (eingabe != "5")
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("\n=== SPIELER MENÜ ===");
+                Console.ResetColor();
+                Console.WriteLine("[1] Inventar anzeigen");
+                Console.WriteLine("[2] Profil anzeigen");
+                Console.WriteLine("[3] Spiel speichern");
+                Console.WriteLine("[4] Spiel laden");
+                Console.WriteLine("[5] Zurück zur Digiwelt");
+
+                Console.Write("\nDeine Wahl: ");
+                eingabe = Console.ReadLine() ?? "";
+
+                switch (eingabe)
+                {
+                    case "1":
+                        ZeigeInventar(spieler);
+                        break;
+                    case "2":
+                        spieler.ZeigeProfil();
+                        Pause();
+                        break;
+                    case "3":
+                        // Platzhalter für Speicherfunktion
+                        Console.WriteLine(">> Spiel speichern... (Funktion noch nicht implementiert)");
+                        Pause();
+                        break;
+                    case "4":
+                        // Platzhalter für Ladefunktion
+                        Console.WriteLine(">> Spiel laden... (Funktion noch nicht implementiert)");
+                        Pause();
+                        break;
+                    case "5":
+                        Console.WriteLine(">> Zurück zur Digiwelt...");
+                        break;
+                    default:
+                        Console.WriteLine("Ungültige Eingabe.");
+                        Pause();
+                        break;
+                }
+            }
+        }
+
+        private static void ZeigeInventar(Spieler spieler)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n=== INVENTAR ===");
+            Console.ResetColor();
+
+            if (spieler.Inventar.Count == 0)
+            {
+                Console.WriteLine("Dein Inventar ist leer.");
+            }
+            else
+            {
+                foreach (var item in spieler.Inventar)
+                {
+                    Console.WriteLine($"- {item}");
+                }
+            }
+            Pause();
+        }
+
+        private static void Pause()
+        {
+            Console.WriteLine("\nDrücke [ENTER], um fortzufahren...");
+            Console.ReadLine();
+        }
+
 
         private static void LoeseZufallsEreignisAus(Spieler spieler)
         {
