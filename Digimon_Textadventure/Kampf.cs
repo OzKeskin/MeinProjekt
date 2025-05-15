@@ -43,7 +43,6 @@ namespace Digimon_Textadventure
 
             ZeigeKampfErgebnis();
         }
-
         private void ZeigeStatus()
         {
             
@@ -114,7 +113,6 @@ namespace Digimon_Textadventure
             if (spezialCooldown > 0)
                 spezialCooldown--;
         }
-
         private void SpezialAngriffAnimation()
         {
             Console.Write("\nSpezialfähigkeit wird vorbereitet");
@@ -141,52 +139,55 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"\n{spielerDigimon.Name} hat sich um 30 LP geheilt!");
             }
         }
-
         private void Verteidigen()
         {
             Console.WriteLine($"\n{spielerDigimon.Name} verteidigt sich und erhöht die Verteidigung um 5 für diese Runde!");
             spielerDigimon.Verteidigung += 5;
         }
-
+        private void GegnerVerteidigen()
+        {
+            Console.WriteLine($"{gegnerDigimon.Name} geht in die Verteidigungshaltung!");
+            gegnerDigimon.Verteidigung += 5; 
+        }
         private void GegnerAktion()
         {
-            int aktion = new Random().Next(1, 4); // 1: Angriff, 2: Verteidigen, 3: Spezialangriff (wenn möglich)
+            int aktion = new Random().Next(1, 101); // 1 bis 100
             int schaden;
 
-            switch (aktion)
+            if (aktion <= 60) // 60% Angriff
             {
-                case 1: // Angriff
-                    bool kritisch = new Random().Next(1, 101) <= 10;
+                bool kritisch = new Random().Next(1, 101) <= 10;
+                schaden = gegnerDigimon.Angriff - spielerDigimon.Verteidigung;
+                if (kritisch) schaden *= 2;
+                if (schaden < 0) schaden = 0;
+
+                spielerDigimon.Lebenspunkte -= schaden;
+                Console.WriteLine($"{gegnerDigimon.Name} greift an und verursacht {schaden} Schaden{(kritisch ? " (Kritisch!)" : "")}.");
+            }
+            else if (aktion <= 70) // 10% Verteidigen
+            {
+                GegnerVerteidigen();
+            }
+            else // 30% Spezialangriff
+            {
+                if (gegnerSpezialCooldown == 0)
+                {
+                    gegnerDigimon.FuehreSpezialAttackeAus(spielerDigimon);
+                    gegnerSpezialCooldown = 3; // Cooldown setzen
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"{gegnerDigimon.Name} kann die Spezialfähigkeit noch nicht einsetzen! (Cooldown: {gegnerSpezialCooldown} Runden)");
+                    Console.ResetColor();
+
+                    // Stattdessen normaler Angriff
                     schaden = gegnerDigimon.Angriff - spielerDigimon.Verteidigung;
-                    if (kritisch) schaden *= 2;
                     if (schaden < 0) schaden = 0;
 
                     spielerDigimon.Lebenspunkte -= schaden;
-                    Console.WriteLine($"{gegnerDigimon.Name} greift an und verursacht {schaden} Schaden{(kritisch ? " (Kritisch!)" : "")}.");
-                    break;
-
-                case 2: // Verteidigen
-                    gegnerDigimon.Verteidigung += 0;
-                    Console.WriteLine($"{gegnerDigimon.Name} verteidigt sich und erhöht seine Verteidigung um 5!");
-                    break;
-
-                case 3: // Spezialangriff mit Cooldown
-                    if (gegnerSpezialCooldown == 0)
-                    {
-                        gegnerDigimon.FuehreSpezialAttackeAus(spielerDigimon);
-                        gegnerSpezialCooldown = 3; // Cooldown auf 3 Runden setzen
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{gegnerDigimon.Name} kann die Spezialfähigkeit noch nicht einsetzen! ({gegnerSpezialCooldown} Runden Cooldown)");
-                        // Stattdessen Standardangriff
-                        schaden = gegnerDigimon.Angriff - spielerDigimon.Verteidigung;
-                        if (schaden < 0) schaden = 0;
-
-                        spielerDigimon.Lebenspunkte -= schaden;
-                        Console.WriteLine($"{gegnerDigimon.Name} greift stattdessen normal an und verursacht {schaden} Schaden.");
-                    }
-                    break;
+                    Console.WriteLine($"{gegnerDigimon.Name} greift stattdessen normal an und verursacht {schaden} Schaden.");
+                }
             }
 
             // Cooldown am Ende der Aktion reduzieren
@@ -204,14 +205,12 @@ namespace Digimon_Textadventure
             Console.WriteLine($"{angreifer.Name} greift an und verursacht {schaden} Schaden{(kritisch ? " (Kritisch!)" : "")}.");
             Console.WriteLine($"{verteidiger.Name} hat noch {verteidiger.Lebenspunkte} LP.\n");
         }
-
         private int BerechneNormalenSchaden(int angriff, int verteidigung, bool kritisch)
         {
             int schaden = angriff - verteidigung;
             if (kritisch) schaden *= 2;
             return schaden < 0 ? 0 : schaden;
         }
-
         private void ZeigeKampfErgebnis()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;

@@ -22,22 +22,8 @@ namespace Digimon_Textadventure
         public void VergibErfahrung(int erfahrung)
         {
             Erfahrung += erfahrung;
-
-            while (Erfahrung >= ErfahrungFürNaechstesLevel)
-            {
-                Erfahrung -= ErfahrungFürNaechstesLevel;
-                Level++;
-
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\n>> {Name} erreicht Level {Level}!");
-                Console.ResetColor();
-
-                // Werteverbesserung
-                MaximaleLebenspunkte += 10;
-                Lebenspunkte = MaximaleLebenspunkte;
-                Angriff += 2;
-                Verteidigung += 1;
-            }
+            Console.WriteLine($"\n{Name} erhält {erfahrung} Erfahrungspunkte!");
+            LevelUp();  // → Hier wird automatisch geprüft, ob ein Level-Up erfolgt
         }
 
 
@@ -50,7 +36,6 @@ namespace Digimon_Textadventure
             ErstellePatamon()
         };
         }
-
         public static Digimon WaehleStartDigimon()
         {
             var digimonListe = VerfügbareStartDigimon();
@@ -82,7 +67,6 @@ namespace Digimon_Textadventure
             gewaehltesDigimon.ZeigeProfil();
             return gewaehltesDigimon;
         }
-
         public static Digimon ErstelleAgumon() => new Digimon
         {
             Name = "Agumon",
@@ -93,7 +77,6 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Feuerstoß"
         };
-
         public static Digimon ErstelleGabumon() => new Digimon
         {
             Name = "Gabumon",
@@ -104,7 +87,6 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Eisblock"
         };
-
         public static Digimon ErstellePatamon() => new Digimon
         {
             Name = "Patamon",
@@ -125,7 +107,6 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Blitzschlag"
         };
-
         public static Digimon ErstelleVeemon() => new Digimon
         {
             Name = "Veemon",
@@ -136,7 +117,6 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Power-Schlag"
         };
-
         public static Digimon ErstelleGomamon() => new Digimon
         {
             Name = "Gomamon",
@@ -147,11 +127,12 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Wasserblase"
         };
-
         public void ZeigeProfil()
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("=== DIGIMON PROFIL ===");
+            Console.ResetColor();
+
             Console.WriteLine($"Name: {Name}");
             Console.WriteLine($"Stufe: {Stufe}");
             Console.WriteLine($"Lebenspunkte: {Lebenspunkte}/{MaximaleLebenspunkte}");
@@ -160,17 +141,26 @@ namespace Digimon_Textadventure
             Console.WriteLine($"Level: {Level}");
             Console.WriteLine($"Erfahrung: {Erfahrung}/{ErfahrungFürNaechstesLevel}");
 
-            // Fortschritt berechnen
+            ZeigeLevelFortschritt(animiert: false);
+
+            if (!string.IsNullOrEmpty(Spezialattacke))
+                Console.WriteLine($"Spezialfähigkeit: {Spezialattacke}");
+
+            if (SpezialVerwendet)
+                Console.WriteLine("Spezialfähigkeit wurde in diesem Kampf eingesetzt!");
+
+            Console.WriteLine("=======================");
+        }
+        public void ZeigeLevelFortschritt(bool animiert)
+        {
             int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
-            
-            // Animierter Fortschrittsbalken
+
             Console.Write("Level-Fortschritt: [");
 
             for (int i = 0; i < 20; i++)
             {
                 if (i < fortschritt)
                 {
-                    // Farbe je nach Fortschritt setzen
                     if (i < 6)
                         Console.ForegroundColor = ConsoleColor.Red;
                     else if (i < 14)
@@ -186,20 +176,40 @@ namespace Digimon_Textadventure
                     Console.Write("-");
                 }
 
-                Thread.Sleep(50); // Animations-Geschwindigkeit (kann angepasst werden)
+                if (animiert) Thread.Sleep(50);
             }
-            Console.WriteLine("]");
+
             Console.ResetColor();
-            
-
-
+            Console.WriteLine($"] {fortschritt * 5}%");
         }
+        public void LevelUp()
+        {
+            while (Erfahrung >= ErfahrungFürNaechstesLevel)
+            {
+                Erfahrung -= ErfahrungFürNaechstesLevel;
+                Level++;
 
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"\n>> {Name} hat ein neues Level erreicht! Jetzt Level {Level}!");
+                Console.ResetColor();
 
+                // Werte verbessern
+                MaximaleLebenspunkte += 10;
+                Lebenspunkte = MaximaleLebenspunkte;
+                Angriff += 5;
+                Verteidigung += 2;
+
+                Console.WriteLine($"- Neue Lebenspunkte: {MaximaleLebenspunkte}");
+                Console.WriteLine($"- Neuer Angriff: {Angriff}");
+                Console.WriteLine($"- Neue Verteidigung: {Verteidigung}");
+
+                // Animierter Fortschrittsbalken nach Level-Up
+                ZeigeLevelFortschritt(animiert: true);
+            }
+        }
         public void FuehreSpezialAttackeAus(Digimon gegner)
         {
             int schaden = 0;
-
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine($"{Name} setzt {Spezialattacke} ein!");
             Console.ResetColor();
@@ -207,17 +217,9 @@ namespace Digimon_Textadventure
             switch (Spezialattacke)
             {
                 case "Feuerstoß":
-                    schaden = (int)(Angriff * 1.5) - gegner.Verteidigung;
-                    break;
-
                 case "Eisblock":
-                    schaden = (int)(Angriff * 1.5) - gegner.Verteidigung;
-                    break;
-
                 case "Windstoß":
-                    // Windstoß: Immer 20% der aktuellen LP des Gegners als Schaden
-                    schaden = (int)(gegner.Lebenspunkte * 0.2);
-                    if (schaden < 1) schaden = 1; // Mindestens 1 Schaden
+                    schaden = (int)(gegner.Lebenspunkte * 0.5);
                     break;
 
                 default:
@@ -232,7 +234,6 @@ namespace Digimon_Textadventure
             Console.WriteLine($"{gegner.Name} erleidet {schaden} Schaden durch {Spezialattacke}.");
             Console.WriteLine($"{gegner.Name} hat noch {gegner.Lebenspunkte} LP.\n");
         }
-
 
     }
 
