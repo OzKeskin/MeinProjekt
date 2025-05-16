@@ -27,6 +27,7 @@ namespace Digimon_Textadventure
             Console.Clear();
 
         }
+
         public static void ErzaehleLebensAmulettGeschichte(Spieler spieler)
         {
             Console.Clear();
@@ -53,6 +54,7 @@ namespace Digimon_Textadventure
             Console.ReadLine();
             Console.Clear();
         }
+
         public static void ErzaehleKraftAmulettGeschichte(Spieler spieler)
         {
             Console.Clear();
@@ -76,15 +78,6 @@ namespace Digimon_Textadventure
             Console.Clear();
         }
 
-        public static void Zwischensequenz(string ort)
-        {
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine($"\nEine neue Geschichte entfaltet sich am Ort: {ort}...");
-            Console.ResetColor();
-            Console.WriteLine("Aber was erwartet dich dort wirklich? Gefahr oder ein neues Abenteuer?");
-            Console.WriteLine("\nDrücke [ENTER], um weiterzuziehen...");
-            Console.ReadLine();
-        }
 
         public static void ErzaehleAbschluss()
         {

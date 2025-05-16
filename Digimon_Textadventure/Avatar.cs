@@ -8,19 +8,20 @@ namespace Digimon_Textadventure
 {
     public class Avatar
     {
-        public string Name { get; set; }
-        public string Beschreibung { get; set; }
-        public string StartItem { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Beschreibung { get; set; } = string.Empty;
+        public string StartItem { get; set; } = string.Empty;
+
+        public Avatar() { }
 
         // Vorgefertigte, nicht änderbare Avatare
-        public static List<Avatar> VerfügbareAvatare() => 
-            [
+        public static List<Avatar> VerfügbareAvatare() => new()
+    {
         new Avatar
         {
             Name = "Taichi",
             Beschreibung = "Ein junger, mutiger und entschlossener Abenteurer.",
             StartItem = "Digivice"
-
         },
         new Avatar
         {
@@ -34,9 +35,8 @@ namespace Digimon_Textadventure
             Beschreibung = "Eine ruhige Kämpferin mit großem Herzen.",
             StartItem = "Digivice"
         }
-    ];
+    };
 
-        // Avatar direkt auswählen
         public static Avatar WaehleAvatar()
         {
             var avatare = VerfügbareAvatare();
@@ -47,7 +47,7 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"[{i + 1}] {avatare[i].Name} - {avatare[i].Beschreibung}");
             }
 
-            int auswahl;
+            int auswahl = 0;
             while (true)
             {
                 Console.Write("\nDeine Wahl: ");
@@ -55,15 +55,15 @@ namespace Digimon_Textadventure
 
                 if (int.TryParse(input, out auswahl) && auswahl >= 1 && auswahl <= avatare.Count)
                 {
-                    break; // Gültige Auswahl, Schleife beenden
+                    break;
                 }
 
-                Console.WriteLine("Ungültige Eingabe. Bitte wähle eine gültige Zahl.");
+                Console.WriteLine("Ungültige Eingabe. Bitte eine Zahl zwischen 1 und 3 eingeben.");
             }
 
-
             Console.Clear();
-            Avatar gewaehlterAvatar = avatare[auswahl - 1];
+            var gewaehlterAvatar = avatare[auswahl - 1];
+
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"Du hast den Avatar {gewaehlterAvatar.Name} gewählt!\n");
             Console.ResetColor();
@@ -71,7 +71,4 @@ namespace Digimon_Textadventure
             return gewaehlterAvatar;
         }
     }
-
-
-
 }

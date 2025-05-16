@@ -12,7 +12,8 @@ namespace Digimon_Textadventure
         private int spezialCooldown = 0;
         private int gegnerSpezialCooldown = 0;
         private bool heilungVerwendet = false;
-
+        private bool kampfVerlassen = false;
+        
         public Kampf(Spieler spieler, Digimon gegnerDigimon, Digimon spielerDigimon)
         {
             this.spieler = spieler;
@@ -20,7 +21,7 @@ namespace Digimon_Textadventure
             this.gegnerDigimon = gegnerDigimon;
             this.runde = 1;
         }
-
+        
         public void StarteKampf()
         {
             Console.Clear();
@@ -32,25 +33,39 @@ namespace Digimon_Textadventure
             Console.ReadLine();
             Console.Clear();
 
-            while (spielerDigimon.Lebenspunkte > 0 && gegnerDigimon.Lebenspunkte > 0)
+            while (spielerDigimon.Lebenspunkte > 0 && gegnerDigimon.Lebenspunkte > 0 && !kampfVerlassen) // Flag prüfen
             {
                 ZeigeStatus();
                 SpielerAktion();
 
+                if (kampfVerlassen) break; // Kampf abbrechen, wenn Flag gesetzt
+
                 if (gegnerDigimon.Lebenspunkte <= 0) break;
 
                 GegnerAktion();
-                runde++;
+
                 Console.WriteLine("\nDrücke [ENTER], um die nächste Runde zu starten...");
                 Console.ReadLine();
                 Console.Clear();
 
-                
+                runde++;
             }
 
-            ZeigeKampfErgebnis();
-        }
+            if (!kampfVerlassen)
+            {
+                ZeigeKampfErgebnis();
+            }
+            else
+            {
+                Console.WriteLine("\nDu hast erfolgreich den Kampf verlassen und kehrst in die Digiwelt zurück...");
+                Console.ReadLine();
+                BewegungsManager.BewegeSpieler(spieler);
+            }
 
+            // Zurück in die Digiwelt
+            BewegungsManager.BewegeSpieler(spieler);
+        }
+        
         private void ZeigeStatus()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -72,7 +87,7 @@ namespace Digimon_Textadventure
             Console.WriteLine("==========================================");
             Console.ResetColor();
         }
-
+        
         private void SpielerAktion()
         {
             Console.WriteLine("Wähle eine Aktion:");
@@ -109,8 +124,7 @@ namespace Digimon_Textadventure
                     Verteidigen();
                     break;
                 case "5":
-                    Console.WriteLine("\nDu flüchtest aus dem Kampf!");
-                    Console.ReadLine();
+                    kampfVerlassen = true;  // Setze das Flag, um den Kampf zu verlassen
                     return;
                 default:
                     Console.WriteLine("\nUngültige Eingabe.");
@@ -120,7 +134,7 @@ namespace Digimon_Textadventure
             if (spezialCooldown > 0)
                 spezialCooldown--;
         }
-
+        
         private static void SpezialAngriffAnimation()
         {
             Console.Write("\nSpezialfähigkeit wird vorbereitet");
@@ -131,7 +145,7 @@ namespace Digimon_Textadventure
             }
             Console.WriteLine("\n");
         }
-
+        
         private void Heilen()
         {
             if (heilungVerwendet)
@@ -145,13 +159,13 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"\n{spielerDigimon.Name} wurde um 30 LP geheilt!");
             }
         }
-
+        
         private void Verteidigen()
         {
             Console.WriteLine($"\n{spielerDigimon.Name} verteidigt sich! Verteidigung +5 für diese Runde.");
             spielerDigimon.Verteidigung += 5;
         }
-
+        
         private void GegnerAktion()
         {
             Random rnd = new ();
@@ -191,7 +205,7 @@ namespace Digimon_Textadventure
             if (gegnerSpezialCooldown > 0)
                 gegnerSpezialCooldown--;
         }
-
+        
         private void FuehreAngriffAus(Digimon angreifer, Digimon verteidiger)
         {
             Random rnd = new ();
@@ -205,14 +219,14 @@ namespace Digimon_Textadventure
             verteidiger.Lebenspunkte -= schaden;
             verteidiger.Lebenspunkte = Math.Max(verteidiger.Lebenspunkte, 0);
         }
-
+        
         private static int BerechneNormalenSchaden(int angriff, int verteidigung, bool kritisch)
         {
             int schaden = angriff - verteidigung;
             if (kritisch) schaden *= 2;
             return schaden < 1 ? 1 : schaden;
         }
-
+        
         private void ZeigeKampfErgebnis()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;

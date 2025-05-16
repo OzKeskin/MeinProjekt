@@ -12,22 +12,23 @@ namespace Digimon_Textadventure
     {
         public string Name { get; set; }
         public Avatar Avatar { get; set; }
-        public Ort AktuellerOrt { get; set; }
-        public List<string> Inventar { get; set; } = [];
+        public Ort AktuellerOrt { get; set; } = Ort.ErstelleWelt();                     // Spieler startet im Heimatwald oder Start-Ort
+        public List<string> Inventar { get; set; } = new List<string>();
         public Digimon DigimonPartner { get; set; }
-
+        public Spieler(){}
+        public bool HatDevimonGesehen { get; set; } = false;
+        //public string? AktuellerOrtName { get; set; }
         public Spieler(string name, Avatar avatar)
         {
             Name = name;
             Avatar = avatar;
-            AktuellerOrt = Ort.ErstelleWelt(); // Spieler startet im Heimatwald oder Start-Ort
+            AktuellerOrt = Ort.ErstelleWelt();                                  // Spieler startet im Heimatwald oder Start-Ort
 
             if (!string.IsNullOrEmpty(avatar.StartItem))
             {
-                Inventar.Add(avatar.StartItem); // Start-Item vom Avatar ins Inventar legen
+                Inventar.Add(avatar.StartItem);                                 // Start-Item vom Avatar ins Inventar legen
             }
         }
-
 
         public void ZeigeProfil()
         {
@@ -54,6 +55,7 @@ namespace Digimon_Textadventure
 
             Console.WriteLine("==========================\n");
         }
+        
         public void ZeigeInventar()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -75,7 +77,7 @@ namespace Digimon_Textadventure
             Console.WriteLine("\nDrücke [ENTER], um fortzufahren...");
             Console.ReadLine();
         }
-
+        
         public void ItemHinzufuegen(string item)
         {
             if (!string.IsNullOrWhiteSpace(item))
@@ -84,7 +86,7 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"\n>> {item} wurde dem Inventar hinzugefügt.");
             }
         }
-
+        
         public void ItemEntfernen(string item)
         {
             if (Inventar.Contains(item))

@@ -18,7 +18,9 @@ namespace Digimon_Textadventure
 
         // Level- und Erfahrungssystem
         public int Level { get; set; } = 1;
+        
         public int Erfahrung { get; set; } = 0;
+        
         public int ErfahrungFürNaechstesLevel 
         {
             get
@@ -36,6 +38,7 @@ namespace Digimon_Textadventure
         
         
         }
+        
         // Level-Up & Erfahrungsmethode
         public void VergibErfahrung(int erfahrung,Spieler spieler)
         {
@@ -43,6 +46,7 @@ namespace Digimon_Textadventure
             ZeigeLevelFortschritt(animiert: true);                              // fortschrittsbalken direkt nach XP-Gewinn
             LevelUp(spieler);                                                   // hier wird automatisch geprüft ob ein Level-Up erfolgt
         }
+        
         public void LevelUp(Spieler spieler)
         {
             while (Erfahrung >= ErfahrungFürNaechstesLevel)
@@ -51,7 +55,7 @@ namespace Digimon_Textadventure
                 Level++;
 
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine($"\n>> {Name} erreicht Level{Level}!");
+                Console.WriteLine($"\n>> {Name} erreicht Level {Level}!");
                 Console.ResetColor();
 
                 // Werte verbessern
@@ -82,6 +86,7 @@ namespace Digimon_Textadventure
                 }
             }
         }
+        
         private void FühreWeiterentwicklungDurch(Spieler spieler)
         {
             switch (Name)
@@ -118,6 +123,7 @@ namespace Digimon_Textadventure
             Console.WriteLine($"\n>> {Name} hat sich erfolgreich weiterentwickelt!");
             Console.ResetColor();
         }
+        
         public void ZeigeProfil()
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -143,6 +149,7 @@ namespace Digimon_Textadventure
             Console.ResetColor();
 
         }
+        
         public void ZeigeLevelFortschritt(bool animiert)
         {
             int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
@@ -174,8 +181,7 @@ namespace Digimon_Textadventure
             Console.ResetColor();
             Console.WriteLine($"] {fortschritt * 5}%");
         }
-
-
+        
         public static List<Digimon> VerfügbareStartDigimon()
         {
             return 
@@ -185,6 +191,7 @@ namespace Digimon_Textadventure
             ErstellePatamon()
         ];
         }
+        
         public static Digimon WaehleStartDigimon()
         {
             var digimonListe = VerfügbareStartDigimon();
@@ -225,6 +232,7 @@ namespace Digimon_Textadventure
             gewaehltesDigimon.ZeigeProfil();
             return gewaehltesDigimon;
         }
+        
         public static Digimon ErstelleAgumon() => new ()
         {
             Name = "Agumon",
@@ -236,6 +244,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Feuerstoß"
         };
+        
         public static Digimon ErstelleGabumon() => new ()
         {
             Name = "Gabumon",
@@ -247,6 +256,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Eisblock"
         };
+        
         public static Digimon ErstellePatamon() => new ()
         {
             Name = "Patamon",
@@ -258,6 +268,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Windstoß"
         };
+        
         public static Digimon ErstelleBetamon() => new ()
         {
             Name = "Betamon",
@@ -269,6 +280,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Blitzschlag"
         };
+        
         public static Digimon ErstelleVeemon() => new ()
         {
             Name = "Veemon",
@@ -281,6 +293,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Power-Schlag"
         };
+        
         public static Digimon ErstelleGomamon() => new ()
         {
             Name = "Gomamon",
@@ -292,6 +305,21 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Wasserblase"
         };
+
+        // Boss-Digimon
+        public static Digimon ErstelleDevimon() => new ()
+        {
+            Name = "Devimon",
+            Lebenspunkte = 500,
+            MaximaleLebenspunkte = 500,
+            Angriff = 50,
+            Verteidigung = 30,
+            BasisVerteidigung = 30,
+            Stufe = "Champion",
+            Spezialattacke = "Todeskralle, Böse Flügel",                            // Beide Attacken als Hinweis
+            WurdeWeiterentwickelt = true                                            // Damit keine weitere Entwicklung erfolgt
+        };
+        
         public void FuehreSpezialAttackeAus(Digimon gegner)
         {
             int schaden = 0;

@@ -38,7 +38,7 @@ namespace Digimon_Textadventure
 
                 Console.WriteLine("\n[Tippe eine Richtung ein, 'm' für Menü oder 'exit' zum Verlassen]");
                 Console.Write("Eingabe: ");
-                eingabe = Console.ReadLine()?.ToLower() ?? "";
+                eingabe = Console.ReadLine()??"".ToLower() ?? "";
 
                 if (eingabe == "m")
                 {
@@ -62,7 +62,7 @@ namespace Digimon_Textadventure
             Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER]...");
             Console.ReadLine();
         }
-
+        
         private static void PrüfeAmulettGeschichten(Spieler spieler)
         {
             var digimon = spieler.DigimonPartner;
@@ -77,7 +77,41 @@ namespace Digimon_Textadventure
                 StoryManager.ErzaehleKraftAmulettGeschichte(spieler);
             }
         }
+        
+        public static void PrüfeDevimonBegegnung(Spieler spieler)
+        {
+            if (spieler == null || spieler.DigimonPartner == null) return;
 
+            // Devimon erscheint nur ab Level 3 und nur einmal
+            if (spieler.DigimonPartner.Level >= 3 && !spieler.HatDevimonGesehen)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("\nEine dunkle Präsenz erfüllt plötzlich die Luft...");
+                Thread.Sleep(1000);
+                Console.WriteLine("Eine finstere Gestalt tritt aus dem Schatten hervor...");
+                Thread.Sleep(1500);
+                Console.WriteLine("\n>> DEVIMON erscheint kurz vor dir! <<");
+                Thread.Sleep(1500);
+
+                // Devimon spricht
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nDevimon: \"Ah, ein kleiner Digiritter wagt es also, meine Welt zu betreten...\"");
+                Thread.Sleep(2000);
+                Console.WriteLine("Devimon: \"Genieße deine letzten friedlichen Momente, wir sehen uns bald...\"");
+                Thread.Sleep(2000);
+                Console.WriteLine("\n* Mit einem düsteren Lachen verschwindet Devimon wieder im Schatten... *");
+                Console.ResetColor();
+
+                // Markiere, dass Devimon bereits gesehen wurde, um ein erneutes Erscheinen zu verhindern
+                spieler.HatDevimonGesehen = true;
+
+                Console.WriteLine("\nDrücke [ENTER], um dich zu sammeln...");
+                Console.ReadLine();
+                Console.Clear();
+            }
+        }
+        
         public static void ZeigeSpielerMenue(Spieler spieler)
         {
             bool imMenue = true;
@@ -127,13 +161,13 @@ namespace Digimon_Textadventure
                 }
             }
         }
-
+        
         private static void Pause()
         {
             Console.WriteLine("\nDrücke [ENTER], um fortzufahren...");
             Console.ReadLine();
         }
-
+        
         private static void LoeseZufallsEreignisAus(Spieler spieler)
         {
             int ereignis = random.Next(1, 101);
@@ -160,5 +194,7 @@ namespace Digimon_Textadventure
                 Pause();
             }
         }
+        
+
     }
 }

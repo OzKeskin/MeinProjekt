@@ -3,31 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Digimon_Textadventure;
 
 
 
     namespace Digimon_Textadventure
     {
-    public class Ort
+    public class Ort(string name, string beschreibung, int benoetigtesLevel = 1)
     {
-        public string Name { get; set; } 
-        public string Beschreibung { get; set; } 
-        public Dictionary<string, Ort> Verbindungen { get; set; } = [];
-        // In der Klasse Ort
-        public int BenoetigtesLevel { get; set; } = 1; // Standardmäßig frei zugänglich
-
-        // Konstruktor
-        public Ort(string name, string beschreibung, int benoetigtesLevel = 1)
-        {
-            Name = name;
-            Beschreibung = beschreibung;
-            BenoetigtesLevel = benoetigtesLevel;
-        }
-
-
-
-        // Muss noch verwiesen werden
+        public string Name { get; } = name;
+        public string Beschreibung { get; } = beschreibung;
+        public int BenoetigtesLevel { get; } = benoetigtesLevel;
+        public Dictionary<string, Ort> Verbindungen { get; } = new();
+        
         // Ort betreten Methode (Anzeige mit Level-Sperre)
         public void Betreten(Spieler spieler)
         {
@@ -36,25 +25,27 @@ using Digimon_Textadventure;
             Console.ResetColor();
             Console.WriteLine($"{Beschreibung}");
 
+            BewegungsManager.PrüfeDevimonBegegnung(spieler);
+
             Console.WriteLine("\nVon hier aus kannst du in folgende Richtungen gehen:");
+            int digimonLevel = spieler.DigimonPartner?.Level ?? 0;
 
             foreach (var richtung in Verbindungen.Keys)
             {
                 var zielOrt = Verbindungen[richtung];
-                bool zugangErlaubt = spieler.DigimonPartner != null && spieler.DigimonPartner.Level >= zielOrt.BenoetigtesLevel;
+                bool zugangErlaubt = digimonLevel >= zielOrt.BenoetigtesLevel;
 
-                if (zugangErlaubt)
+                if (zielOrt.Name == "Berg der Unendlichkeit" && digimonLevel < 5)
                 {
-                    Console.WriteLine($"- {richtung} nach {zielOrt.Name} (ab Level {zielOrt.BenoetigtesLevel})");
+                    zugangErlaubt = false;
                 }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"- {richtung} nach ??? (ab Level {zielOrt.BenoetigtesLevel} freigeschaltet!)");
-                    Console.ResetColor();
-                }
+
+                Console.WriteLine(zugangErlaubt
+                    ? $"- {richtung} nach {zielOrt.Name}"
+                    : $"- {richtung} nach ??? (Zugang ab Level {zielOrt.BenoetigtesLevel})");
             }
         }
+        
         public static Ort ErstelleWelt()
         {
             // Orte erstellen
@@ -106,11 +97,26 @@ using Digimon_Textadventure;
             // Start-Ort festlegen
             return heimatwald;
         }
+        
+        public static Ort FindeOrtNachName(string name)
+        {
+            var startOrt = ErstelleWelt(); // Weltstruktur aufbauen
+            return SucheOrtRekursiv(startOrt, name);
+        }
+        
+        private static Ort SucheOrtRekursiv(Ort ort, string name)
+        {
+            if (ort.Name == name) return ort;
 
+            foreach (var verbindung in ort.Verbindungen.Values)
+            {
+                var gefundenerOrt = SucheOrtRekursiv(verbindung, name);
+                if (gefundenerOrt != null) return gefundenerOrt;
+            }
+
+            return null;
+        }
     }
-
-
-
 }
 
 

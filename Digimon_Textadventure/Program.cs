@@ -14,13 +14,13 @@
             //     - Leere Eingaben abfangen
             //     - Wiederholung der Eingabe bei Fehlern
 
-            // [ ] Kampf- und Statussystem prüfen
+            // [x] Kampf- und Statussystem prüfen
             //     - Spezialattacke nur alle 3 Runden nutzbar?
             //     - Heilung und Verteidigung funktionieren korrekt?
             //     - Schadensberechnung funktioniert erwartungsgemäß?
             //     - Statusanzeige ist sauber formatiert (Alignment)?
 
-            // [ ] Erfahrung & Levelsystem testen
+            // [x] Erfahrung & Levelsystem testen
             //     - Erfahrung wird korrekt vergeben?
             //     - Level-Up ab richtiger XP-Schwelle?
             //     - Statuswerte (ATK, DEF, LP) steigen korrekt beim Level-Up?

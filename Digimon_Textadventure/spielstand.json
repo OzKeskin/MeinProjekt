@@ -1,0 +1,165 @@
+{
+  "$id": "1",
+  "Name": "Oguz",
+  "Avatar": {
+    "$id": "2",
+    "Name": "Taichi",
+    "Beschreibung": "Ein junger, mutiger und entschlossener Abenteurer.",
+    "StartItem": "Digivice"
+  },
+  "AktuellerOrt": {
+    "$id": "3",
+    "Name": "Heimatwald",
+    "Beschreibung": "Der Ausgangspunkt deiner Reise durch die Digiwelt.",
+    "BenoetigtesLevel": 1,
+    "Verbindungen": {
+      "$id": "4",
+      "norden": {
+        "$id": "5",
+        "Name": "Panoramaberg",
+        "Beschreibung": "Von hier aus hast du einen gro\u00DFartigen Blick auf die Digiwelt.",
+        "BenoetigtesLevel": 1,
+        "Verbindungen": {
+          "$id": "6",
+          "s\u00FCden": {
+            "$ref": "3"
+          },
+          "osten": {
+            "$id": "7",
+            "Name": "Schattenvilla",
+            "Beschreibung": "Eine d\u00FCstere Ruine, in der Gefahren lauern.",
+            "BenoetigtesLevel": 1,
+            "Verbindungen": {
+              "$id": "8",
+              "westen": {
+                "$ref": "5"
+              },
+              "osten": {
+                "$id": "9",
+                "Name": "Stadt des ewigen Anfangs",
+                "Beschreibung": "Hier beginnt jedes digitale Leben von Neuem.",
+                "BenoetigtesLevel": 1,
+                "Verbindungen": {
+                  "$id": "10",
+                  "westen": {
+                    "$ref": "7"
+                  }
+                }
+              }
+            }
+          },
+          "norden": {
+            "$id": "11",
+            "Name": "Fabrikstadt",
+            "Beschreibung": "Hier werden m\u00E4chtige Digimon erschaffen.",
+            "BenoetigtesLevel": 1,
+            "Verbindungen": {
+              "$id": "12",
+              "s\u00FCden": {
+                "$id": "13",
+                "Name": "Tempel des Digivices",
+                "Beschreibung": "Ein uralter Tempel, der gro\u00DFe Geheimnisse birgt.",
+                "BenoetigtesLevel": 1,
+                "Verbindungen": {
+                  "$id": "14",
+                  "westen": {
+                    "$id": "15",
+                    "Name": "Tropendschungel",
+                    "Beschreibung": "Ein dichter Dschungel voller geheimnisvoller Digimon.",
+                    "BenoetigtesLevel": 1,
+                    "Verbindungen": {
+                      "$id": "16",
+                      "norden": {
+                        "$ref": "3"
+                      },
+                      "osten": {
+                        "$ref": "13"
+                      }
+                    }
+                  },
+                  "norden": {
+                    "$ref": "11"
+                  }
+                }
+              },
+              "norden": {
+                "$id": "17",
+                "Name": "Berg der Unendlichkeit",
+                "Beschreibung": "Hier erwartet dich der finale Kampf gegen Devimon!",
+                "BenoetigtesLevel": 5,
+                "Verbindungen": {
+                  "$id": "18",
+                  "s\u00FCden": {
+                    "$ref": "11"
+                  }
+                }
+              },
+              "westen": {
+                "$id": "19",
+                "Name": "Zahnradsteppe",
+                "Beschreibung": "Ein \u00F6des, windgepeitschtes Land mit alten Maschinen.",
+                "BenoetigtesLevel": 1,
+                "Verbindungen": {
+                  "$id": "20",
+                  "osten": {
+                    "$ref": "11"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "osten": {
+        "$id": "21",
+        "Name": "Spielzeugstadt",
+        "Beschreibung": "Eine bunte Stadt voller R\u00E4tsel und versteckter Sch\u00E4tze.",
+        "BenoetigtesLevel": 1,
+        "Verbindungen": {
+          "$id": "22",
+          "westen": {
+            "$ref": "3"
+          }
+        }
+      },
+      "westen": {
+        "$id": "23",
+        "Name": "Strand von File Island",
+        "Beschreibung": "Ein ruhiger Strand mit dem Rauschen der digitalen Wellen.",
+        "BenoetigtesLevel": 1,
+        "Verbindungen": {
+          "$id": "24",
+          "osten": {
+            "$ref": "3"
+          }
+        }
+      },
+      "s\u00FCden": {
+        "$ref": "15"
+      }
+    }
+  },
+  "Inventar": {
+    "$id": "25",
+    "$values": [
+      "Digivice"
+    ]
+  },
+  "DigimonPartner": {
+    "$id": "26",
+    "Name": "Agumon",
+    "Lebenspunkte": 100,
+    "MaximaleLebenspunkte": 100,
+    "Angriff": 20,
+    "Verteidigung": 10,
+    "BasisVerteidigung": 10,
+    "Stufe": "Rookie",
+    "Spezialattacke": "Feuersto\u00DF",
+    "SpezialVerwendet": false,
+    "WurdeWeiterentwickelt": false,
+    "Level": 1,
+    "Erfahrung": 0,
+    "ErfahrungF\u00FCrNaechstesLevel": 100
+  },
+  "HatDevimonGesehen": false
+}
