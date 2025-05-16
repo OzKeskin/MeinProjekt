@@ -48,7 +48,7 @@ namespace Digimon_Textadventure
                 Console.WriteLine("\n[Tippe eine Richtung ein, 'm' für Menü oder 'exit' zum Verlassen]");
                 Console.Write("Eingabe: ");
                 eingabe = Console.ReadLine()?.ToLower() ?? "";
-
+                Console.Clear();
                 if (eingabe == "m")
                 {
                     ZeigeSpielerMenue(spieler);
