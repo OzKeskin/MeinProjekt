@@ -38,15 +38,27 @@ namespace Digimon_Textadventure
         
         
         }
-        
+
         // Level-Up & Erfahrungsmethode
-        public void VergibErfahrung(int erfahrung,Spieler spieler)
+        public void VergibErfahrung(int erfahrung, Spieler spieler)
         {
             Erfahrung += erfahrung;
-            ZeigeLevelFortschritt(animiert: true);                              // fortschrittsbalken direkt nach XP-Gewinn
-            LevelUp(spieler);                                                   // hier wird automatisch geprüft ob ein Level-Up erfolgt
+
+            if (ErfahrungFürNaechstesLevel == 0)
+            {
+                // Max Level erreicht, Erfahrung zählt trotzdem weiter.
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine($"\n>> {Name} hat bereits das maximale Level erreicht! Erfahrung wird weiterhin gesammelt: {Erfahrung} XP.");
+                Console.ResetColor();
+            }
+            else
+            {
+                ZeigeLevelFortschritt(animiert: true);
+                LevelUp(spieler);
+            }
         }
-        
+
+
         public void LevelUp(Spieler spieler)
         {
             while (Erfahrung >= ErfahrungFürNaechstesLevel)

@@ -236,37 +236,28 @@ namespace Digimon_Textadventure
             Console.WriteLine("\n===== KAMPF ERGEBNIS =====");
             Console.ResetColor();
 
+            int erfahrungspunkte = spielerDigimon.Lebenspunkte > 0 ? 100 : 50;
+
             if (spielerDigimon.Lebenspunkte > 0)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\n>> {spielerDigimon.Name} hat den Kampf GEWONNEN! <<");
-                Console.ResetColor();
-
-                int erfahrungspunkte = 100;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
-                Console.ResetColor();
-
-                spielerDigimon.VergibErfahrung(erfahrungspunkte, spieler);
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"\n>> {spielerDigimon.Name} wurde im Kampf BESIEGT... <<");
-                Console.ResetColor();
-
-                int erfahrungspunkte = 50;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\n>> {spielerDigimon.Name} erhält trotzdem {erfahrungspunkte} Erfahrungspunkte.");
-                Console.ResetColor();
-
-                spielerDigimon.VergibErfahrung(erfahrungspunkte, spieler);
             }
+            Console.ResetColor();
 
-            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
+            Console.ResetColor();
+
+            spielerDigimon.VergibErfahrung(erfahrungspunkte, spieler);
+
             spieler.ZeigeProfil();
 
-            
             spielerDigimon.ZeigeProfil();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
