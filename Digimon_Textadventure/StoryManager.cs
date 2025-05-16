@@ -79,17 +79,85 @@ namespace Digimon_Textadventure
         }
 
 
-        public static void ErzaehleAbschluss()
+        public static void ErzaehleAbschlussGeschichte(Spieler spieler)
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nDu hast das Abenteuer erfolgreich gemeistert!");
-            Console.WriteLine("Doch dies ist erst der Anfang deiner wahren Reise...");
-            Console.WriteLine("\nDanke fürs Spielen! Bis bald in der Digiwelt!");
+            Console.WriteLine("ABSCHLUSS-GESCHICHTE – DER SIEG DER LICHTKRIEGER");
             Console.ResetColor();
 
-            Console.WriteLine("\nDrücke [ENTER], um das Spiel zu beenden...");
+            string[] abspann =
+            {
+                    "",
+                        "Nach dem langen und harten Kampf gegen Devimon kehrt wieder Frieden in die Digiwelt ein...",
+                        "Die dunklen Wolken verziehen sich, die Sonne scheint heller als je zuvor.",
+                        "Die Digimon feiern den Sieg der Lichtkrieger mit einem großen Fest.",
+                        "",
+                        "Meister Gekai tritt zu dir und spricht:",
+                        "\"Du hast Mut, Weisheit und ein großes Herz bewiesen, mutiger Digiritter.\"",
+                        "\"Dank dir ist das Gleichgewicht der Digiwelt wiederhergestellt.\"",
+                        "",
+                        "Dein Abenteuer wird in den Chroniken der Digiwelt für alle Zeiten weiterleben...",
+                        "",
+                        "Drücke [ENTER], um den Abspann zu sehen..."
+            };
+
+            foreach (string zeile in abspann)
+            {
+                foreach (char buchstabe in zeile)
+                {
+                    Console.Write(buchstabe);
+                    Thread.Sleep(30); // Geschwindigkeit der Animation
+                }
+                Console.WriteLine();
+                Thread.Sleep(300); // Kurze Pause nach jeder Zeile
+            }
             Console.ReadLine();
+
+            // Abspann Animation
+            ZeigeAbspann(spieler.Name);
+
         }
+
+        public static void ZeigeAbspann(string spielerName)
+        {
+            Console.Clear();
+            string[] abspannTexte =
+            {
+                        "=== DIGIMON TEXTADVENTURE - ABSPANN ===",
+                        "",
+                        $"Danke, mutiger Digiritter {spielerName}, dass du dich auf diese Reise begeben hast.",
+                        "Gemeinsam mit deinem treuen Digimon-Partner hast du alle Prüfungen gemeistert,",
+                        "Freundschaften geschlossen und das Gleichgewicht der Digiwelt wiederhergestellt.",
+                        "",
+                        "Doch vergiss nie…",
+                        "\"Das größte Abenteuer beginnt dort, wo der Mut stärker ist als die Angst.\"",
+                        "",
+                        "Dein Abenteuer endet hier – aber deine Legende wird ewig weiterleben. ",
+                        "",
+                        "Drücke [ENTER], um das Spiel zu beenden..."
+            };
+
+            foreach (string zeile in abspannTexte)
+            {
+                Console.WriteLine(zeile);
+                Thread.Sleep(500);                                                                                      // Pause zwischen den Zeilen für dramatische Wirkung
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\r>> DANKE FÜR'S SPIELEN! <<   ");
+                Thread.Sleep(400);
+                Console.Write("\r                           ");
+                Thread.Sleep(400);
+                Console.ResetColor();
+            }
+
+            Console.ReadLine();
+            Environment.Exit(0);                                                                                        // Spiel sauber beenden
+        }
+
     }
 
 

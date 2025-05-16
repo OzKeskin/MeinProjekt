@@ -16,36 +16,50 @@ using Digimon_Textadventure;
         public string Beschreibung { get; } = beschreibung;
         public int BenoetigtesLevel { get; } = benoetigtesLevel;
         public Dictionary<string, Ort> Verbindungen { get; } = new();
-        
+
         // Ort betreten Methode (Anzeige mit Level-Sperre)
         public void Betreten(Spieler spieler)
         {
+            BewegungsManager.PrüfeDevimonBegegnung(spieler);
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\n=== Du befindest dich am {Name} ===");
             Console.ResetColor();
             Console.WriteLine($"{Beschreibung}");
 
-            BewegungsManager.PrüfeDevimonBegegnung(spieler);
+            // Pfad nur ab Level 5 anzeigen
+            if (spieler.DigimonPartner?.Level >= 5)
+            {
+                ZeigeRichtungspfad();
+            }
 
             Console.WriteLine("\nVon hier aus kannst du in folgende Richtungen gehen:");
-            int digimonLevel = spieler.DigimonPartner?.Level ?? 0;
-
             foreach (var richtung in Verbindungen.Keys)
             {
                 var zielOrt = Verbindungen[richtung];
-                bool zugangErlaubt = digimonLevel >= zielOrt.BenoetigtesLevel;
+                bool zugangErlaubt = spieler.DigimonPartner != null && spieler.DigimonPartner.Level >= zielOrt.BenoetigtesLevel;
 
-                if (zielOrt.Name == "Berg der Unendlichkeit" && digimonLevel < 5)
+                if (zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5)
                 {
                     zugangErlaubt = false;
                 }
 
-                Console.WriteLine(zugangErlaubt
-                    ? $"- {richtung} nach {zielOrt.Name}"
-                    : $"- {richtung} nach ??? (Zugang ab Level {zielOrt.BenoetigtesLevel})");
+                if (zugangErlaubt)
+                    Console.WriteLine($"- {richtung} nach {zielOrt.Name}");
+                else
+                    Console.WriteLine($"- {richtung} nach ??? (Zugang erst ab Level 5 freigeschaltet!)");
             }
         }
-        
+
+        // Der Richtungspfad zum Endboss-Ort
+        private void ZeigeRichtungspfad()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n>> Richtungspfad zum Berg der Unendlichkeit:");
+            Console.WriteLine("Heimatwald → Urzeit-Dschungel → Feuerhöhle → Berg der Unendlichkeit");
+            Console.ResetColor();
+        }
+
         public static Ort ErstelleWelt()
         {
             // Orte erstellen

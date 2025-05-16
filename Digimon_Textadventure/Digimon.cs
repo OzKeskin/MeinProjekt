@@ -109,10 +109,10 @@ namespace Digimon_Textadventure
             }
 
             Stufe = "Champion";
-            MaximaleLebenspunkte *= 2;
+            MaximaleLebenspunkte *= 3;
             Lebenspunkte = MaximaleLebenspunkte;
             Angriff *= 3;
-            Verteidigung *= 2;
+            Verteidigung *= 3;
             BasisVerteidigung = Verteidigung;
             WurdeWeiterentwickelt = true;
 

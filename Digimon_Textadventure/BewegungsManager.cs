@@ -57,6 +57,14 @@ namespace Digimon_Textadventure
                     Console.WriteLine("Ungültige Richtung. Drücke [ENTER]...");
                     Console.ReadLine();
                 }
+                if (spieler.AktuellerOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level >= 5)
+                {
+                    Digimon devimon = Digimon.ErstelleDevimon(); // Devimon wird hier erstellt
+                    EndbossKampf endbossKampf = new EndbossKampf(spieler, devimon);
+                    endbossKampf.StarteKampf();
+                    return; // Nach dem Kampf kehrt man nicht direkt zurück, sondern muss es im EndbossKampf steuern
+                }
+
             }
 
             Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER]...");

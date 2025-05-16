@@ -6,22 +6,23 @@ namespace Digimon_Textadventure
     public class Kampf
     {
         private Spieler spieler;
-        private Digimon spielerDigimon;
-        private Digimon gegnerDigimon;
+        public Digimon spielerDigimon;
+        public Digimon gegnerDigimon;
         private int runde;
         private int spezialCooldown = 0;
         private int gegnerSpezialCooldown = 0;
         private bool heilungVerwendet = false;
         private bool kampfVerlassen = false;
-        
-        public Kampf(Spieler spieler, Digimon gegnerDigimon, Digimon spielerDigimon)
+
+        public Kampf(Spieler spieler, Digimon gegnerDigimon, Digimon spielerDigimon, bool istEndboss = false)
         {
             this.spieler = spieler;
             this.spielerDigimon = spielerDigimon;
             this.gegnerDigimon = gegnerDigimon;
             this.runde = 1;
         }
-        
+
+
         public void StarteKampf()
         {
             Console.Clear();
@@ -65,7 +66,7 @@ namespace Digimon_Textadventure
             // Zurück in die Digiwelt
             BewegungsManager.BewegeSpieler(spieler);
         }
-        
+
         private void ZeigeStatus()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -87,7 +88,7 @@ namespace Digimon_Textadventure
             Console.WriteLine("==========================================");
             Console.ResetColor();
         }
-        
+
         private void SpielerAktion()
         {
             Console.WriteLine("Wähle eine Aktion:");
@@ -134,7 +135,7 @@ namespace Digimon_Textadventure
             if (spezialCooldown > 0)
                 spezialCooldown--;
         }
-        
+
         private static void SpezialAngriffAnimation()
         {
             Console.Write("\nSpezialfähigkeit wird vorbereitet");
@@ -145,7 +146,7 @@ namespace Digimon_Textadventure
             }
             Console.WriteLine("\n");
         }
-        
+
         private void Heilen()
         {
             if (heilungVerwendet)
@@ -159,16 +160,16 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"\n{spielerDigimon.Name} wurde um 30 LP geheilt!");
             }
         }
-        
+
         private void Verteidigen()
         {
             Console.WriteLine($"\n{spielerDigimon.Name} verteidigt sich! Verteidigung +5 für diese Runde.");
             spielerDigimon.Verteidigung += 5;
         }
-        
-        private void GegnerAktion()
+
+        public void GegnerAktion()
         {
-            Random rnd = new ();
+            Random rnd = new();
             int aktion = rnd.Next(1, 101);
             int schaden;
 
@@ -204,11 +205,12 @@ namespace Digimon_Textadventure
             gegnerDigimon.Verteidigung = gegnerDigimon.BasisVerteidigung;
             if (gegnerSpezialCooldown > 0)
                 gegnerSpezialCooldown--;
+
         }
-        
+
         private void FuehreAngriffAus(Digimon angreifer, Digimon verteidiger)
         {
-            Random rnd = new ();
+            Random rnd = new();
             bool kritisch = rnd.Next(1, 101) <= 20;
             int schaden = BerechneNormalenSchaden(angreifer.Angriff, verteidiger.Verteidigung, kritisch);
 
@@ -219,14 +221,14 @@ namespace Digimon_Textadventure
             verteidiger.Lebenspunkte -= schaden;
             verteidiger.Lebenspunkte = Math.Max(verteidiger.Lebenspunkte, 0);
         }
-        
+
         private static int BerechneNormalenSchaden(int angriff, int verteidigung, bool kritisch)
         {
             int schaden = angriff - verteidigung;
             if (kritisch) schaden *= 2;
             return schaden < 1 ? 1 : schaden;
         }
-        
+
         private void ZeigeKampfErgebnis()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -272,6 +274,10 @@ namespace Digimon_Textadventure
             // Zurück in die Digiwelt
             BewegungsManager.BewegeSpieler(spieler);
         }
+
+        
+
+
     }
 
 

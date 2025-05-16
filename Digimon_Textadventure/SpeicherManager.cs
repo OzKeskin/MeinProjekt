@@ -4,65 +4,7 @@ using System.IO;
 using System.Text.Json;
 namespace Digimon_Textadventure
 {
-    //public static class SpeicherManager
-    //{
-    //    public static string SpeicherPfad { get; set; } = @"C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure";
-    //    public static string SpeicherDatei { get; set; } = "spielstand.json";
-
-    //    public static void Speichern(Spieler spieler)
-    //    {
-    //        if (!Directory.Exists(SpeicherPfad))
-    //            Directory.CreateDirectory(SpeicherPfad);
-
-    //        string pfad = Path.Combine(SpeicherPfad, SpeicherDatei);
-    //        var optionen = new JsonSerializerOptions
-    //        {
-    //            WriteIndented = true,
-
-    //            ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
-
-    //        };
-
-    //        string json = JsonSerializer.Serialize(spieler, optionen);
-    //        File.WriteAllText(pfad, json);
-
-    //        Console.ForegroundColor = ConsoleColor.Green;
-    //        Console.WriteLine("\n>> Spiel erfolgreich gespeichert!");
-    //        Console.ResetColor();
-    //    }
-    //    public static Spieler? Laden()
-    //    {
-    //        string pfad = Path.Combine(SpeicherPfad, SpeicherDatei);
-
-    //        if (!File.Exists(pfad))
-    //        {
-    //            Console.ForegroundColor = ConsoleColor.Red;
-    //            Console.WriteLine("\n>> Kein gespeicherter Spielstand gefunden.");
-    //            Console.ResetColor();
-    //            return null;
-    //        }
-    //        var option = new JsonSerializerOptions
-    //        {
-    //            WriteIndented = true,
-    //            PropertyNameCaseInsensitive = true,
-    //            //ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
-
-    //        };
-    //        string json = File.ReadAllText(pfad);
-    //        var spieler = JsonSerializer.Deserialize<Spieler>(json, option);
-    //        if (spieler == null)
-    //        {
-    //            Console.ForegroundColor = ConsoleColor.Red;
-    //            Console.WriteLine("\n>> Fehler beim Laden des Spielstands. Datei beschädigt?");
-    //            Console.ResetColor();
-    //        }
-
-    //        return spieler;
-
-    //    }
-
-
-    //}
+    
     public static class SpeicherManager
     {
         public static string SpeicherPfad { get; set; } = @"C:\Users\KeskinOguz\Desktop\MeinProjekt\Digimon_Textadventure";
