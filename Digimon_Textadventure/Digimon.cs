@@ -149,10 +149,10 @@ namespace Digimon_Textadventure
             Console.ResetColor();
 
         }
-        
+
         public void ZeigeLevelFortschritt(bool animiert)
         {
-            int fortschritt = (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
+            int fortschritt = (ErfahrungFürNaechstesLevel == 0) ? 20 : (Erfahrung * 20) / ErfahrungFürNaechstesLevel;
 
             Console.Write("Level-Fortschritt\n[");
 
@@ -179,9 +179,20 @@ namespace Digimon_Textadventure
             }
 
             Console.ResetColor();
-            Console.WriteLine($"] {fortschritt * 5}%");
+
+            if (ErfahrungFürNaechstesLevel == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("] MAX LEVEL erreicht!");
+            }
+            else
+            {
+                Console.WriteLine($"] {fortschritt * 5}%");
+            }
+
+            Console.ResetColor();
         }
-        
+
         public static List<Digimon> VerfügbareStartDigimon()
         {
             return 

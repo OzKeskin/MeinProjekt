@@ -29,16 +29,25 @@ namespace Digimon_Textadventure
 
                 if (spieler.AktuellerOrt != null)
                 {
-                    Console.WriteLine("\nMögliche Richtungen:");
+                    Console.WriteLine("\nVon hier aus kannst du in folgende Richtungen gehen:");
                     foreach (var richtung in spieler.AktuellerOrt.Verbindungen.Keys)
                     {
-                        Console.WriteLine($"- {richtung}");
+                        var zielOrt = spieler.AktuellerOrt.Verbindungen[richtung];
+                        bool zugangErlaubt = spieler.DigimonPartner != null && spieler.DigimonPartner.Level >= zielOrt.BenoetigtesLevel;
+
+                        if (zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5)
+                            zugangErlaubt = false;
+
+                        if (zugangErlaubt)
+                            Console.WriteLine($"- {richtung} nach {zielOrt.Name}");
+                        else
+                            Console.WriteLine($"- {richtung} nach ??? (Zugang erst ab Level 5 freigeschaltet!)");
                     }
                 }
 
                 Console.WriteLine("\n[Tippe eine Richtung ein, 'm' für Menü oder 'exit' zum Verlassen]");
                 Console.Write("Eingabe: ");
-                eingabe = Console.ReadLine()??"".ToLower() ?? "";
+                eingabe = Console.ReadLine()?.ToLower() ?? "";
 
                 if (eingabe == "m")
                 {
@@ -57,20 +66,21 @@ namespace Digimon_Textadventure
                     Console.WriteLine("Ungültige Richtung. Drücke [ENTER]...");
                     Console.ReadLine();
                 }
-                if (spieler.AktuellerOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level >= 5)
+
+                // Endboss-Check direkt nach Bewegung
+                if (spieler.AktuellerOrt?.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner?.Level >= 5)
                 {
-                    Digimon devimon = Digimon.ErstelleDevimon(); // Devimon wird hier erstellt
+                    Digimon devimon = Digimon.ErstelleDevimon();
                     EndbossKampf endbossKampf = new EndbossKampf(spieler, devimon);
                     endbossKampf.StarteKampf();
-                    return; // Nach dem Kampf kehrt man nicht direkt zurück, sondern muss es im EndbossKampf steuern
+                    return;
                 }
-
             }
 
             Console.WriteLine("\nDu verlässt die Digiwelt. Drücke [ENTER]...");
             Console.ReadLine();
         }
-        
+
         private static void PrüfeAmulettGeschichten(Spieler spieler)
         {
             var digimon = spieler.DigimonPartner;

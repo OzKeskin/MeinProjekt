@@ -231,51 +231,53 @@ namespace Digimon_Textadventure
 
         private void ZeigeKampfErgebnis()
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n=== KAMPF ERGEBNIS ===");
+            Console.WriteLine("\n===== KAMPF ERGEBNIS =====");
             Console.ResetColor();
 
             if (spielerDigimon.Lebenspunkte > 0)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\n>> {spielerDigimon.Name} hat den Kampf gewonnen! <<");
+                Console.WriteLine($"\n>> {spielerDigimon.Name} hat den Kampf GEWONNEN! <<");
                 Console.ResetColor();
 
                 int erfahrungspunkte = 100;
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
                 Console.ResetColor();
-                // erfahrung für sieg 100 Punkte
+
                 spielerDigimon.VergibErfahrung(erfahrungspunkte, spieler);
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($">> {spielerDigimon.Name} wurde besiegt...");
+                Console.WriteLine($"\n>> {spielerDigimon.Name} wurde im Kampf BESIEGT... <<");
                 Console.ResetColor();
 
-                int erfahrungspunkte = 50; // Niederlage gibt 50 XP
+                int erfahrungspunkte = 50;
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte trotz Niederlage.");
+                Console.WriteLine($"\n>> {spielerDigimon.Name} erhält trotzdem {erfahrungspunkte} Erfahrungspunkte.");
                 Console.ResetColor();
-                // erfahrung für niederlage 50 Punkte
+
                 spielerDigimon.VergibErfahrung(erfahrungspunkte, spieler);
             }
+
+            
+            spieler.ZeigeProfil();
+
+            
+            spielerDigimon.ZeigeProfil();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\nKampf beendet! Drücke [ENTER], um in die Digiwelt zurückzukehren...");
             Console.ResetColor();
             Console.ReadLine();
 
-            spieler.ZeigeProfil();
-            // Digimon-Profil anzeigen, um den Fortschritt direkt zu sehen
-            spielerDigimon.ZeigeProfil();
-
-            // Zurück in die Digiwelt
             BewegungsManager.BewegeSpieler(spieler);
         }
 
-        
+
 
 
     }

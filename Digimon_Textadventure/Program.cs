@@ -6,9 +6,6 @@
         {
             Spiel spiel = new Spiel();
             spiel.Starte();
-
-            
-
         }
     }
 }
