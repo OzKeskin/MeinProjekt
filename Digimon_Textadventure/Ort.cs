@@ -11,18 +11,24 @@ using Digimon_Textadventure;
     {
     public class Ort
     {
-        public string Name { get; set; }
-        public string Beschreibung { get; set; }
-        public Dictionary<string, Ort> Verbindungen { get; set; }
-        public int BenoetigtesLevel { get; set; } // Neu: Level-Voraussetzung für diesen Ort
+        public string Name { get; set; } 
+        public string Beschreibung { get; set; } 
+        public Dictionary<string, Ort> Verbindungen { get; set; } = [];
+        // In der Klasse Ort
+        public int BenoetigtesLevel { get; set; } = 1; // Standardmäßig frei zugänglich
 
+        // Konstruktor
         public Ort(string name, string beschreibung, int benoetigtesLevel = 1)
         {
             Name = name;
             Beschreibung = beschreibung;
             BenoetigtesLevel = benoetigtesLevel;
-            Verbindungen = new Dictionary<string, Ort>();
         }
+
+
+
+        // Muss noch verwiesen werden
+        // Ort betreten Methode (Anzeige mit Level-Sperre)
         public void Betreten(Spieler spieler)
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -35,72 +41,72 @@ using Digimon_Textadventure;
             foreach (var richtung in Verbindungen.Keys)
             {
                 var zielOrt = Verbindungen[richtung];
-                bool zugangErlaubt = true;
-
-                if (zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5)
-                {
-                    zugangErlaubt = false;
-                }
+                bool zugangErlaubt = spieler.DigimonPartner != null && spieler.DigimonPartner.Level >= zielOrt.BenoetigtesLevel;
 
                 if (zugangErlaubt)
                 {
-                    Console.WriteLine($"- {richtung} nach {zielOrt.Name}");
+                    Console.WriteLine($"- {richtung} nach {zielOrt.Name} (ab Level {zielOrt.BenoetigtesLevel})");
                 }
                 else
                 {
-                    Console.WriteLine($"- {richtung} nach ??? (Zugang erst ab Level 5 freigeschaltet!)");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"- {richtung} nach ??? (ab Level {zielOrt.BenoetigtesLevel} freigeschaltet!)");
+                    Console.ResetColor();
                 }
             }
         }
-
-
         public static Ort ErstelleWelt()
         {
-            // Orte mit Level-Beschränkungen
-            Ort heimatwald = new Ort("Heimatwald", "Der Ausgangspunkt der Reise.", 1);
-            Ort panoramaberg = new Ort("Panoramaberg", "Ein Digimon-Dorf am Fuße des Berges.", 1);
-            Ort spielzeugstadt = new Ort("Spielzeugstadt", "Eine bunte Stadt voller Spielzeug.", 1);
-            Ort strand = new Ort("Strand von File Island", "Ein stiller Strand mit Telefonzellen.", 1);
+            // Orte erstellen
+            Ort heimatwald = new ("Heimatwald", "Der Ausgangspunkt deiner Reise durch die Digiwelt.");
+            Ort panoramaberg = new ("Panoramaberg", "Von hier aus hast du einen großartigen Blick auf die Digiwelt.");
+            Ort strand = new ("Strand von File Island", "Ein ruhiger Strand mit dem Rauschen der digitalen Wellen.");
+            Ort spielzeugstadt = new ("Spielzeugstadt", "Eine bunte Stadt voller Rätsel und versteckter Schätze.");
+            Ort tropendschungel = new ("Tropendschungel", "Ein dichter Dschungel voller geheimnisvoller Digimon.");
+            Ort tempelDesDigivices = new ("Tempel des Digivices", "Ein uralter Tempel, der große Geheimnisse birgt.");
+            Ort fabrikstadt = new ("Fabrikstadt", "Hier werden mächtige Digimon erschaffen.");
+            Ort zahnradsteppe = new ("Zahnradsteppe", "Ein ödes, windgepeitschtes Land mit alten Maschinen.");
+            Ort schattenvilla = new ("Schattenvilla", "Eine düstere Ruine, in der Gefahren lauern.");
+            Ort stadtDesEwigenAnfangs = new ("Stadt des ewigen Anfangs", "Hier beginnt jedes digitale Leben von Neuem.");
 
-            Ort tropendschungel = new Ort("Tropendschungel", "Ein dichter Dschungel.", 3);
-            Ort tempelDesDigivices = new Ort("Tempel des Digivices", "Ein mystischer Tempel.", 3);
-            Ort fabrikstadt = new Ort("Fabrikstadt", "Industriegebiet der Insel.", 3);
+            Ort bergDerUnendlichkeit = new ("Berg der Unendlichkeit", "Hier erwartet dich der finale Kampf gegen Devimon!",5);
 
-            Ort zahnradsteppe = new Ort("Zahnradsteppe", "Ödes Land voller Strommasten.", 4);
-            Ort schattenvilla = new Ort("Schattenvilla", "Eine mysteriöse Ruine.", 4);
-            Ort stadtDesEwigenAnfangs = new Ort("Stadt des ewigen Anfangs", "Hier beginnt alles Leben neu.", 4);
-
-            Ort bergDerUnendlichkeit = new Ort("Berg der Unendlichkeit", "Tempel des Endgegners Devimon.", 5);
-
-            // Verbindungen setzen
+            // Verbindungen setzen (logisch mit Rückwegen)
             heimatwald.Verbindungen["norden"] = panoramaberg;
             heimatwald.Verbindungen["osten"] = spielzeugstadt;
             heimatwald.Verbindungen["westen"] = strand;
             heimatwald.Verbindungen["süden"] = tropendschungel;
 
             panoramaberg.Verbindungen["süden"] = heimatwald;
-
-            spielzeugstadt.Verbindungen["westen"] = heimatwald;
+            panoramaberg.Verbindungen["osten"] = schattenvilla;
+            panoramaberg.Verbindungen["norden"] = fabrikstadt;
 
             strand.Verbindungen["osten"] = heimatwald;
+            spielzeugstadt.Verbindungen["westen"] = heimatwald;
 
             tropendschungel.Verbindungen["norden"] = heimatwald;
             tropendschungel.Verbindungen["osten"] = tempelDesDigivices;
 
             tempelDesDigivices.Verbindungen["westen"] = tropendschungel;
+            tempelDesDigivices.Verbindungen["norden"] = fabrikstadt;
 
-            fabrikstadt.Verbindungen["süden"] = zahnradsteppe;
+            fabrikstadt.Verbindungen["süden"] = tempelDesDigivices;
             fabrikstadt.Verbindungen["norden"] = bergDerUnendlichkeit;
+            fabrikstadt.Verbindungen["westen"] = zahnradsteppe;
 
-            zahnradsteppe.Verbindungen["norden"] = fabrikstadt;
+            zahnradsteppe.Verbindungen["osten"] = fabrikstadt;
+
+            schattenvilla.Verbindungen["westen"] = panoramaberg;
+            schattenvilla.Verbindungen["osten"] = stadtDesEwigenAnfangs;
+
+            stadtDesEwigenAnfangs.Verbindungen["westen"] = schattenvilla;
 
             bergDerUnendlichkeit.Verbindungen["süden"] = fabrikstadt;
 
-            schattenvilla.Verbindungen["osten"] = stadtDesEwigenAnfangs;
-            stadtDesEwigenAnfangs.Verbindungen["westen"] = schattenvilla;
-
+            // Start-Ort festlegen
             return heimatwald;
         }
+
     }
 
 

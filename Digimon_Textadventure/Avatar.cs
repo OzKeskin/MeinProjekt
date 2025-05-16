@@ -13,27 +13,28 @@ namespace Digimon_Textadventure
         public string StartItem { get; set; }
 
         // Vorgefertigte, nicht änderbare Avatare
-        public static List<Avatar> VerfügbareAvatare() => new List<Avatar>
-    {
+        public static List<Avatar> VerfügbareAvatare() => 
+            [
         new Avatar
         {
             Name = "Taichi",
             Beschreibung = "Ein junger, mutiger und entschlossener Abenteurer.",
-            StartItem = "Amulett des Mutes"
+            StartItem = "Digivice"
+
         },
         new Avatar
         {
             Name = "Takeru",
             Beschreibung = "Ein junger, freundlicher Abenteurer voller Hoffnung.",
-            StartItem = "Amulett der Hoffnung"
+            StartItem = "Digivice"
         },
         new Avatar
         {
             Name = "Hikari",
             Beschreibung = "Eine ruhige Kämpferin mit großem Herzen.",
-            StartItem = "Amulett des Lichts"
+            StartItem = "Digivice"
         }
-    };
+    ];
 
         // Avatar direkt auswählen
         public static Avatar WaehleAvatar()
@@ -46,12 +47,20 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"[{i + 1}] {avatare[i].Name} - {avatare[i].Beschreibung}");
             }
 
-            int auswahl = 0;
-            while (auswahl < 1 || auswahl > avatare.Count)
+            int auswahl;
+            while (true)
             {
                 Console.Write("\nDeine Wahl: ");
-                int.TryParse(Console.ReadLine(), out auswahl);
+                string input = Console.ReadLine() ?? "";
+
+                if (int.TryParse(input, out auswahl) && auswahl >= 1 && auswahl <= avatare.Count)
+                {
+                    break; // Gültige Auswahl, Schleife beenden
+                }
+
+                Console.WriteLine("Ungültige Eingabe. Bitte wähle eine gültige Zahl.");
             }
+
 
             Console.Clear();
             Avatar gewaehlterAvatar = avatare[auswahl - 1];

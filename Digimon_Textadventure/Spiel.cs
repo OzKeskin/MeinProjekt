@@ -37,6 +37,7 @@ namespace Digimon_Textadventure
                         break;
                     case "2":
                         Spieler geladenerSpieler = SpeicherManager.Laden();
+                        geladenerSpieler.ZeigeProfil();
                         if (geladenerSpieler != null)
                             BewegungsManager.BewegeSpieler(geladenerSpieler);
                         break;

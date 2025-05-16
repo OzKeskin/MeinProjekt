@@ -13,18 +13,21 @@ namespace Digimon_Textadventure
         public string Name { get; set; }
         public Avatar Avatar { get; set; }
         public Ort AktuellerOrt { get; set; }
-        public List<string> Inventar { get; set; } = new List<string>();
+        public List<string> Inventar { get; set; } = [];
         public Digimon DigimonPartner { get; set; }
 
         public Spieler(string name, Avatar avatar)
         {
             Name = name;
             Avatar = avatar;
+            AktuellerOrt = Ort.ErstelleWelt(); // Spieler startet im Heimatwald oder Start-Ort
+
             if (!string.IsNullOrEmpty(avatar.StartItem))
             {
                 Inventar.Add(avatar.StartItem); // Start-Item vom Avatar ins Inventar legen
             }
         }
+
 
         public void ZeigeProfil()
         {

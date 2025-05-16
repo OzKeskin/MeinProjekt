@@ -1,31 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Digimon_Textadventure
 {
     public static class BewegungsManager
     {
-        private static Random random = new Random();
+        private static  Random random = new ();
 
         public static void BewegeSpieler(Spieler spieler)
         {
+            if (spieler == null)
+            {
+                Console.WriteLine("Fehler: Spieler-Objekt ist null.");
+                return;
+            }
+
             string eingabe = "";
 
             while (eingabe != "exit")
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Aktueller Ort: {spieler.AktuellerOrt.Name}");
+                Console.WriteLine($"Aktueller Ort: {spieler.AktuellerOrt?.Name ?? "Unbekannt"}");
                 Console.ResetColor();
-                Console.WriteLine(spieler.AktuellerOrt.Beschreibung);
+                Console.WriteLine(spieler.AktuellerOrt?.Beschreibung ?? "Unbekannt");
 
-                Console.WriteLine("\nMögliche Richtungen:");
-                foreach (var richtung in spieler.AktuellerOrt.Verbindungen.Keys)
+                PrüfeAmulettGeschichten(spieler);
+
+                if (spieler.AktuellerOrt != null)
                 {
-                    Console.WriteLine($"- {richtung}");
+                    Console.WriteLine("\nMögliche Richtungen:");
+                    foreach (var richtung in spieler.AktuellerOrt.Verbindungen.Keys)
+                    {
+                        Console.WriteLine($"- {richtung}");
+                    }
                 }
 
                 Console.WriteLine("\n[Tippe eine Richtung ein, 'm' für Menü oder 'exit' zum Verlassen]");
@@ -38,9 +46,10 @@ namespace Digimon_Textadventure
                     continue;
                 }
 
-                if (spieler.AktuellerOrt.Verbindungen.ContainsKey(eingabe))
+                if (spieler.AktuellerOrt != null && spieler.AktuellerOrt.Verbindungen.ContainsKey(eingabe))
                 {
                     spieler.AktuellerOrt = spieler.AktuellerOrt.Verbindungen[eingabe];
+                    spieler.AktuellerOrt.Betreten(spieler);
                     LoeseZufallsEreignisAus(spieler);
                 }
                 else if (eingabe != "exit")
@@ -54,7 +63,21 @@ namespace Digimon_Textadventure
             Console.ReadLine();
         }
 
-        //  Korrigiertes Spieler-Menü
+        private static void PrüfeAmulettGeschichten(Spieler spieler)
+        {
+            var digimon = spieler.DigimonPartner;
+            if (digimon == null) return;
+
+            if (digimon.Level == 2 && !spieler.Inventar.Contains("Amulett der Vitalität"))
+            {
+                StoryManager.ErzaehleLebensAmulettGeschichte(spieler);
+            }
+            else if (digimon.Level == 4 && !spieler.Inventar.Contains("Amulett der Stärke"))
+            {
+                StoryManager.ErzaehleKraftAmulettGeschichte(spieler);
+            }
+        }
+
         public static void ZeigeSpielerMenue(Spieler spieler)
         {
             bool imMenue = true;
@@ -76,7 +99,8 @@ namespace Digimon_Textadventure
                 switch (eingabe)
                 {
                     case "1":
-                        spieler.ZeigeInventar(); //  Diese Methode muss in Spieler vorhanden sein
+                        spieler.ZeigeInventar();
+                        Pause();
                         break;
                     case "2":
                         if (spieler.DigimonPartner != null)
@@ -91,6 +115,7 @@ namespace Digimon_Textadventure
                         break;
                     case "3":
                         SpeicherManager.Speichern(spieler);
+                        Pause();
                         break;
                     case "4":
                         imMenue = false;
@@ -113,19 +138,21 @@ namespace Digimon_Textadventure
         {
             int ereignis = random.Next(1, 101);
 
-            if (ereignis <= 30)
+            if (ereignis <= 60)
             {
                 Console.WriteLine("\nEin wildes Digimon erscheint!");
                 Gegner gegner = Gegner.ErstelleZufaelligenGegner();
-                Kampf kampf = new Kampf(spieler, gegner.Digimon, spieler.DigimonPartner);
-                kampf.StarteKampf();
-            }
-            else if (ereignis <= 60)
-            {
-                string gefundenesItem = "Heiltrank";
-                Console.WriteLine($"\nDu hast ein {gefundenesItem} gefunden!");
-                spieler.ItemHinzufuegen(gefundenesItem);
-                Pause();
+
+                if (spieler.DigimonPartner != null)
+                {
+                    Kampf kampf = new (spieler, gegner.Digimon, spieler.DigimonPartner);
+                    kampf.StarteKampf();
+                }
+                else
+                {
+                    Console.WriteLine("\nDu hast aktuell kein Digimon zum Kämpfen!");
+                    Pause();
+                }
             }
             else
             {
@@ -134,7 +161,4 @@ namespace Digimon_Textadventure
             }
         }
     }
-
-
 }
-

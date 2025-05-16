@@ -11,7 +11,7 @@ namespace Digimon_Textadventure
         public Digimon Digimon { get; private set; }
         public string Schwierigkeit { get; private set; } // Optional: "Leicht", "Normal"
 
-        private static Random random = new Random();
+        private static  Random random = new ();
 
         public Gegner(Digimon digimon, string schwierigkeit = "Normal")
         {
@@ -22,13 +22,13 @@ namespace Digimon_Textadventure
 
         private void PasseAttributeAn()
         {
-            switch (Schwierigkeit.ToLower()??"")
+            switch (Schwierigkeit.ToLower() ?? "")
             {
                 case "leicht":
                     Digimon.Lebenspunkte -= 10;
                     Digimon.Angriff -= 2;
                     break;
-                
+
                     // "Normal" → keine Anpassung nötig
             }
         }
@@ -36,7 +36,7 @@ namespace Digimon_Textadventure
         public static Gegner ErstelleZufaelligenGegner()
         {
             var gegnerDigimon = ErstelleZufallsDigimon();
-            string[] schwierigkeitsgrade = { "Leicht", "Normal"};
+            string[] schwierigkeitsgrade = ["Leicht", "Normal"];
             string schwierigkeit = schwierigkeitsgrade[random.Next(schwierigkeitsgrade.Length)];
 
             return new Gegner(gegnerDigimon, schwierigkeit);

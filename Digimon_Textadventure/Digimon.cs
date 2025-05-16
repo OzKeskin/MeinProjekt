@@ -68,7 +68,7 @@ namespace Digimon_Textadventure
                 ZeigeLevelFortschritt(animiert: true);
 
                 // Prüfen auf Weiterentwicklung ab Level 3
-                if (Level >= 3 && !WurdeWeiterentwickelt && spieler.Inventar.Contains("Amulett"))
+                if (Level >= 3 && !WurdeWeiterentwickelt && spieler.Inventar.Contains("Digivice"))
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\n>> {Name} kann sich weiterentwickeln! Möchtest du die Entwicklung durchführen? (j/n)");
@@ -104,15 +104,15 @@ namespace Digimon_Textadventure
             }
 
             Stufe = "Champion";
-            MaximaleLebenspunkte *= 3;
+            MaximaleLebenspunkte *= 2;
             Lebenspunkte = MaximaleLebenspunkte;
             Angriff *= 3;
-            Verteidigung *= 3;
+            Verteidigung *= 2;
             BasisVerteidigung = Verteidigung;
             WurdeWeiterentwickelt = true;
 
             // Amulett entfernen
-            spieler.ItemEntfernen("Amulett");
+            spieler.ItemEntfernen("Digivice");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\n>> {Name} hat sich erfolgreich weiterentwickelt!");
@@ -178,12 +178,12 @@ namespace Digimon_Textadventure
 
         public static List<Digimon> VerfügbareStartDigimon()
         {
-            return new List<Digimon>
-        {
+            return 
+        [
             ErstelleAgumon(),
             ErstelleGabumon(),
             ErstellePatamon()
-        };
+        ];
         }
         public static Digimon WaehleStartDigimon()
         {
@@ -199,11 +199,20 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"[{i + 1}] {d.Name} (Stufe: {d.Stufe}, LP: {d.Lebenspunkte}, ATK: {d.Angriff}, DEF: {d.Verteidigung}, Spezial: {d.Spezialattacke})");
             }
 
-            int auswahl = 0;
-            while (auswahl < 1 || auswahl > digimonListe.Count)
+            int auswahl;
+            while (true)
             {
                 Console.Write("\nDeine Wahl: ");
-                int.TryParse(Console.ReadLine(), out auswahl);
+                string eingabe = Console.ReadLine() ?? "";
+
+                if (int.TryParse(eingabe, out auswahl) && auswahl >= 1 && auswahl <= digimonListe.Count)
+                {
+                    break; // Gültige Eingabe, Schleife beenden
+                }
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Ungültige Eingabe. Bitte gib eine gültige Zahl ein.");
+                Console.ResetColor();
             }
 
             Console.Clear();
@@ -216,7 +225,7 @@ namespace Digimon_Textadventure
             gewaehltesDigimon.ZeigeProfil();
             return gewaehltesDigimon;
         }
-        public static Digimon ErstelleAgumon() => new Digimon
+        public static Digimon ErstelleAgumon() => new ()
         {
             Name = "Agumon",
             Lebenspunkte = 100,
@@ -227,7 +236,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Feuerstoß"
         };
-        public static Digimon ErstelleGabumon() => new Digimon
+        public static Digimon ErstelleGabumon() => new ()
         {
             Name = "Gabumon",
             Lebenspunkte = 95,
@@ -238,7 +247,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Eisblock"
         };
-        public static Digimon ErstellePatamon() => new Digimon
+        public static Digimon ErstellePatamon() => new ()
         {
             Name = "Patamon",
             Lebenspunkte = 90,
@@ -249,7 +258,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Windstoß"
         };
-        public static Digimon ErstelleBetamon() => new Digimon
+        public static Digimon ErstelleBetamon() => new ()
         {
             Name = "Betamon",
             Lebenspunkte = 90,
@@ -260,7 +269,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Blitzschlag"
         };
-        public static Digimon ErstelleVeemon() => new Digimon
+        public static Digimon ErstelleVeemon() => new ()
         {
             Name = "Veemon",
             Lebenspunkte = 105,
@@ -272,7 +281,7 @@ namespace Digimon_Textadventure
             Stufe = "Rookie",
             Spezialattacke = "Power-Schlag"
         };
-        public static Digimon ErstelleGomamon() => new Digimon
+        public static Digimon ErstelleGomamon() => new ()
         {
             Name = "Gomamon",
             Lebenspunkte = 100,

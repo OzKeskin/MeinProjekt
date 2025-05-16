@@ -121,7 +121,7 @@ namespace Digimon_Textadventure
                 spezialCooldown--;
         }
 
-        private void SpezialAngriffAnimation()
+        private static void SpezialAngriffAnimation()
         {
             Console.Write("\nSpezialfähigkeit wird vorbereitet");
             for (int i = 0; i < 3; i++)
@@ -154,7 +154,7 @@ namespace Digimon_Textadventure
 
         private void GegnerAktion()
         {
-            Random rnd = new Random();
+            Random rnd = new ();
             int aktion = rnd.Next(1, 101);
             int schaden;
 
@@ -187,14 +187,14 @@ namespace Digimon_Textadventure
                     FuehreAngriffAus(gegnerDigimon, spielerDigimon);
                 }
             }
-
+            gegnerDigimon.Verteidigung = gegnerDigimon.BasisVerteidigung;
             if (gegnerSpezialCooldown > 0)
                 gegnerSpezialCooldown--;
         }
 
         private void FuehreAngriffAus(Digimon angreifer, Digimon verteidiger)
         {
-            Random rnd = new Random();
+            Random rnd = new ();
             bool kritisch = rnd.Next(1, 101) <= 20;
             int schaden = BerechneNormalenSchaden(angreifer.Angriff, verteidiger.Verteidigung, kritisch);
 
@@ -206,7 +206,7 @@ namespace Digimon_Textadventure
             verteidiger.Lebenspunkte = Math.Max(verteidiger.Lebenspunkte, 0);
         }
 
-        private int BerechneNormalenSchaden(int angriff, int verteidigung, bool kritisch)
+        private static int BerechneNormalenSchaden(int angriff, int verteidigung, bool kritisch)
         {
             int schaden = angriff - verteidigung;
             if (kritisch) schaden *= 2;
@@ -230,7 +230,7 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte!");
                 Console.ResetColor();
                 // erfahrung für sieg 100 Punkte
-                spielerDigimon.VergibErfahrung(100, spieler);
+                spielerDigimon.VergibErfahrung(erfahrungspunkte, spieler);
             }
             else
             {
@@ -243,7 +243,7 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"\n>> {spielerDigimon.Name} erhält {erfahrungspunkte} Erfahrungspunkte trotz Niederlage.");
                 Console.ResetColor();
                 // erfahrung für niederlage 50 Punkte
-                spielerDigimon.VergibErfahrung(50, spieler);
+                spielerDigimon.VergibErfahrung(erfahrungspunkte, spieler);
             }
 
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -251,6 +251,7 @@ namespace Digimon_Textadventure
             Console.ResetColor();
             Console.ReadLine();
 
+            spieler.ZeigeProfil();
             // Digimon-Profil anzeigen, um den Fortschritt direkt zu sehen
             spielerDigimon.ZeigeProfil();
 
