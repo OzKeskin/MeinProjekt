@@ -42,26 +42,24 @@ namespace Digimon_Textadventure
         // Level-Up & Erfahrungsmethode
         public void VergibErfahrung(int erfahrung, Spieler spieler)
         {
-            Erfahrung += erfahrung;
-
-            if (ErfahrungFürNaechstesLevel == 0)
+            if (Level >= 5)
             {
-                // Max Level erreicht, Erfahrung zählt trotzdem weiter.
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine($"\n>> {Name} hat bereits das maximale Level erreicht! Erfahrung wird weiterhin gesammelt: {Erfahrung} XP.");
+                Console.WriteLine($"\n>> {Name} hat bereits das maximale Level 5 erreicht! Keine weiteren Erfahrungspunkte möglich.");
                 Console.ResetColor();
+                return; // Keine weiteren XP möglich
             }
-            else
-            {
-                ZeigeLevelFortschritt(animiert: true);
-                LevelUp(spieler);
-            }
+
+            Erfahrung += erfahrung;
+            ZeigeLevelFortschritt(animiert: true);
+            LevelUp(spieler);
         }
+
 
 
         public void LevelUp(Spieler spieler)
         {
-            while (Erfahrung >= ErfahrungFürNaechstesLevel)
+            while (Erfahrung >= ErfahrungFürNaechstesLevel && Level < 5)
             {
                 Erfahrung -= ErfahrungFürNaechstesLevel;
                 Level++;
@@ -80,9 +78,10 @@ namespace Digimon_Textadventure
                 Console.WriteLine($"- Neuer Angriff: {Angriff}");
                 Console.WriteLine($"- Neue Verteidigung: {Verteidigung}");
 
-                // Animierter Fortschrittsbalken nach Level-Up
                 ZeigeLevelFortschritt(animiert: true);
-
+                Console.WriteLine("\nDrücke [ENTER], um fortzufahren...");
+                Console.ReadLine();
+                Console.Clear();
                 // Prüfen auf Weiterentwicklung ab Level 3
                 if (Level >= 3 && !WurdeWeiterentwickelt && spieler.Inventar.Contains("Digivice"))
                 {
@@ -90,15 +89,21 @@ namespace Digimon_Textadventure
                     Console.WriteLine($"\n>> {Name} kann sich weiterentwickeln! Möchtest du die Entwicklung durchführen? (j/n)");
                     Console.ResetColor();
 
-                    string eingabe = Console.ReadLine() ?? "".ToLower() ?? "";
-                    if (eingabe == "j")
+                    string eingabe = Console.ReadLine() ?? "";
+                    if (eingabe.ToLower() == "j")
                     {
                         FühreWeiterentwicklungDurch(spieler);
                     }
                 }
             }
+
+            // Bei Erreichen von Level 5 restliche Erfahrung auf 0 setzen
+            if (Level == 5)
+            {
+                Erfahrung = 0;
+            }
         }
-        
+
         private void FühreWeiterentwicklungDurch(Spieler spieler)
         {
             switch (Name)
