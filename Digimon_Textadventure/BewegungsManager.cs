@@ -35,7 +35,7 @@ namespace Digimon_Textadventure
                         var zielOrt = spieler.AktuellerOrt.Verbindungen[richtung];
                         bool zugangErlaubt = spieler.DigimonPartner != null && spieler.DigimonPartner.Level >= zielOrt.BenoetigtesLevel;
 
-                        if (zielOrt.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner.Level < 5)
+                        if (zielOrt.Name == "Berg der Unendlichkeit" && (spieler.DigimonPartner?.Level ?? 0) < 5)
                             zugangErlaubt = false;
 
                         if (zugangErlaubt)
@@ -70,6 +70,11 @@ namespace Digimon_Textadventure
                 // Endboss-Check direkt nach Bewegung
                 if (spieler.AktuellerOrt?.Name == "Berg der Unendlichkeit" && spieler.DigimonPartner?.Level >= 5)
                 {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("\nDer dunkle Himmel verdunkelt sich weiter... DEVIMON erwartet dich!");
+                    Console.ResetColor();
+
                     Digimon devimon = Digimon.ErstelleDevimon();
                     EndbossKampf endbossKampf = new EndbossKampf(spieler, devimon);
                     endbossKampf.StarteKampf();
@@ -188,6 +193,11 @@ namespace Digimon_Textadventure
         
         private static void LoeseZufallsEreignisAus(Spieler spieler)
         {
+            // Prüfen, ob der aktuelle Ort der Endboss-Ort ist
+            if (spieler.AktuellerOrt != null && spieler.AktuellerOrt.Name == "Berg der Unendlichkeit")
+            {
+                return; // Keine Zufallskämpfe hier
+            }
             int ereignis = random.Next(1, 101);
 
             if (ereignis <= 60)

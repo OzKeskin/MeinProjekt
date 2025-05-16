@@ -28,7 +28,7 @@ using Digimon_Textadventure;
             Console.WriteLine($"{Beschreibung}");
 
             // Pfad nur ab Level 5 anzeigen
-            if (spieler.DigimonPartner?.Level >= 5)
+            if (spieler.DigimonPartner?.Level == 5)
             {
                 ZeigeRichtungspfad();
             }
@@ -56,7 +56,7 @@ using Digimon_Textadventure;
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\n>> Richtungspfad zum Berg der Unendlichkeit:");
-            Console.WriteLine("Heimatwald → Urzeit-Dschungel → Feuerhöhle → Berg der Unendlichkeit");
+            Console.WriteLine("Heimatwald → Panoramaberg → Fabrikstadt → Berg der Unendlichkeit");
             Console.ResetColor();
         }
 
