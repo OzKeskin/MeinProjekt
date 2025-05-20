@@ -1,5 +1,4 @@
-﻿using Digimon_Textadventure;
-
+﻿using System;
 
 namespace Digimon_Textadventure
 {
@@ -9,49 +8,94 @@ namespace Digimon_Textadventure
 
         public void Starte()
         {
-            Console.Title = "DIGIMON TEXTADVENTURE";
-            Hauptmenue();
+            Ladebildschirm.ZeigeLadebildschirm();
+            Console.Title = "DIGIMON WORLD";
+            ZeigeHauptmenue();
         }
 
-        private void Hauptmenue()
+        private void ZeigeHauptmenue()
         {
-            while (true)
+            string[] menuePunkte =
+            {
+               "Neues Abenteuer starten",
+               "Spielstand laden",
+               "Digiwelt erkunden",
+               "Beenden"
+            };
+
+            int ausgewaehlt = 0;
+            ConsoleKey key;
+
+            do
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("=== DIGIMON TEXTADVENTURE ===");
-                Console.ResetColor();
 
-                Console.WriteLine("\nWähle einen Spielmodus:");
-                Console.WriteLine("[1] Neues Abenteuer starten");
-                Console.WriteLine("[2] Spielstand laden");
-                Console.WriteLine("[3] Digiwelt erkunden");
-                Console.WriteLine("[4] Beenden");
-                Console.Write("\nDeine Wahl: ");
+                // Titel zentrieren
+                //string titel = "=== DIGIMON TEXTADVENTURE ===";
+                //int titelX = (Console.WindowWidth - titel.Length) / 2;
+                //Console.SetCursorPosition(titelX, 2);
+                //Console.ForegroundColor = ConsoleColor.Cyan;
+                //Console.WriteLine(titel);
+                //Console.ResetColor();
 
-                string eingabe = Console.ReadLine() ?? "";
-                switch (eingabe)
+                // Menü zentrieren
+                int startY = (Console.WindowHeight / 2) - (menuePunkte.Length / 2);
+                for (int i = 0; i < menuePunkte.Length; i++)
                 {
-                    case "1":
-                        NeuesAbenteuer();
-                        break;
-                    case "2":
-                        Spieler geladenerSpieler = SpeicherManager.Laden();
-                        geladenerSpieler.ZeigeProfil();
-                        if (geladenerSpieler != null)
-                            BewegungsManager.BewegeSpieler(geladenerSpieler);
-                        break;
-                    case "3":
-                        StarteDigiwelt();
-                        break;
-                    case "4":
-                        Console.WriteLine("Danke fürs Spielen! Bis bald...");
-                        Environment.Exit(0);
-                        break;
-                    default:
-                        Console.WriteLine("Ungültige Eingabe.");
-                        break;
+                    string zeile = (i == ausgewaehlt)
+                        ? $"=> {menuePunkte[i]} <="
+                        : $"   {menuePunkte[i]}";
+
+                    int x = (Console.WindowWidth - zeile.Length) / 2;
+                    int y = startY + i;
+
+                    Console.SetCursorPosition(x, y);
+                    Console.ForegroundColor = (i == ausgewaehlt) ? ConsoleColor.Blue : ConsoleColor.Gray;
+                    Console.WriteLine(zeile);
+                    Console.ResetColor();
                 }
+
+                key = Console.ReadKey(true).Key;
+
+                switch (key)
+                {
+                    case ConsoleKey.UpArrow:
+                        ausgewaehlt = (ausgewaehlt == 0) ? menuePunkte.Length - 1 : ausgewaehlt - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        ausgewaehlt = (ausgewaehlt + 1) % menuePunkte.Length;
+                        break;
+                    case ConsoleKey.Enter:
+                        FuehreAktionAus(ausgewaehlt);
+                        return;
+                }
+
+            } while (true);
+        }
+
+        private void FuehreAktionAus(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    NeuesAbenteuer();
+                    break;
+                case 1:
+                    Spieler geladenerSpieler = SpeicherManager.Laden();
+                    if (geladenerSpieler != null)
+                    {
+                        Ladebildschirm.ZeigeLadebildschirm(1); // Ladebildschirm anzeigen
+                        geladenerSpieler.ZeigeProfil();
+                        BewegungsManager.BewegeSpieler(geladenerSpieler);
+                    }
+                    break;
+                case 2:
+                    StarteDigiwelt();
+                    break;
+                case 3:
+                    Console.WriteLine("Danke fürs Spielen! Bis bald...");
+                    Environment.Exit(0);
+                    break;
             }
         }
 
@@ -70,15 +114,18 @@ namespace Digimon_Textadventure
             Console.WriteLine("Drücke [ENTER], um in die Digiwelt zu reisen.");
             Console.ReadLine();
 
+            StoryManager.ErzeahleAbenteuerStart();
             StarteDigiwelt();
+
         }
 
         private void StarteDigiwelt()
         {
+            Ladebildschirm.ZeigeLadebildschirm(1); // Ladebildschirm anzeigen
             Digiwelt welt = new Digiwelt(spieler);
             welt.Starte();
         }
+
     }
-
-
 }
+

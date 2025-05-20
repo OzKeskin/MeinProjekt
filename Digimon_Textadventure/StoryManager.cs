@@ -10,72 +10,75 @@ namespace Digimon_Textadventure
     {
         public static void ErzaehleEinleitung()
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("=================================================================================");
-            Console.WriteLine("\t\t >>>   WILLKOMMEN IM DIGIMON TEXTADVENTURE   <<<");
-            Console.WriteLine("=================================================================================");
-            Console.ResetColor();
 
-            Console.WriteLine("\n\tEine alte Legende berichtet von einer verborgenen Welt...");
-            Console.WriteLine("\tEiner Welt voller digitaler Kreaturen – den Digimon.");
-            Console.WriteLine("\tDoch dunkle Mächte erheben sich, um das Gleichgewicht zu stören.");
-            Console.WriteLine("\tNur ein wahrer Digiritter kann das Licht wiederherstellen!");
+            string[] zeilen =
+            {
+                "Eine alte Legende berichtet von einer verborgenen Welt...",
+                "Einer Welt voller digitaler Kreaturen – den Digimon.",
+                "Doch dunkle Mächte erheben sich, um das Gleichgewicht zu stören.",
+                "Nur ein wahrer Digiritter kann das Licht wiederherstellen!",
+                "Bist du bereit, dein Schicksal zu erfüllen und mit deinem Digimon zu kämpfen?"
+            };
 
-            Console.WriteLine("\nBist du bereit, dein Schicksal zu erfüllen und mit deinem Digimon zu kämpfen?");
-            Console.WriteLine("\nDrücke [ENTER], um deine Reise zu beginnen...");
-            Console.ReadLine();
+            TextAnimator.ZeigeAnimierteGeschichte(zeilen);
+        }
+
+        public static void ErzeahleAbenteuerStart()
+        {
             Console.Clear();
+            string[] zeilen =
+            {
+                "Die Digiwelt formt sich langsam vor deinen Augen...",
+                "Pixel für Pixel... Licht für Licht...",
+                "Eine neue Welt erwartet dich...",
+                "",
+                "Bereite dich vor – dein Abenteuer beginnt JETZT!"
+            };
+
+            TextAnimator.ZeigeAnimierteGeschichte(zeilen);
 
         }
 
         public static void ErzaehleLebensAmulettGeschichte(Spieler spieler)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("Ein alter Mann mit langem weißen Bart tritt langsam aus dem Schatten...");
-            Thread.Sleep(1500);
-            Console.WriteLine("\nMeister Genkai: \"Ah, junger Digiritter... du hast große Stärke bewiesen.\"");
-            Thread.Sleep(2000);
-            Console.WriteLine("Meister Genkai: \"Dieses Amulett wurde einst von den legendären Digirittern getragen.\"");
-            Thread.Sleep(2000);
-            Console.WriteLine("Meister Genkai: \"Es stärkt die Lebensenergie deines Digimons... für immer!\"");
-            Thread.Sleep(2000);
+            string[] zeilen =
+            {
+                "Ein alter Mann tritt aus dem Schatten eines Baumes hervor...",
+                "\"Du bist also der Auserwählte...\" murmelt er leise.",
+                "Er reicht dir ein leuchtendes Amulett mit warmem Glanz.",
+                "\"Dieses Amulett wird die Lebensenergie deines Digimon stärken.\"",
+                "\"Bewahre es gut auf – es ist selten und mächtig.\""
+            };
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n>> Du hast das 'Amulett der Vitalität' erhalten! Die Lebenspunkte deines Digimons steigen dauerhaft um 30%!");
-            Console.ResetColor();
-
-            spieler.DigimonPartner.MaximaleLebenspunkte = (int)(spieler.DigimonPartner.MaximaleLebenspunkte * 1.3);
-            spieler.DigimonPartner.Lebenspunkte = spieler.DigimonPartner.MaximaleLebenspunkte;
+            TextAnimator.ZeigeAnimierteGeschichte(zeilen);
 
             spieler.ItemHinzufuegen("Amulett der Vitalität");
-
-            Console.WriteLine("\nDrücke [ENTER], um weiterzugehen...");
-            Console.ReadLine();
-            Console.Clear();
+            if (spieler.DigimonPartner != null)
+            {
+                spieler.DigimonPartner.MaximaleLebenspunkte = (int)(spieler.DigimonPartner.MaximaleLebenspunkte * 1.3);
+                spieler.DigimonPartner.Lebenspunkte = spieler.DigimonPartner.MaximaleLebenspunkte;
+            }
         }
 
         public static void ErzaehleKraftAmulettGeschichte(Spieler spieler)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("Meister Genkai taucht erneut aus dem Nebel auf, sein Blick voller Ernst...");
-            Thread.Sleep(1500);
-            Console.WriteLine("\nMeister Genkai: \"Du hast den Weg der Stärke gemeistert, aber wahre Kraft liegt im Herzen.\"");
-            Thread.Sleep(2000);
-            Console.WriteLine("Meister Genkai: \"Nimm dieses Amulett. Es wird die Schlagkraft deines Digimon für alle Zeiten erhöhen.\"");
-            Thread.Sleep(2000);
+            string[] zeilen =
+            {
+                "Der alte Mann erscheint erneut, dieses Mal am Rande eines Wasserfalls.",
+                "\"Du hast dich bewährt. Deine Reise ist von Mut erfüllt.\"",
+                "Er überreicht dir ein weiteres Amulett – mit pulsierendem roten Licht.",
+                "\"Dieses stärkt die Angriffskraft deines Digimon – dauerhaft.\"",
+                "\"Nutze es weise, Krieger des Lichts.\""
+            };
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n>> Du hast das 'Amulett der Stärke' erhalten! Der Angriff deines Digimons steigt dauerhaft um 20%!");
-            Console.ResetColor();
+            TextAnimator.ZeigeAnimierteGeschichte(zeilen);
 
-            spieler.DigimonPartner.Angriff = (int)(spieler.DigimonPartner.Angriff * 1.2);
             spieler.ItemHinzufuegen("Amulett der Stärke");
+            if (spieler.DigimonPartner != null)
+            {
+                spieler.DigimonPartner.Angriff = (int)(spieler.DigimonPartner.Angriff * 1.2);
+            }
 
-            Console.WriteLine("\nDrücke [ENTER], um weiterzugehen...");
-            Console.ReadLine();
-            Console.Clear();
         }
 
 
@@ -86,9 +89,12 @@ namespace Digimon_Textadventure
             Console.WriteLine("ABSCHLUSS-GESCHICHTE – DER SIEG DER LICHTKRIEGER");
             Console.ResetColor();
 
-            string[] abspann =
+            string[] zeilen =
             {
                     "",
+                        "ABSCHLUSS-GESCHICHTE – DER SIEG DER LICHTKRIEGER",
+                        "",
+                        "",
                         "Nach dem langen und harten Kampf gegen Devimon kehrt wieder Frieden in die Digiwelt ein...",
                         "Die dunklen Wolken verziehen sich, die Sonne scheint heller als je zuvor.",
                         "Die Digimon feiern den Sieg der Lichtkrieger mit einem großen Fest.",
@@ -102,19 +108,7 @@ namespace Digimon_Textadventure
                         "Drücke [ENTER], um den Abspann zu sehen..."
             };
 
-            foreach (string zeile in abspann)
-            {
-                foreach (char buchstabe in zeile)
-                {
-                    Console.Write(buchstabe);
-                    Thread.Sleep(30); // Geschwindigkeit der Animation
-                }
-                Console.WriteLine();
-                Thread.Sleep(300); // Kurze Pause nach jeder Zeile
-            }
-            Console.ReadLine();
-
-            // Abspann Animation
+            TextAnimator.ZeigeAnimierteGeschichte(zeilen);
             ZeigeAbspann(spieler.Name);
 
         }
@@ -122,43 +116,27 @@ namespace Digimon_Textadventure
         public static void ZeigeAbspann(string spielerName)
         {
             Console.Clear();
-            string[] abspannTexte =
+            string[] zeilen =
             {
-                        "=== DIGIMON TEXTADVENTURE - ABSPANN ===",
-                        "",
-                        $"Danke, mutiger Digiritter {spielerName}, dass du dich auf diese Reise begeben hast.",
-                        "Gemeinsam mit deinem treuen Digimon-Partner hast du alle Prüfungen gemeistert,",
-                        "Freundschaften geschlossen und das Gleichgewicht der Digiwelt wiederhergestellt.",
-                        "",
-                        "Doch vergiss nie…",
-                        "\"Das größte Abenteuer beginnt dort, wo der Mut stärker ist als die Angst.\"",
-                        "",
-                        "Dein Abenteuer endet hier – aber deine Legende wird ewig weiterleben. ",
-                        "",
-                        "Drücke [ENTER], um das Spiel zu beenden..."
+                "=== DIGIMON TEXTADVENTURE - ABSPANN ===",
+                "",
+                $"Danke, mutiger Digiritter {spielerName}, dass du dich auf diese Reise begeben hast.",
+                "Gemeinsam mit deinem treuen Digimon-Partner hast du alle Prüfungen gemeistert,",
+                "Freundschaften geschlossen und das Gleichgewicht der Digiwelt wiederhergestellt.",
+                "",
+                "Doch vergiss nie…",
+                "\"Das größte Abenteuer beginnt dort, wo der Mut stärker ist als die Angst.\"",
+                "",
+                "Dein Abenteuer endet hier – aber deine Legende wird ewig weiterleben.",
+                ""
             };
 
-            foreach (string zeile in abspannTexte)
-            {
-                Console.WriteLine(zeile);
-                Thread.Sleep(500);                                                                                      // Pause zwischen den Zeilen für dramatische Wirkung
-            }
+            TextAnimator.ZeigeAnimierteGeschichte(zeilen);
 
-            for (int i = 0; i < 3; i++)
-            {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write("\r>> DANKE FÜR'S SPIELEN! <<   ");
-                Thread.Sleep(400);
-                Console.Write("\r                           ");
-                Thread.Sleep(400);
-                Console.ResetColor();
-            }
 
-            Console.ReadLine();
-            Environment.Exit(0);                                                                                        // Spiel sauber beenden
         }
 
+
+
     }
-
-
 }

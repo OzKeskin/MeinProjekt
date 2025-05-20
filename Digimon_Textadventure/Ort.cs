@@ -28,7 +28,7 @@ using Digimon_Textadventure;
             Console.WriteLine($"{Beschreibung}");
 
             // Pfad nur ab Level 5 anzeigen
-            if (spieler.DigimonPartner?.Level == 5)
+            if (spieler.DigimonPartner?.Level < 5)
             {
                 ZeigeRichtungspfad();
             }

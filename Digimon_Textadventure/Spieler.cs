@@ -15,9 +15,7 @@ namespace Digimon_Textadventure
         public Ort AktuellerOrt { get; set; } = Ort.ErstelleWelt();                     // Spieler startet im Heimatwald oder Start-Ort
         public List<string> Inventar { get; set; } = new List<string>();
         public Digimon DigimonPartner { get; set; }
-        public Spieler(){}
         public bool HatDevimonGesehen { get; set; } = false;
-        //public string? AktuellerOrtName { get; set; }
         public Spieler(string name, Avatar avatar)
         {
             Name = name;

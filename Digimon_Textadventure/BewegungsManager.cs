@@ -200,7 +200,7 @@ namespace Digimon_Textadventure
             }
             int ereignis = random.Next(1, 101);
 
-            if (ereignis <= 60)
+            if (ereignis <= 80)
             {
                 Console.WriteLine("\nEin wildes Digimon erscheint!");
                 Gegner gegner = Gegner.ErstelleZufaelligenGegner();
