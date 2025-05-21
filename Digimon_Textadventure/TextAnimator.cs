@@ -20,7 +20,7 @@ namespace Digimon_Textadventure
                 int y = startY + i;
 
                 Console.SetCursorPosition(x, y);
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
 
                 foreach (char buchstabe in zeile)
                 {
@@ -32,14 +32,14 @@ namespace Digimon_Textadventure
                 Thread.Sleep(300);
             }
 
-            string weiter = "Drücke [ENTER], um fortzufahren...";
+            string weiter = "Drücke [ENTER]";
             int weiterX = (Console.WindowWidth - weiter.Length) / 2;
             int weiterY = Console.WindowHeight - 2;
-
-            while (!Console.KeyAvailable)
+            bool enterGedrückt = false;
+            while (!enterGedrückt)
             {
                 Console.SetCursorPosition(weiterX, weiterY);
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write(weiter);
                 Console.ResetColor();
                 Thread.Sleep(700);
@@ -47,9 +47,14 @@ namespace Digimon_Textadventure
                 Console.SetCursorPosition(weiterX, weiterY);
                 Console.Write(new string(' ', weiter.Length));
                 Thread.Sleep(500);
-            }
 
-            Console.ReadKey(true);
+                if (Console.KeyAvailable)
+                {
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                        enterGedrückt = true;
+                }
+            }
             Console.Clear();
         }
 

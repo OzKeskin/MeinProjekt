@@ -1,73 +1,107 @@
-﻿public static class Ladebildschirm
+﻿using System;
+using System.Threading;
+
+public static class Ladebildschirm
 {
-    private static string titel = "DIGIMON ADVENTURE";
-    private static void ZeigeLadebalken(int x, int y, int breite = 20, int delay = 80)
-    {
-        Console.SetCursorPosition(x, y);
-        Console.Write("["); // Linke Klammer
-
-        for (int i = 0; i < breite; i++)
-        {
-            // Farbverlauf
-            if (i < 6)
-                Console.ForegroundColor = ConsoleColor.Red;
-            else if (i < 14)
-                Console.ForegroundColor = ConsoleColor.Yellow;
-            else
-                Console.ForegroundColor = ConsoleColor.Green;
-
-            Console.Write("#");
-            Thread.Sleep(delay);
-        }
-
-        Console.ResetColor();
-        Console.Write("]"); // Rechte Klammer
-    }
-
-
     public static void ZeigeLadebildschirm(int wiederholungen = 1)
     {
         Console.Clear();
         int y = Console.WindowHeight / 2 - 2;
-        int xTitel = (Console.WindowWidth - titel.Length) / 2;
 
-        // Titel anzeigen
-        Console.SetCursorPosition(xTitel, y - 2);
-        Console.ForegroundColor = ConsoleColor.DarkCyan;
-        Console.WriteLine(titel);
+        // Bunter Titel: "DIGIMON ADVENTURE"
+        string titel = "DIGIMON ADVENTURE";
+        int xTitel = (Console.WindowWidth - titel.Length) / 2;
+        ConsoleColor[] farben = new[]
+        {
+            ConsoleColor.DarkYellow, // Tai
+            ConsoleColor.Blue,       // Matt
+            ConsoleColor.Red,        // Sora
+            ConsoleColor.Magenta,    // Mimi
+            ConsoleColor.Cyan,       // Joe
+            ConsoleColor.Yellow,     // T.K.
+            ConsoleColor.DarkMagenta // Kari
+        };
+
+        for (int i = 0; i < titel.Length; i++)
+        {
+            Console.SetCursorPosition(xTitel + i, y - 2);
+            Console.ForegroundColor = farben[i % farben.Length];
+            Console.Write(titel[i]);
+            Thread.Sleep(150);
+        }
         Console.ResetColor();
 
-        while (wiederholungen-- > 0)
+        // Schrittweises Anzeigen von "LADEN"
+        string text = "LADEN";
+        int xText = (Console.WindowWidth - text.Length) / 2;
+        int yText = y;
+
+        for (int i = 0; i < text.Length; i++)
         {
-            // Animierter Lade-Text mit Punkten
-            for (int i = 0; i < 2; i++)
-            {
-                string punktText = "LADEN" + new string('.', i + 1);
-                int xPunkt = (Console.WindowWidth - punktText.Length) / 2;
-                Console.SetCursorPosition(xPunkt, y);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write(punktText);
-                Console.ResetColor();
-                Thread.Sleep(400);
-            }
-
-            // Ladebalken
-            int xBalken = (Console.WindowWidth - (20 + 2)) / 2; // 20 Zeichen + 2 Klammern
-            int yBalken = y + 2;
-
-            ZeigeLadebalken(xBalken, yBalken);
+            Console.SetCursorPosition(xText + i, yText);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(text[i]);
+            Console.ResetColor();
+            Thread.Sleep(300);
         }
 
-        // Abschlussanzeige
+        // Ladebalken anzeigen (in Weiß)
+        int balkenBreite = 20;
+        int xBalken = (Console.WindowWidth - (balkenBreite + 2)) / 2;
+        int yBalken = y + 2;
 
-        string weiter = "Drücke [ENTER]";
-        int xWeiter = (Console.WindowWidth - weiter.Length) / 2;
-        Console.SetCursorPosition(xWeiter, y + 4);
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.Write(weiter);
+        Console.SetCursorPosition(xBalken, yBalken);
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("[");
+        Console.SetCursorPosition(xBalken + balkenBreite + 1, yBalken);
+        Console.Write("]");
         Console.ResetColor();
 
-        Console.ReadLine();
-        Console.Clear();
+        for (int i = 0; i < balkenBreite; i++)
+        {
+            Console.SetCursorPosition(xBalken + 1 + i, yBalken);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("#");
+            Console.ResetColor();
+            Thread.Sleep(100);
+        }
+
+        // Kurze Pause nach Ladebalken
+        Thread.Sleep(800);
+
+        // Alles gleichzeitig löschen
+        Console.SetCursorPosition(xText, yText);
+        Console.Write(new string(' ', text.Length));
+
+        Console.SetCursorPosition(xBalken, yBalken);
+        Console.Write(new string(' ', balkenBreite + 2));
+
+        // Abschlussanzeige an Position von "LADEN"
+        // Abschlussanzeige
+        string weiter = "Drücke [ENTER]";
+        int weiterX = (Console.WindowWidth - weiter.Length) / 2;
+        int weiterY = yText;
+
+        bool enterGedrückt = false;
+        while (!enterGedrückt)
+        {
+            Console.SetCursorPosition(weiterX, weiterY);
+            Console.ForegroundColor = ConsoleColor.Cyan; 
+            Console.Write(weiter);
+            Console.ResetColor();
+            Thread.Sleep(700);
+
+            Console.SetCursorPosition(weiterX, weiterY);
+            Console.Write(new string(' ', weiter.Length));
+            Thread.Sleep(500);
+
+            if (Console.KeyAvailable)
+            {
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    enterGedrückt = true;
+            }
+        }
+
     }
 }

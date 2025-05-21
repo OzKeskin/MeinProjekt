@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Digimon_Textadventure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee9d0446fd846f734877c2325b3b35d50bcdad57")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+524d95912f8c9b396dfdde9ed89e4ae17b82fbf7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Digimon_Textadventure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Digimon_Textadventure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

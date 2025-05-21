@@ -8,9 +8,11 @@ namespace Digimon_Textadventure
 
         public void Starte()
         {
-            Ladebildschirm.ZeigeLadebildschirm();
             Console.Title = "DIGIMON WORLD";
+            Ladebildschirm.ZeigeLadebildschirm();
+            StoryManager.ErzaehleEinleitung();
             ZeigeHauptmenue();
+
         }
 
         private void ZeigeHauptmenue()
@@ -29,15 +31,6 @@ namespace Digimon_Textadventure
             do
             {
                 Console.Clear();
-
-                // Titel zentrieren
-                //string titel = "=== DIGIMON TEXTADVENTURE ===";
-                //int titelX = (Console.WindowWidth - titel.Length) / 2;
-                //Console.SetCursorPosition(titelX, 2);
-                //Console.ForegroundColor = ConsoleColor.Cyan;
-                //Console.WriteLine(titel);
-                //Console.ResetColor();
-
                 // Menü zentrieren
                 int startY = (Console.WindowHeight / 2) - (menuePunkte.Length / 2);
                 for (int i = 0; i < menuePunkte.Length; i++)
@@ -50,7 +43,7 @@ namespace Digimon_Textadventure
                     int y = startY + i;
 
                     Console.SetCursorPosition(x, y);
-                    Console.ForegroundColor = (i == ausgewaehlt) ? ConsoleColor.Blue : ConsoleColor.Gray;
+                    Console.ForegroundColor = (i == ausgewaehlt) ? ConsoleColor.DarkBlue : ConsoleColor.Gray;
                     Console.WriteLine(zeile);
                     Console.ResetColor();
                 }
